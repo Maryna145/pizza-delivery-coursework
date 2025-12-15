@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CarRepository extends JpaRepository<Car, Long> {
+    // Шукаємо вільні машини для призначення на рейс
     List<Car> findByStatus(Car.CarStatus status);
 }

@@ -10,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id") // Зв'язок з колонкою user_id в таблиці
     private Long id;
 
     @Column(name = "user_login", unique = true, nullable = false)
@@ -19,6 +19,7 @@ public class User {
     @Column(name = "user_password", nullable = false)
     private String password;
 
+    //Зберігаємо роль як рядок, а не число
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role", nullable = false)
     private Role role;
@@ -32,6 +33,7 @@ public class User {
     @Column(name = "user_address")
     private String address;
 
+    // Перелік можливих ролей у системі
     public enum Role {
         client, admin, driver
     }

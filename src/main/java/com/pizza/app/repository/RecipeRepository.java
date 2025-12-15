@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, RecipeId> {
+    // Отримати список всіх інгредієнтів (рецепт) для конкретної піци
     List<Recipe> findByPizzaId(Long pizzaId);
 }

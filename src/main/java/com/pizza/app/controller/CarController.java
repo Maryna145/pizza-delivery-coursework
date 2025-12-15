@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cars")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Дозволяє фронтенду (на іншому порту) робити запити сюди
 public class CarController {
 
     private final CarRepository carRepository;

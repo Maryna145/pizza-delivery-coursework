@@ -13,6 +13,7 @@ public class Car {
     @Column(name = "car_id")
     private Long id;
 
+    // Один водій може бути закріплений тільки за однією машиною
     @OneToOne
     @JoinColumn(name = "car_driver", unique = true)
     private User driver;
@@ -23,6 +24,7 @@ public class Car {
     @Column(name = "car_model", nullable = false)
     private String model;
 
+    // Статуси машини (вільна/зайнята)
     @Enumerated(EnumType.STRING)
     @Column(name = "car_status", nullable = false)
     private CarStatus status;

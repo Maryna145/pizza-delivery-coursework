@@ -9,19 +9,22 @@ import java.math.BigDecimal;
 @Data
 public class Recipe {
 
+    // Використовуємо наш складений ключ
     @EmbeddedId
     private RecipeId id = new RecipeId();
 
-    @ManyToOne
-    @MapsId("pizzaId")
+    @ManyToOne // Багато рецептів можуть посилатися на одну піцу
+    @MapsId("pizzaId") //Зв'язуємо поле pizzaId з цим об'єктом
     @JoinColumn(name = "pizza_id")
     private Pizza pizza;
 
-    @ManyToOne
-    @MapsId("ingredientId")
+    @ManyToOne // Багато рецептів можуть використовувати один інгредієнт
+    @MapsId("ingredientId") //Зв'язуємо поле ingredient_id з ключа з цим об'єктом
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
+    //Скільки інгредієнта йде на цю піцу
+    // precision=10, scale=3 означає число вигляду 1234567.890
     @Column(name = "ingredient_amount", nullable = false, precision = 10, scale = 3)
     private BigDecimal amount;
 }

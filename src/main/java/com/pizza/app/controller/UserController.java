@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Дозволяє фронтенду (на іншому порту) робити запити сюди
 public class UserController {
 
     private final UserRepository userRepository;

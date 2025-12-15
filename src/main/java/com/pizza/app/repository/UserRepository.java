@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    // Знайти користувача для входу в систему
     Optional<User> findByLogin(String login);
+
 }

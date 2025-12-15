@@ -17,16 +17,18 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
+    // Один клієнт може мати багато замовлень
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private User client;
 
+    // Одна машина може везти багато замовлень
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
 
     @Column(name = "order_date")
-    private LocalDate date = LocalDate.now();
+    private LocalDate date = LocalDate.now(); // За замовчуванням - поточна дата
 
     @Column(name = "delivery_time")
     private LocalTime deliveryTime;
@@ -37,6 +39,7 @@ public class Order {
     @Column(name = "total_amount")
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
+    // Тут автоматично працює OrderStatusConverter
     @Column(name = "order_status", nullable = false)
     private OrderStatus status;
 

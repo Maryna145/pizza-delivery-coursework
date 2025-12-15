@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
+    // Історія замовлень конкретного юзера
     List<Order> findByClient_Id(Long clientId);
+    // Замовлення для кухні (new) або водіїв
     List<Order> findByStatus(Order.OrderStatus status);
 }
