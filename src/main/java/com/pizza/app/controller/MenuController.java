@@ -23,4 +23,8 @@ public class MenuController {
         // 3. Відкриваємо файл index.html (який лежить в templates)
         return "index";
     }
+    @GetMapping("/cart")
+    public String cartPage() {
+        return "cart";
+    }
 }
