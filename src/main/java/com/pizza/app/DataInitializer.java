@@ -41,7 +41,6 @@ public class DataInitializer implements CommandLineRunner {
             p3.setImageUrl("https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80");
             pizzaRepository.save(p3);
 
-            System.out.println("ТЕСТОВІ ПІЦИ ДОДАНО В БАЗУ!");
         }
     }
 }
