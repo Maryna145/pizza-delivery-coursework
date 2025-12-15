@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PizzaGo - Найсмачніша піца</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+</head>
+<body>
+<header class="header">
+    <div class="header-logo">
+        <a href="./index.html"><img th:src="@{/images/Logo.svg}" alt="" /></a>
+    </div>
+    <nav class="header-navigation">
+        <a href="#">Меню</a>
+        <a href="#">Акції</a>
+        <a href="#">Контакти</a>
+    </nav>
+    <div class="header-user-actions">
+        <svg class="header-cart" width="36" height="36">
+            <use th:href="@{/images/icons.svg#cart}"></use>
+        </svg>
+
+        <svg class="header-user" width="36" height="36">
+            <use th:href="@{/images/icons.svg#user}"></use>
+        </svg>
+    </div>
+</header>
+
+<div class="filters conteiner">
+    <label class="filter-item"><input type="checkbox" checked /> Піца</label>
+    <label class="filter-item"><input type="checkbox" /> Салати</label>
+    <label class="filter-item"><input type="checkbox" /> Напої</label>
+    <label class="filter-item"><input type="checkbox" /> Десерти</label>
+</div>
+
+<main class="products-grid conteiner">
+
+    <article class="card" th:each="pizza : ${pizzaList}">
+        <div class="image-container">
+            <img
+                    th:src="${pizza.imageUrl}"
+                    alt="Піца"
+                    class="card-img"
+            />
+            <button class="btn-add-overlay">+</button>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title" th:text="${pizza.name}">Назва піци</h3>
+
+            <div class="tags">
+            <span class="tag"
+                  th:each="ing : ${#strings.arraySplit(pizza.description, ',')}"
+                  th:text="${ing.trim()}">
+               Інгредієнт
+            </span>
+            </div>
+
+            <div class="card-footer">
+                <span class="weight">30см / 400 г</span>
+                <span class="price" th:text="${pizza.price} + ' ₴'">0 ₴</span>
+            </div>
+        </div>
+    </article>
+
+    <div th:if="${#lists.isEmpty(pizzaList)}" style="text-align: center; width: 100%;">
+        <h2>Меню поки порожнє 😔</h2>
+    </div>
+
+</main>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-col">
+            <div class="logo">
+                <a href="./index.html"
+                ><img th:src="@{/images/logo-footer.svg}" alt=""
+                /></a>
+            </div>
+            <p class="footer-text">
+                Готуємо з любов'ю, доставляємо зі швидкістю світла!
+            </p>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li class="footer-menu"><a href="#">Меню</a></li>
+                <li class="footer-menu"><a href="#">Акції</a></li>
+                <li class="footer-menu"><a href="#">Доставка та оплата</a></li>
+                <li class="footer-menu"><a href="#">Про нас</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li>
+                    <a href="tel:+380960000007" class="contact-phone"
+                    >+ 38 (096) 000 00 07</a
+                    >
+                </li>
+                <li><p>Щодня з 10:00 до 22:00</p></li>
+                <li><p>м. Київ, вул. Тараса Шевченка 5</p></li>
+                <li>
+                    <div class="footer-social-icons">
+                        <a href="#"
+                        ><svg width="22" height="37">
+                            <use th:href="@{/images/icons.svg#facebook}"></use>
+                        </svg>
+                        </a>
+                        <a href="#"
+                        ><svg width="33" height="33">
+                            <use th:href="@{/images/icons.svg#instagram}"></use>
+                        </svg>
+                        </a>
+                        <a href="#"
+                        ><svg width="36" height="27">
+                            <use th:href="@{/images/icons.svg#twitter}"></use>
+                        </svg>
+                        </a>
+                        <a href="#"
+                        ><svg width="30" height="35">
+                            <use th:href="@{/images/icons.svg#phone}"></use>
+                        </svg>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li>
+                    <a class="footer-text-politic" href="#"
+                    >Політика конфіденційності</a
+                    >
+                </li>
+                <li>
+                    <p class="footer-text-rights">
+                        © 2025 PizzaGo. Всі права захищені.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
