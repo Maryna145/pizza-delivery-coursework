@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Кошик - PizzaGo</title>
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/cart.css}" />
+</head>
+<body>
+
+<header class="header">
+    <div class="header-logo"><a href="/"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
+    <nav class="header-navigation"><a href="/"> &larr; Повернутися до меню</a></nav>
+</header>
+
+<div class="cart-container">
+    <div class="cart-header-flex">
+        <h1>Ваше замовлення</h1>
+        <button class="btn-clear" onclick="clearCart()">Очистити все </button>
+    </div>
+
+    <div id="cart-items-list">
+        <p style="text-align: center; color: #888;">Завантаження...</p>
+    </div>
+
+    <div class="total-section">
+        Всього: <span id="cart-total">0</span> ₴
+    </div>
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+    <h3>Оформлення</h3>
+    <div class="form-group">
+        <input type="text" id="clientAddress" placeholder="Адреса доставки (Вулиця, дім, квартира)" required>
+    </div>
+
+    <input type="hidden" id="clientId" value="1">
+
+    <button class="btn-order" onclick="submitOrder()">Замовити</button>
+</div>
+
+<script th:src="@{/js/cart.js}"></script>
+
+</body>
+</html>
