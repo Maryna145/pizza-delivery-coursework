@@ -52,6 +52,28 @@
     box-shadow: 0 8px 25px rgba(251, 187, 84, 0.18);
     transform: translateY(-2px);
 }
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 60px;
+}
+
+.toggle-password {
+    top: 30px;
+    right: 15px;
+    position: absolute;
+    transform: translateY(-50%);
+
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    font-size: 20px;
+
+}
+
 
 .btn-auth {
     width: 100%;
@@ -80,7 +102,7 @@
 }
 
 .auth-link a {
-    color: #dc7002;
+    color: #6a4821;
     font-weight: 700;
     text-decoration: none;
 }

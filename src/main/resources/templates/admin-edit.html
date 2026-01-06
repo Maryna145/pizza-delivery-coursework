@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редагувати страву</title>
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/auth.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+</head>
+<body>
+
+<header class="header">
+    <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
+    <nav class="header-navigation">
+        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Скасувати</a>
+    </nav>
+    <div class="header-user-actions"><span style="font-weight: bold;">✏️Редагування</span></div>
+</header>
+
+<main>
+    <div class="auth-container" style="max-width: 600px;">
+        <h2 style="margin-bottom: 30px;">Редагувати страву</h2>
+
+        <input type="hidden" id="pizzaId" th:value="${pizza.id}">
+
+        <form onsubmit="handleUpdateProduct(event)">
+
+            <div class="form-group">
+                <label>Назва страви</label>
+                <input type="text" id="name" required th:value="${pizza.name}">
+            </div>
+
+            <div class="form-group">
+                <label>Категорія</label>
+                <select id="category" required>
+                    <option value="pizza" th:selected="${pizza.category == 'pizza'}">🍕 Піца</option>
+                    <option value="salad" th:selected="${pizza.category == 'salad'}">🥗 Салати</option>
+                    <option value="drink" th:selected="${pizza.category == 'drink'}">🥤 Напої</option>
+                    <option value="dessert" th:selected="${pizza.category == 'dessert'}">🍰 Десерти</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ціна (грн)</label>
+                <input type="number" id="price" required th:value="${pizza.price}">
+            </div>
+
+            <div class="form-group">
+                <label>Опис</label>
+                <textarea id="description" rows="4" required th:text="${pizza.description}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Фото (URL)</label>
+                <input type="url" id="imageUrl" required th:value="${pizza.imageUrl}">
+            </div>
+
+            <button type="submit" class="btn-auth" style="background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);">Зберегти зміни</button>
+        </form>
+    </div>
+</main>
+
+<script src="../js/admin.js"></script>
+
+</body>
+</html>

@@ -110,7 +110,7 @@ function checkAuthStatus() {
         wrapper.innerHTML = `
             <div style="display: flex; flex-direction: row; align-items: center; line-height: 1.2;">
                 <span style="font-weight: bold; color: #193948; margin-right:10px;">${user.name}</span>
-                <a href="#" onclick="logout()" style="color: #d32f2f; text-decoration: none; font-weight: 600; font-size: 14px;">
+                <a href="#" onclick="logout()" style="color: red;text-decoration: none;">
                     Вийти
                 </a>
             </div>

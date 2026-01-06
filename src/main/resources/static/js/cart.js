@@ -110,40 +110,69 @@ function clearCart() {
 
 // --- ВІДПРАВКА ЗАМОВЛЕННЯ ---
 async function submitOrder() {
+    // 1. Перевіряємо кошик
     const cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
-
     if (cart.length === 0) {
         alert('Кошик порожній!');
         return;
     }
 
+    // 2. Перевіряємо адресу
     const addressInput = document.getElementById('clientAddress');
     if (!addressInput || !addressInput.value.trim()) {
-        alert('Будь ласка, введіть адресу доставки!');
-        addressInput?.focus();
+        alert('Будь ласка, введіть адресу доставки! 🏠');
+        addressInput?.focus(); // Ставимо курсор у поле
         return;
     }
 
-    // Перевірка авторизації (якщо треба)
-    // const user = JSON.parse(localStorage.getItem('currentUser'));
-    // if (!user) { window.location.href = '/login'; return; }
+    // 3. Перевіряємо авторизацію
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if (!user || !user.id) {
+        if(confirm("Щоб зробити замовлення, потрібно увійти. Перейди на сторінку входу?")) {
+            window.location.href = '/login';
+        }
+        return;
+    }
 
-    // Тут поки імітація відправки (або розкоментуй код колеги для реальної)
-    // Для демо просто покажемо алерт
+    // 4. Формуємо дані для сервера
+    // Сервер чекає список ID: [1, 1, 2] (дві піци №1 і одна №2)
+    let pizzaIdsList = [];
+    cart.forEach(item => {
+        for (let i = 0; i < item.quantity; i++) {
+            pizzaIdsList.push(parseInt(item.id));
+        }
+    });
 
-    // Формуємо реальні дані для відправки (якщо сервер готовий)
-    /*
-    const orderData = {
-        items: cart.map(i => ({ id: i.id, count: i.quantity })),
+    const orderRequest = {
+        clientId: user.id,
         address: addressInput.value,
-        total: document.querySelector('.final-price')?.innerText || document.querySelector('.total-price')?.innerText
+        pizzaIds: pizzaIdsList
     };
-    */
 
-    alert(`Замовлення прийнято!\nАдреса: ${addressInput.value}\nДякуємо, що обрали PizzaGo!`);
+    // 5. Відправляємо на сервер
+    try {
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderRequest)
+        });
 
-    localStorage.removeItem('pizzaCart');
-    window.location.href = '/'; // На головну
+        if (response.ok) {
+            alert(`Замовлення прийнято! 🎉\nКухня вже почала готувати.`);
+
+            // Очищаємо кошик
+            localStorage.removeItem('pizzaCart');
+            // Переходимо на головну
+            window.location.href = '/';
+        } else {
+            const errorText = await response.text();
+            console.error('Error:', errorText);
+            alert('Щось пішло не так при замовленні. Спробуйте ще раз.');
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Сервер не відповідає. Перевірте інтернет.');
+    }
 }
 
 // Запуск при старті
