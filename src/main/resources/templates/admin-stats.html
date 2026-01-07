@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика - Адмін Панель</title>
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+
+</head>
+<body>
+
+<header class="header">
+    <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
+    <nav class="header-navigation">
+        <a th:href="@{/admin-crud}" style="color: #193948;">Товари</a>
+        <a th:href="@{/admin/orders}" style="color: #193948;">Замовлення</a>
+        <a th:href="@{/admin/cars}" style="color: #193948;">Автопарк</a>
+        <a th:href="@{/admin/stats}" style="font-weight: bold; color: #6a4821;">Статистика</a>
+    </nav>
+    <div class="header-user-actions">
+        <span style="font-weight: bold;">Адмін Панель</span>
+        <a href="#" onclick="logout()" style="color: red; margin-left: 20px;">Вихід</a>
+    </div>
+</header>
+
+<main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
+    <h2>📊 Звіти піцерії</h2>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3 style="margin-bottom: 20px;">🔥 Топ 5 популярних піц</h3>
+            <ul class="top-list">
+                <li class="top-item">
+                    <div style="display: flex; align-items: center;">
+                        <span class="top-rank">1</span>
+                        <span>Піца Пепероні</span>
+                    </div>
+                    <strong>150 зам.</strong>
+                </li>
+                <li class="top-item">
+                    <div style="display: flex; align-items: center;">
+                        <span class="top-rank">2</span>
+                        <span>Піца Маргарита</span>
+                    </div>
+                    <strong>120 зам.</strong>
+                </li>
+                <li class="top-item">
+                    <div style="display: flex; align-items: center;">
+                        <span class="top-rank">3</span>
+                        <span>Карбонара</span>
+                    </div>
+                    <strong>85 зам.</strong>
+                </li>
+            </ul>
+        </div>
+
+        <div class="stat-card">
+            <h3 style="margin-bottom: 20px;">💰 Фінанси (Сьогодні)</h3>
+
+            <div style="margin-bottom: 30px;">
+                <div class="stat-number">12 450 ₴</div>
+                <div class="stat-label">Виручка за день</div>
+            </div>
+
+            <div>
+                <div class="stat-number">42</div>
+                <div class="stat-label">Всього замовлень</div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="/js/admin.js"></script>
+</body>
+</html>

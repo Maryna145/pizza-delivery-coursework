@@ -12,4 +12,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByClient_Id(Long clientId);
     // Замовлення для кухні (new) або водіїв
     List<Order> findByStatus(Order.OrderStatus status);
+    List<Order> findByClientIdOrderByDateDesc(Long clientId);
 }

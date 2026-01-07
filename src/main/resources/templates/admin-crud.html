@@ -21,10 +21,13 @@
 
     <nav class="header-navigation">
         <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Товари</a>
-        <a th:href="@{/admin/orders}">Замовлення</a> </nav>
+        <a th:href="@{/admin/orders}">Замовлення</a>
+        <a th:href="@{/admin/cars}">Автопарк</a>
+        <a th:href="@{/admin/stats}">Статистика</a>
+    </nav>
 
     <div class="header-user-actions">
-        <span style="font-weight: bold;">Адмін Панель 🛠</span>
+        <span style="font-weight: bold; cursor:auto;">Адмін Панель</span>
         <a href="#" onclick="logout()" style="color: red; margin-left: 20px; text-decoration: none;">Вихід</a>
     </div>
 
@@ -62,12 +65,12 @@
 
             <div class="admin-actions">
                 <a th:href="@{/admin/edit/{id}(id=${pizza.id})}" class="btn-admin btn-edit">
-                    ✏️ Редагувати
+                    Редагувати
                 </a>
 
                 <button class="btn-admin btn-delete"
                         th:onclick="'deletePizza(' + ${pizza.id} + ')'">
-                    🗑 Видалити
+                    Видалити
                 </button>
             </div>
         </div>

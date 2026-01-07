@@ -39,10 +39,11 @@
 }
 
 .btn-create-new {
-  background: linear-gradient(135deg, #fbbb54 0%, #6a4821 100%);
+  background: linear-gradient(135deg, #fbbb54 0%, #fbbb54 100%);
   color: white;
   padding: 15px 30px;
   border-radius: 50px;
+  border:none;
   text-decoration: none;
   font-weight: bold;
   box-shadow: 0 10px 20px rgba(251, 187, 84, 0.3);
@@ -179,8 +180,9 @@ select:focus, textarea:focus {
 .btn-back:hover {
     color: #fbbb54;
 }
+
 .orders-table {
-  width: 100%;
+  width: 110%;
   border-collapse: collapse;
   background: white;
   border-radius: 12px;
@@ -190,7 +192,7 @@ select:focus, textarea:focus {
 }
 .orders-table th,
 .orders-table td {
-  padding: 15px;
+  padding: 12px;
   text-align: left;
   border-bottom: 1px solid #eee;
 }
@@ -215,16 +217,89 @@ select:focus, textarea:focus {
   color: #555;
 }
 .status-select {
-    padding: 8px 12px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    /* 1. Вимикаємо стандартний вигляд браузера (це прибере глюки з текстом) */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* 2. Налаштовуємо розмір та форму */
+    padding: 8px 35px 8px 15px; /* Більше відступу справа для стрілочки */
+    border-radius: 50px; /* Робимо овальним */
+    border: 2px solid #EFEFEF;
+    background-color: #fff;
+
+    /* 3. Шрифт */
     font-weight: bold;
+    color: #193948;
+    font-size: 14px;
     cursor: pointer;
     outline: none;
+    transition: all 0.3s ease;
+
+    /* 4. Малюємо власну красиву стрілочку (SVG) */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23193948%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 10px;
 }
-/* Кольори в залежності від статусу робити складно через CSS select,
-   тому поки просто зробимо акуратний список */
+
+/* Ефект при наведенні */
+.status-select:hover {
+    border-color: #fbbb54;
+}
+
+/* Ефект при фокусі (коли натиснули) */
 .status-select:focus {
     border-color: #fbbb54;
+    box-shadow: 0 0 0 3px rgba(251, 187, 84, 0.2);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+.stat-number {
+  font-size: 40px;
+  font-weight: 900;
+  color: #dc7002;
+  margin-bottom: 5px;
+}
+.stat-label {
+  color: #666;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.top-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+.top-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+.top-rank {
+  background: #fbbb54;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 10px;
 }

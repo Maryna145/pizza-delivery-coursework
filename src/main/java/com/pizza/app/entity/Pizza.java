@@ -29,4 +29,5 @@ public class Pizza {
 
     @Column(name = "pizza_availability")
     private Boolean availability = true;
+
 }

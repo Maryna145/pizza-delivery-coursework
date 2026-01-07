@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
+
 @Controller
 @RequiredArgsConstructor
 public class AdminPageController {
@@ -41,5 +43,19 @@ public class AdminPageController {
         var orders = orderRepository.findAll();
         model.addAttribute("orders", orders);
         return "admin-orders";
+    }
+    @GetMapping("/admin/cars")
+    public String adminCars(Model model) {
+        // Ми повинні передати список машин, навіть якщо він порожній,
+        // інакше HTML впаде з помилкою, бо th:each нічого перебирати.
+        // Пізніше тут буде: carRepository.findAll()
+        model.addAttribute("cars", new ArrayList<>());
+        return "admin-cars";
+    }
+
+    // 2. Сторінка Статистики
+    @GetMapping("/admin/stats")
+    public String adminStats() {
+        return "admin-stats";
     }
 }

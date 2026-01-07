@@ -1,0 +1,102 @@
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 1 частина інфо, 2 частини історія */
+  gap: 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+/* Картка користувача */
+.user-card {
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  height: fit-content;
+}
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  background-color: #fbbb54;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: white;
+}
+.user-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.user-email {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+/* Таблиця історії */
+.history-section h2 {
+  margin-bottom: 20px;
+}
+.history-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  border-left: 5px solid #eee;
+  transition: transform 0.2s;
+}
+.history-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Статуси (кольорові смужки зліва) */
+.status-new_order {
+  border-left-color: #2196f3;
+} /* Синій */
+.status-being_cooked {
+  border-left-color: #ff9800;
+} /* Помаранчевий */
+.status-being_delivered {
+  border-left-color: #9c27b0;
+} /* Фіолетовий */
+.status-delivered {
+  border-left-color: #4caf50;
+} /* Зелений */
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #555;
+}
+.order-items {
+  font-style: italic;
+  color: #333;
+  margin-bottom: 10px;
+}
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+  font-size: 14px;
+}
+.price-tag {
+  font-size: 18px;
+  font-weight: 900;
+  color: #dc7002;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    grid-template-columns: 1fr;
+  }
+}

@@ -33,5 +33,12 @@ public class MenuController {
     public String registerPage() {
         return "register";
     }
-
+    @GetMapping("/profile")
+    public String profilePage() {
+        return "profile"; // Це назва файлу profile.html
+    }
+    @GetMapping("/order")
+    public String orderPage() {
+        return "order";
+    }
 }

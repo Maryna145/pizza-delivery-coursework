@@ -107,72 +107,18 @@ function clearCart() {
     }
 }
 
-
-// --- ВІДПРАВКА ЗАМОВЛЕННЯ ---
-async function submitOrder() {
-    // 1. Перевіряємо кошик
+// --- ПЕРЕХІД ДО ОФОРМЛЕННЯ ---
+function goToCheckout() {
+    // 1. Перевіряємо, чи є щось у кошику
     const cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
+
     if (cart.length === 0) {
-        alert('Кошик порожній!');
+        alert('Кошик порожній! Додайте піцу, щоб продовжити. 🍕');
         return;
     }
 
-    // 2. Перевіряємо адресу
-    const addressInput = document.getElementById('clientAddress');
-    if (!addressInput || !addressInput.value.trim()) {
-        alert('Будь ласка, введіть адресу доставки! 🏠');
-        addressInput?.focus(); // Ставимо курсор у поле
-        return;
-    }
-
-    // 3. Перевіряємо авторизацію
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-    if (!user || !user.id) {
-        if(confirm("Щоб зробити замовлення, потрібно увійти. Перейди на сторінку входу?")) {
-            window.location.href = '/login';
-        }
-        return;
-    }
-
-    // 4. Формуємо дані для сервера
-    // Сервер чекає список ID: [1, 1, 2] (дві піци №1 і одна №2)
-    let pizzaIdsList = [];
-    cart.forEach(item => {
-        for (let i = 0; i < item.quantity; i++) {
-            pizzaIdsList.push(parseInt(item.id));
-        }
-    });
-
-    const orderRequest = {
-        clientId: user.id,
-        address: addressInput.value,
-        pizzaIds: pizzaIdsList
-    };
-
-    // 5. Відправляємо на сервер
-    try {
-        const response = await fetch('/api/orders', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(orderRequest)
-        });
-
-        if (response.ok) {
-            alert(`Замовлення прийнято! 🎉\nКухня вже почала готувати.`);
-
-            // Очищаємо кошик
-            localStorage.removeItem('pizzaCart');
-            // Переходимо на головну
-            window.location.href = '/';
-        } else {
-            const errorText = await response.text();
-            console.error('Error:', errorText);
-            alert('Щось пішло не так при замовленні. Спробуйте ще раз.');
-        }
-    } catch (e) {
-        console.error(e);
-        alert('Сервер не відповідає. Перевірте інтернет.');
-    }
+    // 2. Просто перекидаємо на сторінку оформлення
+    window.location.href = '/order';
 }
 
 // Запуск при старті
