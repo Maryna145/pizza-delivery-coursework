@@ -28,9 +28,14 @@
             <label>Логін</label>
             <input type="text" id="login" required placeholder="Введіть логін">
         </div>
-        <div class="form-group">
+        <div class="form-group password-group">
             <label>Пароль</label>
-            <input type="password" id="password" required placeholder="Введіть пароль">
+            <div class="password-wrapper">
+                <input type="password" id="password" required placeholder="Введіть пароль">
+                <button type="button" class="toggle-password" onclick="togglePassword()">
+                    🐵
+                </button>
+            </div>
         </div>
         <button type="submit" class="btn-auth">Увійти</button>
     </form>

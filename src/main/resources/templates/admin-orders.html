@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Замовлення - Адмін Панель</title>
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+
+</head>
+<body>
+
+<header class="header">
+    <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
+    <nav class="header-navigation">
+        <a th:href="@{/admin-crud}" style="color: #193948;">Товари</a>
+        <a th:href="@{/admin/orders}" style="font-weight: bold; color: #6a4821;">Замовлення</a>
+        <a th:href="@{/admin/cars}">Автопарк</a>
+        <a th:href="@{/admin/stats}">Статистика</a>
+    </nav>
+    <div class="header-user-actions">
+        <span style="font-weight: bold; cursor:auto;">Адмін Панель</span>
+        <a href="#" onclick="logout()" style="color: red; margin-left: 20px;">Вихід</a>
+    </div>
+</header>
+
+<main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
+    <h2 style="margin-top: 30px;">Список Замовлень</h2>
+
+    <table class="orders-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Клієнт</th>
+            <th>Адреса</th>
+            <th>Склад замовлення</th>
+            <th>Сума</th>
+            <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="'#' + ${order.id}">#1</td>
+
+            <td>
+                <div th:if="${order.client != null}">
+                    <div th:text="${order.client.name}" style="font-weight: bold;">User Name</div>
+                    <div th:text="${order.client.phone}" style="font-size: 12px; color: gray;">Phone</div>
+                    <span style="font-size: 10px; background: #e3f2fd; color: #1976D2; padding: 2px 6px; border-radius: 4px;">Клієнт</span>
+                </div>
+
+                <div th:if="${order.client == null}">
+                    <div th:text="${order.guestName}" style="font-weight: bold;">Guest Name</div>
+                    <div th:text="${order.guestPhone}" style="font-size: 12px; color: gray;">Phone</div>
+                    <span style="font-size: 10px; background: #f5f5f5; color: #666; padding: 2px 6px; border-radius: 4px;">Гість</span>
+                </div>
+            </td>
+
+            <td th:text="${order.deliveryAddress}">Київ</td>
+
+            <td class="order-items" th:text="${order.items}">Маргарита, Кола</td>
+
+            <td th:text="${order.totalAmount} + ' ₴'" style="font-weight: bold;">500 ₴</td>
+
+            <td>
+                <select th:onchange="'updateOrderStatus(this, ' + ${order.id} + ')'"
+                        class="status-select"
+                        th:data-current="${order.status}">
+
+                    <option value="new_order"
+                            th:selected="${order.status.name() == 'new_order'}">
+                        Нове
+                    </option>
+                    <option value="being_cooked"
+                            th:selected="${order.status.name() == 'being_cooked'}">
+                        Готується
+                    </option>
+                    <option value="being_delivered"
+                            th:selected="${order.status.name() == 'being_delivered'}">
+                        В дорозі
+                    </option>
+                    <option value="delivered"
+                            th:selected="${order.status.name() == 'delivered'}">
+                        Доставлено
+                    </option>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(orders)}" style="text-align: center; margin-top: 50px;">
+        <h3>Замовлень поки немає</h3>
+    </div>
+
+</main>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

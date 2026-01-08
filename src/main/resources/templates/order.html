@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оформлення замовлення</title>
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/auth.css}" />
+    <link rel="stylesheet" th:href="@{/styles/order.css}" />
+</head>
+<body>
+
+<header class="header">
+    <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
+    <nav class="header-navigation">
+        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Назад</a>
+    </nav>
+    <div class="header-user-actions">
+        <span style="font-weight: bold;">Оформлення</span>
+    </div>
+</header>
+
+<main>
+    <div class="auth-container" style="max-width: 800px; margin-top: 40px;">
+        <h2 style="margin-bottom: 30px; text-align: center;">Одержувач замовлення</h2>
+
+        <form onsubmit="finishOrder(event)">
+            <div class="checkout-grid">
+                <div class="form-group">
+                    <label>ПІБ</label>
+                    <input type="text" id="fullName" required placeholder="Іванов Іван">
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" id="phone" required placeholder="+380...">
+                </div>
+            </div>
+
+            <h3 style="margin-top: 20px;">Доставка</h3>
+            <div class="form-group">
+                <label>Місто</label>
+                <input type="text" id="city" required placeholder="Київ">
+            </div>
+
+            <div class="address-group">
+                <div class="form-group">
+                    <label>Вулиця</label>
+                    <input type="text" id="street" required placeholder="Хрещатик">
+                </div>
+                <div class="form-group">
+                    <label>Будинок</label>
+                    <input type="text" id="house" required placeholder="1">
+                </div>
+                <div class="form-group">
+                    <label>Кв./Офіс</label>
+                    <input type="text" id="apartment"  placeholder="15">
+                </div>
+
+            </div>
+            <h3 style="margin: 20px 0;">Час доставки</h3>
+            <input type="datetime-local" id="deliveryTime"
+                   style="width: 100%; padding: 15px; border-radius: 20px; border: 2px solid #EFEFEF; font-family: inherit;">
+            <small style="color: #777; margin-top: 5px; display: block;">
+                * Якщо залишити пустим, привеземо "якнайшвидше" (30-40 хв)
+            </small>
+            <h3 style="margin: 20px 0;">Оплата</h3>
+            <div class="form-group">
+                <div class="radio-group">
+                    <label class="radio-item">
+                        <input type="radio" name="payment" value="CASH" checked>
+                        Готівкою при отриманні
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="payment" value="ONLINE">
+                        Карткою онлайн (Google Pay / Apple Pay)
+                    </label>
+                </div>
+            </div>
+
+            <div style="text-align: right; margin: 10px 0; font-size: 22px;">
+                До сплати: <b id="total-sum" style="color: #dc7002;font-size: 22px;">0 ₴</b>
+            </div>
+
+            <button type="submit" class="btn-auth" style="margin-bottom:20px;">ОФОРМИТИ ЗАМОВЛЕННЯ</button>
+            <p>Підтверджуючи замовлення, я приймаю умови угоди користувача</p>
+        </form>
+    </div>
+</main>
+
+<script src="../js/order.js"></script>
+
+</body>
+</html>

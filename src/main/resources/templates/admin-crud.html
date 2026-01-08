@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PizzaGo - Найсмачніша піца</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+</head>
+<body>
+<header class="header">
+    <div class="logo">
+        <a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a>
+    </div>
+
+    <nav class="header-navigation">
+        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Товари</a>
+        <a th:href="@{/admin/orders}">Замовлення</a>
+        <a th:href="@{/admin/cars}">Автопарк</a>
+        <a th:href="@{/admin/stats}">Статистика</a>
+    </nav>
+
+    <div class="header-user-actions">
+        <span style="font-weight: bold; cursor:auto;">Адмін Панель</span>
+        <a href="#" onclick="logout()" style="color: red; margin-left: 20px; text-decoration: none;">Вихід</a>
+    </div>
+
+</header>
+
+
+<div class="filters conteiner">
+    <label class="filter-item"><input type="checkbox" checked /> Піца</label>
+    <label class="filter-item"><input type="checkbox" /> Салати</label>
+    <label class="filter-item"><input type="checkbox" /> Напої</label>
+    <label class="filter-item"><input type="checkbox" /> Десерти</label>
+</div>
+<main class="products-grid conteiner">
+
+    <article class="card" th:each="pizza : ${pizzaList}">
+        <div class="image-container">
+            <img th:src="${pizza.imageUrl}" alt="Піца" class="card-img" />
+        </div>
+
+        <div class="card-body">
+            <h3 class="card-title" th:text="${pizza.name}">Назва</h3>
+
+            <div class="tags">
+                <span class="tag"
+                      th:each="ing : ${#strings.arraySplit(pizza.description, ',')}"
+                      th:text="${ing.trim()}">
+                   Інгредієнт
+                </span>
+            </div>
+
+            <div class="card-footer" >
+                <span class="weight">30см / 400 г</span>
+                <span class="price" th:text="${pizza.price} + ' ₴'">0 ₴</span>
+            </div>
+
+            <div class="admin-actions">
+                <a th:href="@{/admin/edit/{id}(id=${pizza.id})}" class="btn-admin btn-edit">
+                    Редагувати
+                </a>
+
+                <button class="btn-admin btn-delete"
+                        th:onclick="'deletePizza(' + ${pizza.id} + ')'">
+                    Видалити
+                </button>
+            </div>
+        </div>
+    </article>
+    <a href="/admin/add" class="card card-add-new">
+        <div class="plus-icon">+</div>
+        <span class="add-text">Додати нову страву</span>
+    </a>
+    <div th:if="${#lists.isEmpty(pizzaList)}" style="text-align: center; grid-column: 1/-1;">
+        <h3>Товарів поки немає. Додайте перший!</h3>
+    </div>
+
+</main>
+<script src="../js/admin.js"></script>
+</body>
+</html>

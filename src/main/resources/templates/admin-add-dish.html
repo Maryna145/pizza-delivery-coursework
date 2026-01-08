@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Додати нову страву - PizzaGo</title>
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/auth.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a>
+    </div>
+    <nav class="header-navigation">
+        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Назад до списку</a>
+    </nav>
+    <div class="header-user-actions">
+        <span style="font-weight: bold; cursor:auto;">Адмін Панель</span>
+    </div>
+</header>
+
+<main>
+    <div class="auth-container" style="max-width: 600px;"> <h2 style="margin-bottom: 30px;">Додати нову страву</h2>
+
+        <form onsubmit="handleCreateProduct(event)">
+
+            <div class="form-group">
+                <label>Назва страви</label>
+                <input type="text" id="name" required placeholder="Наприклад: Салат Цезар">
+            </div>
+
+            <div class="form-group">
+                <label>Категорія</label>
+                <select id="category" required>
+                    <option value="" disabled selected>Оберіть категорію...</option>
+                    <option value="pizza">🍕 Піца</option>
+                    <option value="salad">🥗 Салати</option>
+                    <option value="drink">🥤 Напої</option>
+                    <option value="dessert">🍰 Десерти</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ціна (грн)</label>
+                <input type="number" id="price" required placeholder="0" min="1">
+            </div>
+
+            <div class="form-group">
+                <label>Опис (інгредієнти через кому)</label>
+                <textarea id="description" rows="4" required placeholder="Листя салату, курка, пармезан..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Посилання на фото (URL)</label>
+                <input type="url" id="imageUrl" required placeholder="https://...">
+                <small style="color: #888; display: block; margin-top: 5px;">
+                    Скопіюйте посилання на картинку з інтернету
+                </small>
+            </div>
+
+            <button type="submit" class="btn-auth">Зберегти страву</button>
+        </form>
+
+    </div>
+</main>
+<script src="../js/admin.js"></script>
+</body>
+</html>

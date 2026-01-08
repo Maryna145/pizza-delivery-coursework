@@ -107,43 +107,18 @@ function clearCart() {
     }
 }
 
-
-// --- ВІДПРАВКА ЗАМОВЛЕННЯ ---
-async function submitOrder() {
+// --- ПЕРЕХІД ДО ОФОРМЛЕННЯ ---
+function goToCheckout() {
+    // 1. Перевіряємо, чи є щось у кошику
     const cart = JSON.parse(localStorage.getItem('pizzaCart')) || [];
 
     if (cart.length === 0) {
-        alert('Кошик порожній!');
+        alert('Кошик порожній! Додайте піцу, щоб продовжити. 🍕');
         return;
     }
 
-    const addressInput = document.getElementById('clientAddress');
-    if (!addressInput || !addressInput.value.trim()) {
-        alert('Будь ласка, введіть адресу доставки!');
-        addressInput?.focus();
-        return;
-    }
-
-    // Перевірка авторизації (якщо треба)
-    // const user = JSON.parse(localStorage.getItem('currentUser'));
-    // if (!user) { window.location.href = '/login'; return; }
-
-    // Тут поки імітація відправки (або розкоментуй код колеги для реальної)
-    // Для демо просто покажемо алерт
-
-    // Формуємо реальні дані для відправки (якщо сервер готовий)
-    /*
-    const orderData = {
-        items: cart.map(i => ({ id: i.id, count: i.quantity })),
-        address: addressInput.value,
-        total: document.querySelector('.final-price')?.innerText || document.querySelector('.total-price')?.innerText
-    };
-    */
-
-    alert(`Замовлення прийнято!\nАдреса: ${addressInput.value}\nДякуємо, що обрали PizzaGo!`);
-
-    localStorage.removeItem('pizzaCart');
-    window.location.href = '/'; // На головну
+    // 2. Просто перекидаємо на сторінку оформлення
+    window.location.href = '/order';
 }
 
 // Запуск при старті

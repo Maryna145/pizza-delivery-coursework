@@ -19,9 +19,14 @@ public class Order {
 
     // Один клієнт може мати багато замовлень
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id", nullable = true)
     private User client;
-
+    @Column(name = "guest_name")
+    private String guestName;
+    @Column(name = "guest_phone")
+    private String guestPhone;
+    @Column(name = "payment_method")
+    private String paymentMethod;
     // Одна машина може везти багато замовлень
     @ManyToOne
     @JoinColumn(name = "car_id")
@@ -42,7 +47,8 @@ public class Order {
     // Тут автоматично працює OrderStatusConverter
     @Column(name = "order_status", nullable = false)
     private OrderStatus status;
-
+    @Column(name = "order_items", length = 2000)
+    private String items;
     public enum OrderStatus {
         new_order, being_cooked, being_delivered, delivered
     }

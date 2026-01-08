@@ -4,9 +4,11 @@ import com.pizza.app.entity.*;
 import com.pizza.app.repository.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,45 +31,92 @@ public class OrderController {
 
     @PostMapping
     public Order createOrder(@RequestBody OrderRequest request) {
-        //Спочатку шукаємо клієнта в БД за ID
-        //Якщо немає такого ID, кидаємо помилку "Client not found"
-        User client = userRepository.findById(request.getClientId())
-                .orElseThrow(() -> new RuntimeException("Client not found"));
-
-        //Створюємо порожню сутність Order
         Order order = new Order();
-        order.setClient(client);// Прив'язуємо замовлення до знайденого клієнта
-        order.setDeliveryAddress(request.getAddress()); // Встановлюємо адресу доставки
-        order.setStatus(Order.OrderStatus.new_order); // Ставимо статус "Нове", а саме в БД запишеться як "new"
 
-        // Створюємо список, щоб зберігати ціну кожної піци окремо
+        // 1. Логіка Клієнт vs Гість
+        if (request.getClientId() != null) {
+            // Якщо прийшов ID - шукаємо в базі
+            User client = userRepository.findById(request.getClientId()).orElse(null);
+            order.setClient(client);
+            // Якщо це клієнт, беремо ім'я та телефон з його профілю (або з форми, якщо хочеш оновити)
+            if (client != null) {
+                order.setGuestName(request.getFullName()); // Зберігаємо ім'я з форми замовлення
+                order.setGuestPhone(request.getPhone());
+            }
+        } else {
+            // Це ГІСТЬ. Записуємо дані напряму
+            order.setGuestName(request.getFullName());
+            order.setGuestPhone(request.getPhone());
+        }
+
+        // 2. Збираємо адресу в один рядок
+        String fullAddress = String.format("м. %s, вул. %s, буд. %s, кв. %s",
+                request.getCity(), request.getStreet(), request.getHouse(), request.getApartment());
+        order.setDeliveryAddress(fullAddress);
+
+        // 3. Інші поля
+        order.setPaymentMethod(request.getPaymentMethod());
+        order.setStatus(Order.OrderStatus.new_order);
+
+        // 4. Рахуємо суму і формуємо список (як і раніше)
         List<BigDecimal> prices = new ArrayList<>();
-        BigDecimal total = BigDecimal.ZERO; //Змінна для загальної суми, починаємо з 0.00
+        BigDecimal total = BigDecimal.ZERO;
+        StringBuilder itemsDescription = new StringBuilder();
 
-        // Пробігаємось по списку ID піц, які прийшли з фронтенду
         for (Long pizzaId : request.getPizzaIds()) {
-            Pizza pizza = pizzaRepository.findById(pizzaId).orElseThrow(); // Дістаємо реальну піцу з бази даних, щоб дізнатися її актуальну ціну
-            prices.add(pizza.getPrice()); // Додаємо ціну цієї піци в список
-            total = total.add(pizza.getPrice()); // Додаємо ціну до загального чеку
+            Pizza pizza = pizzaRepository.findById(pizzaId).orElseThrow();
+            prices.add(pizza.getPrice());
+            total = total.add(pizza.getPrice());
+            itemsDescription.append(pizza.getName()).append(", ");
         }
-        // Реалізація акції: "10 піц купуєш - 11-та (найдешевша) безкоштовно"
+
+        // Акція 10+1
         if (prices.size() >= 11) {
-            // Знаходимо мінімальну ціну серед усіх замовлених піц
-            BigDecimal minPrice = prices.stream()
-                    .min(BigDecimal::compareTo) // Порівнюємо ціни
-                    .orElse(BigDecimal.ZERO); // Якщо раптом список пустий
-            //Віднімаємо вартість найдешевшої піци від загальної суми
+            BigDecimal minPrice = prices.stream().min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
             total = total.subtract(minPrice);
-            // Виводимо в консоль повідомлення, для перевірки
-            System.out.println("Акція спрацювала! Знижка: " + minPrice);
         }
-        order.setTotalAmount(total); // Записуємо фінальну суму в замовлення
-        return orderRepository.save(order); // Зберігаємо замовлення в БД і повертаємо результат
+
+        order.setTotalAmount(total);
+        order.setItems(itemsDescription.toString());
+
+        return orderRepository.save(order);
     }
+
+    // Оновлений DTO для прийому даних з форми
     @Data
     public static class OrderRequest {
-        private Long clientId;
-        private String address;
+        private Long clientId; // Може бути null
         private List<Long> pizzaIds;
+
+        // Нові поля з форми
+        private String fullName;
+        private String phone;
+        private String city;
+        private String street;
+        private String house;
+        private String apartment;
+        private String paymentMethod;
+        private LocalDateTime deliveryTime;
+    }
+
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestParam String status) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        try {
+            // Перетворюємо текст (наприклад "being_cooked") у Enum
+            order.setStatus(Order.OrderStatus.valueOf(status));
+            orderRepository.save(order);
+            return ResponseEntity.ok("Статус оновлено");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Невірний статус");
+        }
+    }
+    // Отримати всі замовлення конкретного клієнта
+    @GetMapping("/user/{clientId}")
+    public List<Order> getOrdersByUser(@PathVariable Long clientId) {
+        return orderRepository.findByClientIdOrderByDateDesc(clientId);
     }
 }

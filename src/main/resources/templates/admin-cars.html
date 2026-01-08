@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Автопарк - Адмін Панель</title>
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+    <style>
+        /* Стилі статусів машин */
+        .car-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+        .status-free { background: #e8f5e9; color: #2e7d32; } /* Зелений */
+        .status-busy { background: #ffebee; color: #c62828; } /* Червоний */
+        .status-broken { background: #eceff1; color: #546e7a; } /* Сірий */
+
+        /* Проста форма додавання в рядок */
+        .add-car-form {
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px dashed #E0E0E0;
+            display: flex;
+            gap: 15px;
+            align-items: end;
+            margin-bottom: 30px;
+        }
+        .form-col { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .form-col label { font-size: 12px; font-weight: bold; color: #555; }
+        .form-col input {
+            padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 100%; box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
+    <nav class="header-navigation">
+        <a th:href="@{/admin-crud}" style="color: #193948;">Товари</a>
+        <a th:href="@{/admin/orders}" style="color: #193948;">Замовлення</a>
+        <a th:href="@{/admin/cars}" style="font-weight: bold; color: #6a4821;">Автопарк</a>
+        <a th:href="@{/admin/stats}" style="color: #193948;">Статистика</a>
+    </nav>
+    <div class="header-user-actions">
+        <span style="font-weight: bold;cursor:auto;">Адмін Панель</span>
+        <a href="#" onclick="logout()" style="color: red; margin-left: 20px;">Вихід</a>
+    </div>
+</header>
+
+<main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
+    <h2 style="margin-top: 30px;">🚚 Управління Машинами</h2>
+
+    <form class="add-car-form" onsubmit="addCar(event)">
+        <div class="form-col">
+            <label>Марка авто</label>
+            <input type="text" id="brand" placeholder="Daewoo Lanos" required>
+        </div>
+        <div class="form-col">
+            <label>Номерний знак</label>
+            <input type="text" id="license" placeholder="AA 1234 BB" required>
+        </div>
+        <div class="form-col">
+            <label>Ім'я водія</label>
+            <input type="text" id="driver" placeholder="Олег" required>
+        </div>
+        <button type="submit" class="btn-create-new" style="margin: 0; padding: 10px 20px; font-size: 14px;">+ Додати</button>
+    </form>
+
+    <table class="orders-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Автомобіль</th>
+            <th>Номер</th>
+            <th>Водій</th>
+            <th>Статус</th>
+            <th>Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.id}">1</td>
+            <td th:text="${car.brand}" style="font-weight: bold;">Toyota Prius</td>
+            <td th:text="${car.licensePlate}">KA 7777 AH</td>
+            <td th:text="${car.driverName}">Іван</td>
+            <td>
+                <span class="car-status status-free" th:if="${car.status.name() == 'FREE'}">🟢 Вільна</span>
+                <span class="car-status status-busy" th:if="${car.status.name() == 'BUSY'}">🔴 Зайнята</span>
+                <span class="car-status status-broken" th:if="${car.status.name() == 'BROKEN'}">🔧 Ремонт</span>
+            </td>
+            <td>
+                <button class="btn-admin btn-delete" style="width: auto; padding: 5px 10px;">🗑</button>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(cars)}">
+            <td colspan="6" style="text-align: center;">Машин ще немає. Додайте першу!</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
