@@ -91,6 +91,7 @@
     </label>
 </div>
 
+
 <main class="products-grid conteiner">
 
     <article class="card" th:each="pizza : ${pizzaList}">
@@ -202,6 +203,7 @@
         </div>
     </div>
 </footer>
-<script src="/js/client.js"></script>
+<script th:src="@{/js/client.js}"></script>
+
 </body>
 </html>

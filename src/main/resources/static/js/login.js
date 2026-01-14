@@ -19,7 +19,7 @@ async function handleLogin(event) {
             localStorage.setItem('currentUser', JSON.stringify(user));
 
             if (user.role === 'admin') {
-                alert('Вітаю, Шеф! 🫡');
+                alert('Вітаю, Шеф!');
                 window.location.href = '/admin-crud';
             } else {
                 alert('Ви успішно увійшли');

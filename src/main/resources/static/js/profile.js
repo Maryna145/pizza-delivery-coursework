@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // 1. Отримуємо користувача з localStorage
+  //Отримуємо користувача з localStorage
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
   if (!user) {
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // 2. Заповнюємо картку зліва
+  //Заповнюємо картку зліва
   document.getElementById("profile-name").innerText = user.name || "Клієнт";
   document.getElementById("profile-email").innerText = user.email || "";
   document.getElementById("profile-phone").innerText = user.phone || "";
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
         addressEl.innerHTML = ` Адреса не збережена`;
     }
-  // 3. Завантажуємо замовлення з сервера
+  //Завантажуємо замовлення з сервера
   await loadUserOrders(user.id);
 });
 
@@ -37,7 +37,6 @@ async function loadUserOrders(userId) {
       }
 
       let html = "";
-      // Словник для перекладу статусів
       const statusNames = {
         new_order: "Оформлено",
         being_cooked: "Готується",
@@ -58,10 +57,6 @@ async function loadUserOrders(userId) {
                             <div class="order-items">
                                 ${order.items || "Деталі не вказані"}
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 10px; font-size: 14px;">
-                                                        <span> ${order.deliveryAddress}</span>
-                                                        <span style="font-size: 18px; font-weight: 900; color: #dc7002;">${order.totalAmount} ₴</span>
-                                                    </div>
                             <div class="order-footer">
                                 <span>Адреса: ${order.deliveryAddress}</span>
                                 <span class="price-tag">${

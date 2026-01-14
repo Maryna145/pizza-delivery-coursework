@@ -50,6 +50,7 @@
     box-shadow: 0 8px 25px rgba(251, 187, 84, 0.18);
     transform: translateY(-2px);
 }
+
 .password-wrapper {
     position: relative;
 }
@@ -59,19 +60,19 @@
 }
 
 .toggle-password {
-    top: 30px;
+    top: 50%;
     right: 15px;
     position: absolute;
     transform: translateY(-50%);
-
     background: none;
     border: none;
     cursor: pointer;
-
     font-size: 20px;
-
+    padding: 0;
+    display: flex;
+    align-items: center;
+    z-index: 10;
 }
-
 
 .btn-auth {
     width: 100%;
@@ -129,4 +130,8 @@
         font-size: 19px;
         padding: 18px;
     }
+}
+input::-ms-reveal,
+input::-ms-clear {
+    display: none !important;
 }

@@ -84,19 +84,19 @@ main {
   justify-content: center;
   align-items: center;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 10px auto;
 }
 .header-navigation {
     display:flex;
-    gap:10px;
-    justify-content:center;
+    gap:25px;
+    justify-content:space-around;
     align-items:center;
 }
 .header-navigation a {
   position: relative;
   text-decoration: none;
   color: var(--text-dark);
-  margin: 0 20px;
+  margin: 0;
   font-size: 20px;
   font-weight: 400;
   line-height: 130%;
@@ -181,8 +181,8 @@ main {
   display: flex;
   justify-content: center;
   gap: 10px;
-  padding: 10px 10px;
-  margin: 10px auto;
+  padding: 10px 10px !important;
+  margin: 10px auto !important;
   flex-wrap: wrap;
   height: auto;
 }
@@ -466,6 +466,7 @@ main {
   font-size: 16px;
   color: #C78E45;
 }
+
 .ham {
   display:none;
   width:50px;
@@ -531,6 +532,7 @@ main {
   display:block;
   }
 }
+
 /* ===== MOBILE MENU OVERLAY ===== */
 #mobileMenu {
   position: fixed;
