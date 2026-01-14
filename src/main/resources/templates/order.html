@@ -12,11 +12,8 @@
 
 <header class="header">
     <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
-    <nav class="header-navigation">
-        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Назад</a>
-    </nav>
     <div class="header-user-actions">
-        <span style="font-weight: bold;">Оформлення</span>
+        <a th:href="@{/cart}" style="font-weight: bold; color: #6a4821;">Назад</a>
     </div>
 </header>
 
@@ -28,11 +25,11 @@
             <div class="checkout-grid">
                 <div class="form-group">
                     <label>ПІБ</label>
-                    <input type="text" id="fullName" required placeholder="Іванов Іван">
+                    <input type="text" id="fullName" autocomplete="name" required placeholder="Іванов Іван">
                 </div>
                 <div class="form-group">
                     <label>Телефон</label>
-                    <input type="tel" id="phone" required placeholder="+380...">
+                    <input type="tel" id="phone" inputcomplete="tel"  required placeholder="+380...">
                 </div>
             </div>
 
@@ -77,16 +74,82 @@
                 </div>
             </div>
 
-            <div style="text-align: right; margin: 10px 0; font-size: 22px;">
-                До сплати: <b id="total-sum" style="color: #dc7002;font-size: 22px;">0 ₴</b>
-            </div>
 
-            <button type="submit" class="btn-auth" style="margin-bottom:20px;">ОФОРМИТИ ЗАМОВЛЕННЯ</button>
+
+            <button type="submit" class="btn-auth" style="margin:10px 0;">ОФОРМИТИ ЗАМОВЛЕННЯ</button>
             <p>Підтверджуючи замовлення, я приймаю умови угоди користувача</p>
         </form>
     </div>
 </main>
-
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-col">
+            <div class="logo">
+                <a  th:href="@{/}"><img th:src="@{/images/logo-footer.svg}" alt="" /></a>
+            </div>
+            <p class="footer-text">
+                Готуємо з любов'ю, доставляємо зі швидкістю світла!
+            </p>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li class="footer-menu"><a th:href="@{/}">Меню</a></li>
+                <li class="footer-menu"><a href="#">Акції</a></li>
+                <li class="footer-menu"><a href="#">Доставка та оплата</a></li>
+                <li class="footer-menu"><a href="#">Про нас</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li>
+                    <a href="tel:+380960000007" class="contact-phone"
+                    >+ 38 (096) 000 00 07</a
+                    >
+                </li>
+                <li><p>Щодня з 10:00 до 22:00</p></li>
+                <li><p>м. Київ, вул. Тараса Шевченка 5</p></li>
+                <li>
+                    <div class="footer-social-icons">
+                        <a href="#"
+                        ><svg width="22" height="37">
+                            <use th:href="@{/images/icons.svg#facebook}"></use>
+                        </svg>
+                        </a>
+                        <a href="#"
+                        ><svg width="33" height="33">
+                            <use th:href="@{/images/icons.svg#instagram}"></use>
+                        </svg>
+                        </a>
+                        <a href="#"
+                        ><svg width="36" height="27">
+                            <use th:href="@{/images/icons.svg#twitter}"></use>
+                        </svg>
+                        </a>
+                        <a href="#"
+                        ><svg width="30" height="35">
+                            <use th:href="@{/images/icons.svg#phone}"></use>
+                        </svg>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li>
+                    <a class="footer-text-politic" href="#"
+                    >Політика конфіденційності</a
+                    >
+                </li>
+                <li>
+                    <p class="footer-text-rights">
+                        © 2025 PizzaGo. Всі права захищені.
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
 <script src="../js/order.js"></script>
 
 </body>

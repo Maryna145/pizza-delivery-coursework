@@ -33,3 +33,87 @@ input[type="radio"] {
 #deliveryTime{
    font-size: 16px;
 }
+@media (max-width: 768px) {
+
+  main {
+    padding: 20px;
+  }
+
+  .auth-container {
+    max-width: 100% !important;
+    margin-top: 20px !important;
+    padding: 30px;
+  }
+
+  /* Імʼя + телефон → в колонку */
+  .checkout-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* Адреса → все вертикально */
+  .address-group {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  /* Заголовки */
+  h2 {
+    font-size: 22px;
+    max-width: 300px;
+    margin: 0 auto 32px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  /* Кнопка */
+  .btn-auth {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  /* Radio */
+  .radio-item {
+    font-size: 15px;
+  }
+
+  input,
+  #deliveryTime {
+    font-size: 15px;
+  }
+}
+@media (max-width: 480px) {
+
+  .auth-container {
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  input,
+  #deliveryTime {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .radio-group {
+    padding: 12px;
+  }
+
+  .radio-item {
+    gap: 8px;
+  }
+}

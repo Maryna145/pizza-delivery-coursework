@@ -2,6 +2,7 @@
 <html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Кошик - PizzaGo</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/cart.css}" />
@@ -23,6 +24,35 @@
                     <use th:href="@{/images/icons.svg#user}"></use>
                 </svg>
             </a>
+            <svg class="ham hamRotate ham7" viewBox="0 0 100 100" width="80" onclick="toggleMobileMenu()" id="burger-btn">
+                <path
+                        class="line top"
+                        d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
+                <path
+                        class="line middle"
+                        d="m 70,50 h -40" />
+                <path
+                        class="line bottom"
+                        d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
+            </svg>
+        </div>
+    </div>
+    <div id="mobileMenu">
+        <div class="mobile-menu-content">
+
+            <nav class="mobile-header-navigation">
+                <a th:href="@{/}">Меню</a>
+                <a href="#">Акції</a>
+                <a href="#">Контакти</a>
+            </nav>
+
+            <a href="#" class="mobile-user user-icon" onclick="handleUserClick(event)">
+                <svg class="header-user" width="28" height="28">
+                    <use th:href="@{/images/icons.svg#user}"></use>
+                </svg>
+                Мій кабінет
+            </a>
+
         </div>
     </div>
 </header>
@@ -120,6 +150,7 @@
         </div>
     </div>
 </footer>
+<script th:src="@{/js/client.js}"></script>
 <script th:src="@{/js/cart.js}"></script>
 </body>
 </html>

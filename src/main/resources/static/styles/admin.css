@@ -303,3 +303,142 @@ select:focus, textarea:focus {
   font-size: 12px;
   margin-right: 10px;
 }
+/* =========================================
+   АДАПТАЦІЯ КОНТЕНТУ (1200, 768, 480)
+   ========================================= */
+
+/* Виправляємо переповнення контейнера */
+.conteiner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+/* 1. Десктопи та ноутбуки (1200px) */
+@media (max-width: 1200px) {
+    .orders-table {
+        width: 100% !important; /* Скасовуємо 110% */
+        font-size: 14px;
+    }
+
+    .status-select {
+        padding: 6px 30px 6px 10px;
+        font-size: 13px;
+    }
+}
+
+/* 2. Планшети (768px) */
+@media (max-width: 768px) {
+    h2 {
+        text-align: center;
+        margin-top: 20px !important;
+    }
+
+    /* Ховаємо шапку таблиці */
+    .orders-table thead {
+        display: none;
+    }
+
+    /* Перетворюємо таблицю та її елементи на блочні */
+    .orders-table,
+    .orders-table tbody,
+    .orders-table tr,
+    .orders-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .orders-table tr {
+        margin-bottom: 25px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+        overflow: hidden;
+    }
+
+    .orders-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+        padding: 12px 20px;
+        border-bottom: 1px solid #f5f5f5;
+        min-height: 50px;
+        box-sizing: border-box;
+    }
+
+    /* Використовуємо data-label для підписів зліва */
+    .orders-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #193948;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+        margin-right: 10px;
+        text-align: left;
+    }
+
+    /* Спеціальні налаштування для окремих колонок */
+    .orders-table td[data-label="Клієнт"] {
+        height: auto;
+        flex-direction: row; /* Залишаємо в ряд, якщо вміщується */
+    }
+
+    .orders-table td[data-label="Склад"] {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .orders-table td[data-label="Склад"]::before {
+        margin-bottom: 8px;
+    }
+
+    .status-select {
+        width: 160px; /* Фіксована ширина для селекта в мобільній версії */
+    }
+    .orders-table td[data-label="ID"] {
+            background-color: #fbbb54;
+            color: white;
+            justify-content: center;
+        }
+        .orders-table td[data-label="ID"]::before {
+            color: white;
+        }
+}
+
+/* 3. Смартфони (480px) */
+@media (max-width: 480px) {
+    .conteiner {
+        padding: 0 10px;
+    }
+
+    .orders-table td {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .orders-table td::before {
+        font-size: 10px;
+    }
+
+    .status-select {
+        width: 140px;
+        font-size: 12px;
+        padding: 5px 25px 5px 10px;
+    }
+
+    /* Робимо ID замовлення яскравішим акцентом */
+    .orders-table td[data-label="ID"] {
+        background-color: #fbbb54;
+        color: white;
+        justify-content: center;
+    }
+    .orders-table td[data-label="ID"]::before {
+        color: white;
+    }
+}

@@ -2,6 +2,7 @@
 <html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Редагувати страву</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/auth.css}" />
@@ -12,9 +13,9 @@
 <header class="header">
     <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
     <nav class="header-navigation">
-        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Скасувати</a>
     </nav>
-    <div class="header-user-actions"><span style="font-weight: bold;">Редагування</span></div>
+    <div class="header-user-actions"><a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Скасувати</a> <span style="font-weight: bold;">Редагування</span>
+    </div>
 </header>
 
 <main>
@@ -33,10 +34,10 @@
             <div class="form-group">
                 <label>Категорія</label>
                 <select id="category" required>
-                    <option value="pizza" th:selected="${pizza.category == 'pizza'}">🍕 Піца</option>
-                    <option value="salad" th:selected="${pizza.category == 'salad'}">🥗 Салати</option>
-                    <option value="drink" th:selected="${pizza.category == 'drink'}">🥤 Напої</option>
-                    <option value="dessert" th:selected="${pizza.category == 'dessert'}">🍰 Десерти</option>
+                    <option value="pizza" th:selected="${pizza.category == 'pizza'}">Піца</option>
+                    <option value="salad" th:selected="${pizza.category == 'salad'}">Салати</option>
+                    <option value="drink" th:selected="${pizza.category == 'drink'}">Напої</option>
+                    <option value="dessert" th:selected="${pizza.category == 'dessert'}">Десерти</option>
                 </select>
             </div>
 

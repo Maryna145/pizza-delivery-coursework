@@ -6,9 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Рахуємо суму для відображення
-  let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  document.getElementById("total-sum").innerText = total + " ₴";
 
   // Якщо користувач зареєстрований - автозаповнення
   const user = JSON.parse(localStorage.getItem("currentUser"));

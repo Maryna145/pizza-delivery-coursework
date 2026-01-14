@@ -2,6 +2,7 @@
 <html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Замовлення - Адмін Панель</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
@@ -18,8 +19,29 @@
         <a th:href="@{/admin/stats}">Статистика</a>
     </nav>
     <div class="header-user-actions">
+        <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
+            <path
+                    class="line top"
+                    d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
+            <path
+                    class="line middle"
+                    d="m 70,50 h -40" />
+            <path
+                    class="line bottom"
+                    d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
+        </svg>
         <span style="font-weight: bold; cursor:auto;">Адмін Панель</span>
-        <a href="#" onclick="logout()" style="color: red; margin-left: 20px;">Вихід</a>
+    </div>
+    <div id="mobileMenu">
+        <div class="mobile-menu-content">
+            <nav class="mobile-header-navigation">
+              <a th:href="@{/admin-crud}" style="color: #193948;">Товари</a>
+              <a th:href="@{/admin/orders}" style="font-weight: bold; color: #6a4821;">Замовлення</a>
+              <a th:href="@{/admin/cars}">Автопарк</a>
+              <a th:href="@{/admin/stats}">Статистика</a>
+              <a href="#" onclick="logout()" style="color: red; ">Вихід</a>
+            </nav>
+        </div>
     </div>
 </header>
 
@@ -39,9 +61,9 @@
         </thead>
         <tbody>
         <tr th:each="order : ${orders}">
-            <td th:text="'#' + ${order.id}">#1</td>
+            <td data-label="ID" th:text="'#' + ${order.id}">#1</td>
 
-            <td>
+            <td data-label="Клієнт">
                 <div th:if="${order.client != null}">
                     <div th:text="${order.client.name}" style="font-weight: bold;">User Name</div>
                     <div th:text="${order.client.phone}" style="font-size: 12px; color: gray;">Phone</div>
@@ -55,33 +77,20 @@
                 </div>
             </td>
 
-            <td th:text="${order.deliveryAddress}">Київ</td>
+            <td data-label="Адреса" th:text="${order.deliveryAddress}">Київ</td>
 
-            <td class="order-items" th:text="${order.items}">Маргарита, Кола</td>
+            <td data-label="Склад" class="order-items" th:text="${order.items}">Маргарита, Кола</td>
 
-            <td th:text="${order.totalAmount} + ' ₴'" style="font-weight: bold;">500 ₴</td>
+            <td data-label="Сума" th:text="${order.totalAmount} + ' ₴'" style="font-weight: bold; color: #dc7002;">500 ₴</td>
 
-            <td>
+            <td data-label="Статус">
                 <select th:onchange="'updateOrderStatus(this, ' + ${order.id} + ')'"
                         class="status-select"
                         th:data-current="${order.status}">
-
-                    <option value="new_order"
-                            th:selected="${order.status.name() == 'new_order'}">
-                        Нове
-                    </option>
-                    <option value="being_cooked"
-                            th:selected="${order.status.name() == 'being_cooked'}">
-                        Готується
-                    </option>
-                    <option value="being_delivered"
-                            th:selected="${order.status.name() == 'being_delivered'}">
-                        В дорозі
-                    </option>
-                    <option value="delivered"
-                            th:selected="${order.status.name() == 'delivered'}">
-                        Доставлено
-                    </option>
+                    <option value="new_order" th:selected="${order.status.name() == 'new_order'}">Нове</option>
+                    <option value="being_cooked" th:selected="${order.status.name() == 'being_cooked'}">Готується</option>
+                    <option value="being_delivered" th:selected="${order.status.name() == 'being_delivered'}">В дорозі</option>
+                    <option value="delivered" th:selected="${order.status.name() == 'delivered'}">Доставлено</option>
                 </select>
             </td>
         </tr>
@@ -93,7 +102,7 @@
     </div>
 
 </main>
-
+<script src="../js/client.js"></script>
 <script src="/js/admin.js"></script>
 </body>
 </html>
