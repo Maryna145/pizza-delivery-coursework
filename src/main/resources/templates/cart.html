@@ -121,5 +121,42 @@
     </div>
 </footer>
 <script th:src="@{/js/cart.js}"></script>
+<div id="checkout-modal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+    <div class="modal-content" style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 400px; border-radius: 10px;">
+        <span class="close" onclick="closeModal()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+        <h2 style="text-align: center; color: #6a4821;">Оформлення</h2>
+
+        <form id="order-form" onsubmit="submitOrder(event)" style="display: flex; flex-direction: column; gap: 10px;">
+            <label>Ім'я:</label>
+            <input type="text" id="name" required placeholder="Іван Іванов" style="padding: 8px;">
+
+            <label>Телефон:</label>
+            <input type="text" id="phone" required placeholder="099 123 45 67" style="padding: 8px;">
+
+            <label>Місто:</label>
+            <input type="text" id="city" required value="Київ" style="padding: 8px;">
+
+            <div style="display: flex; gap: 5px;">
+                <input type="text" id="street" placeholder="Вулиця" required style="flex: 2; padding: 8px;">
+                <input type="text" id="house" placeholder="Буд." required style="flex: 1; padding: 8px;">
+                <input type="text" id="apartment" placeholder="Кв." style="flex: 1; padding: 8px;">
+            </div>
+
+            <label style="font-weight: bold; color: #d63031;">Час доставки:</label>
+            <input type="datetime-local" id="deliveryTime" required style="padding: 8px; border: 2px solid #ddd;">
+            <small style="color: grey;">Оберіть дату та час</small>
+
+            <label>Оплата:</label>
+            <select id="paymentMethod" style="padding: 8px;">
+                <option value="CASH">Готівка</option>
+                <option value="CARD">Карта</option>
+            </select>
+
+            <button type="submit" class="btn-order" style="margin-top: 10px; background: #ff4757; color: white; padding: 10px; border: none; cursor: pointer; font-size: 16px;">
+                Підтвердити замовлення
+            </button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

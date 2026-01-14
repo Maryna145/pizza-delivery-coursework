@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +23,6 @@ public class OrderController {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final PizzaRepository pizzaRepository;
-    // На майбутнє знадобиться репозиторій для деталей замовлення, щоб зберігати історію
-    // private final OrderDetailRepository orderDetailRepository;
 
     @GetMapping
     public List<Order> getAllOrders() {
@@ -30,35 +30,39 @@ public class OrderController {
     }
 
     @PostMapping
-    public Order createOrder(@RequestBody OrderRequest request) {
+    public ResponseEntity<?> createOrder(@RequestBody OrderRequest request) {
         Order order = new Order();
+        if (request.getDeliveryTime() != null) {
+            LocalDate date = request.getDeliveryTime().toLocalDate();
+            LocalTime time = request.getDeliveryTime().toLocalTime();
 
-        // 1. Логіка Клієнт vs Гість
+            boolean isTaken = orderRepository.existsByDateAndDeliveryTime(date, time);
+
+            if (isTaken) {
+                return ResponseEntity.badRequest()
+                        .body("Вибачте, час " + time + " вже зайнятий! Будь ласка, оберіть інший.");
+            }
+            order.setDate(date);
+            order.setDeliveryTime(time);
+        }
+
         if (request.getClientId() != null) {
-            // Якщо прийшов ID - шукаємо в базі
             User client = userRepository.findById(request.getClientId()).orElse(null);
             order.setClient(client);
-            // Якщо це клієнт, беремо ім'я та телефон з його профілю (або з форми, якщо хочеш оновити)
             if (client != null) {
-                order.setGuestName(request.getFullName()); // Зберігаємо ім'я з форми замовлення
+                order.setGuestName(request.getFullName());
                 order.setGuestPhone(request.getPhone());
             }
         } else {
-            // Це ГІСТЬ. Записуємо дані напряму
             order.setGuestName(request.getFullName());
             order.setGuestPhone(request.getPhone());
         }
 
-        // 2. Збираємо адресу в один рядок
         String fullAddress = String.format("м. %s, вул. %s, буд. %s, кв. %s",
                 request.getCity(), request.getStreet(), request.getHouse(), request.getApartment());
         order.setDeliveryAddress(fullAddress);
-
-        // 3. Інші поля
         order.setPaymentMethod(request.getPaymentMethod());
         order.setStatus(Order.OrderStatus.new_order);
-
-        // 4. Рахуємо суму і формуємо список (як і раніше)
         List<BigDecimal> prices = new ArrayList<>();
         BigDecimal total = BigDecimal.ZERO;
         StringBuilder itemsDescription = new StringBuilder();
@@ -69,8 +73,6 @@ public class OrderController {
             total = total.add(pizza.getPrice());
             itemsDescription.append(pizza.getName()).append(", ");
         }
-
-        // Акція 10+1
         if (prices.size() >= 11) {
             BigDecimal minPrice = prices.stream().min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
             total = total.subtract(minPrice);
@@ -78,17 +80,37 @@ public class OrderController {
 
         order.setTotalAmount(total);
         order.setItems(itemsDescription.toString());
+        Order savedOrder = orderRepository.save(order);
+        System.out.println("\n НОВЕ ЗАМОВЛЕННЯ #" + savedOrder.getId());
+        System.out.println("Клієнт: " + savedOrder.getGuestName());
+        System.out.println("Сума: " + savedOrder.getTotalAmount() + " грн");
+        System.out.println("Час доставки: " + savedOrder.getDeliveryTime());
+        System.out.println("------------------------------------------------\n");
 
-        return orderRepository.save(order);
+        return ResponseEntity.ok(savedOrder);
     }
 
-    // Оновлений DTO для прийому даних з форми
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestParam String status) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        try {
+            order.setStatus(Order.OrderStatus.valueOf(status));
+            orderRepository.save(order);
+            return ResponseEntity.ok("Статус оновлено");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Невірний статус");
+        }
+    }
+    @GetMapping("/user/{clientId}")
+    public List<Order> getOrdersByUser(@PathVariable Long clientId) {
+        return orderRepository.findByClientIdOrderByDateDesc(clientId);
+    }
+
     @Data
     public static class OrderRequest {
-        private Long clientId; // Може бути null
+        private Long clientId;
         private List<Long> pizzaIds;
-
-        // Нові поля з форми
         private String fullName;
         private String phone;
         private String city;
@@ -97,26 +119,5 @@ public class OrderController {
         private String apartment;
         private String paymentMethod;
         private LocalDateTime deliveryTime;
-    }
-
-
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestParam String status) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
-
-        try {
-            // Перетворюємо текст (наприклад "being_cooked") у Enum
-            order.setStatus(Order.OrderStatus.valueOf(status));
-            orderRepository.save(order);
-            return ResponseEntity.ok("Статус оновлено");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body("Невірний статус");
-        }
-    }
-    // Отримати всі замовлення конкретного клієнта
-    @GetMapping("/user/{clientId}")
-    public List<Order> getOrdersByUser(@PathVariable Long clientId) {
-        return orderRepository.findByClientIdOrderByDateDesc(clientId);
     }
 }

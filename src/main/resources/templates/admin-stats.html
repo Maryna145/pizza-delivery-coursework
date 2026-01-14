@@ -5,7 +5,6 @@
     <title>Статистика - Адмін Панель</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
-
 </head>
 <body>
 
@@ -24,51 +23,44 @@
 </header>
 
 <main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
-    <h2>📊 Звіти піцерії</h2>
+    <h2> Звіти піцерії</h2>
 
     <div class="stats-grid">
+
         <div class="stat-card">
-            <h3 style="margin-bottom: 20px;">🔥 Топ 5 популярних піц</h3>
+            <h3 style="margin-bottom: 20px;">Топ популярних страв</h3>
+
             <ul class="top-list">
-                <li class="top-item">
+                <li class="top-item" th:each="dish, iterStat : ${topDishes}">
                     <div style="display: flex; align-items: center;">
-                        <span class="top-rank">1</span>
-                        <span>Піца Пепероні</span>
+                        <span class="top-rank" th:text="${iterStat.count}">1</span>
+                        <span th:text="${dish.name}">Піца Пепероні</span>
                     </div>
-                    <strong>150 зам.</strong>
+                    <strong th:text="${dish.count} + ' шт.'">150 шт.</strong>
                 </li>
-                <li class="top-item">
-                    <div style="display: flex; align-items: center;">
-                        <span class="top-rank">2</span>
-                        <span>Піца Маргарита</span>
-                    </div>
-                    <strong>120 зам.</strong>
-                </li>
-                <li class="top-item">
-                    <div style="display: flex; align-items: center;">
-                        <span class="top-rank">3</span>
-                        <span>Карбонара</span>
-                    </div>
-                    <strong>85 зам.</strong>
+
+                <li th:if="${#lists.isEmpty(topDishes)}" style="text-align: center; color: #888; padding: 20px;">
+                    Ще немає даних для статистики
                 </li>
             </ul>
         </div>
 
         <div class="stat-card">
-            <h3 style="margin-bottom: 20px;">💰 Фінанси (Сьогодні)</h3>
+            <h3 style="margin-bottom: 20px;">Загальні Фінанси</h3>
 
             <div style="margin-bottom: 30px;">
-                <div class="stat-number">12 450 ₴</div>
-                <div class="stat-label">Виручка за день</div>
+                <div class="stat-number" th:text="${totalMoney} + ' ₴'">0 ₴</div>
+                <div class="stat-label">Загальна виручка</div>
             </div>
 
             <div>
-                <div class="stat-number">42</div>
+                <div class="stat-number" th:text="${totalOrders}">0</div>
                 <div class="stat-label">Всього замовлень</div>
             </div>
         </div>
     </div>
 </main>
+
 <script src="/js/admin.js"></script>
 </body>
 </html>

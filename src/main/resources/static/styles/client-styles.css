@@ -409,24 +409,61 @@ main {
   font-size: 16px;
   color: #C78E45;
 }
-
 @media (max-width: 768px) {
-  header {
-    padding: 15px 20px;
-  }
-  .filters {
-    padding: 15px 20px;
-    overflow-x: auto;
-  }
-  .products-grid {
-    padding: 20px;
-    grid-template-columns: 1fr;
-  }
-  .footer-content {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .social-icons {
-    justify-content: center;
-  }
+    .header {
+        padding: 15px 20px;
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+    }
+
+    .header-navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .header-navigation a {
+        margin: 0 10px;
+    }
+
+    .header-user-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    .filters {
+        padding: 10px 20px;
+        margin-top: 20px;
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .products-grid {
+        padding: 20px;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .footer-content {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+        gap: 40px;
+        text-align: center;
+    }
+    .site-footer {
+        height: auto;
+    }
+    .site-footer::after {
+        display: none;
+    }
+
+    .footer-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-social-icons {
+        justify-content: center;
+    }
 }

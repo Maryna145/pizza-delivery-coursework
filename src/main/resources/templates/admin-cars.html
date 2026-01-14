@@ -18,7 +18,6 @@
         .status-busy { background: #ffebee; color: #c62828; } /* Червоний */
         .status-broken { background: #eceff1; color: #546e7a; } /* Сірий */
 
-        /* Проста форма додавання в рядок */
         .add-car-form {
             background: #FAFAFA;
             padding: 20px;
@@ -53,20 +52,20 @@
 </header>
 
 <main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
-    <h2 style="margin-top: 30px;">🚚 Управління Машинами</h2>
+    <h2 style="margin-top: 30px;"> Управління Машинами</h2>
 
     <form class="add-car-form" onsubmit="addCar(event)">
         <div class="form-col">
             <label>Марка авто</label>
-            <input type="text" id="brand" placeholder="Daewoo Lanos" required>
+            <input type="text" id="model" placeholder="Daewoo Lanos" required>
         </div>
         <div class="form-col">
             <label>Номерний знак</label>
             <input type="text" id="license" placeholder="AA 1234 BB" required>
         </div>
         <div class="form-col">
-            <label>Ім'я водія</label>
-            <input type="text" id="driver" placeholder="Олег" required>
+            <label>Ім'я водія (Логін або ID)</label>
+            <input type="text" id="driver" placeholder="driver1" required>
         </div>
         <button type="submit" class="btn-create-new" style="margin: 0; padding: 10px 20px; font-size: 14px;">+ Додати</button>
     </form>
@@ -85,20 +84,26 @@
         <tbody>
         <tr th:each="car : ${cars}">
             <td th:text="${car.id}">1</td>
-            <td th:text="${car.brand}" style="font-weight: bold;">Toyota Prius</td>
+            <td th:text="${car.model}" style="font-weight: bold;">Toyota Prius</td>
             <td th:text="${car.licensePlate}">KA 7777 AH</td>
-            <td th:text="${car.driverName}">Іван</td>
+
+            <td th:text="${car.driver != null ? car.driver.name : '—'}">Іван</td>
+
             <td>
-                <span class="car-status status-free" th:if="${car.status.name() == 'FREE'}">🟢 Вільна</span>
-                <span class="car-status status-busy" th:if="${car.status.name() == 'BUSY'}">🔴 Зайнята</span>
-                <span class="car-status status-broken" th:if="${car.status.name() == 'BROKEN'}">🔧 Ремонт</span>
+                <span class="car-status status-free" th:if="${car.status.name() == 'free'}"> Вільна</span>
+                <span class="car-status status-busy" th:if="${car.status.name() == 'busy'}"> Зайнята</span>
+                <span class="car-status status-broken" th:if="${car.status.name() == 'at_repairs'}"> Ремонт</span>
             </td>
             <td>
-                <button class="btn-admin btn-delete" style="width: auto; padding: 5px 10px;">🗑</button>
+                <button class="btn-admin btn-delete"
+                        style="width: auto; padding: 5px 10px;"
+                        th:onclick="'deleteCar(' + ${car.id} + ')'">
+                    🗑
+                </button>
             </td>
         </tr>
         <tr th:if="${#lists.isEmpty(cars)}">
-            <td colspan="6" style="text-align: center;">Машин ще немає. Додайте першу!</td>
+            <td colspan="6" style="text-align: center; padding: 20px;">Машин ще немає.</td>
         </tr>
         </tbody>
     </table>
