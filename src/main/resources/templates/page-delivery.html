@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="uk" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Доставка та Оплата - PizzaGo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/page-delivery.css}" />
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="PizzaGo Logo" /></a>
+    </div>
+
+    <nav class="header-navigation">
+        <a th:href="@{/}">Меню</a>
+        <a th:href="@{/promo}">Акції</a>
+        <a th:href="@{/delivery}" class="active-link">Доставка</a>
+        <a th:href="@{/about}">Про нас</a>
+    </nav>
+
+    <div class="header-user-actions">
+        <a th:href="@{/cart}" id="cart-wrapper" class="header-icon-link">
+            <svg class="header-cart" width="36" height="36"><use th:href="@{/images/icons.svg#cart}"></use></svg>
+        </a>
+        <a th:href="@{/login}" id="user-wrapper" class="header-icon-link">
+            <svg class="header-user" width="36" height="36"><use th:href="@{/images/icons.svg#user}"></use></svg>
+        </a>
+        <svg class="ham hamRotate ham7" viewBox="0 0 100 100" onclick="toggleMobileMenu()" id="burger-btn">
+            <path class="line top" d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
+            <path class="line middle" d="m 70,50 h -40" />
+            <path class="line bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
+        </svg>
+    </div>
+
+    <div id="mobileMenu">
+        <div class="mobile-menu-content">
+            <nav class="mobile-header-navigation">
+                <a th:href="@{/}">Меню</a>
+                <a th:href="@{/promo}">Акції</a>
+                <a th:href="@{/delivery}" class="active-link">Доставка</a>
+                <a th:href="@{/about}">Про нас</a>
+            </nav>
+            <a href="#" class="mobile-user user-icon" onclick="handleUserClick(event)">
+                <svg class="header-user" width="28" height="28"><use th:href="@{/images/icons.svg#user}"></use></svg>
+                Мій кабінет
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="delivery-container">
+        <h1 class="page-title"> Доставка та Оплата</h1>
+
+        <div class="info-card">
+
+            <h2 class="section-title"> Зони доставки</h2>
+            <div class="zones-list">
+                <div class="zone-item zone-green">
+                    <span class="zone-indicator"></span>
+                    <span class="zone-text"><strong>Зелена зона (Центр):</strong> до 30-40 хв.</span>
+                </div>
+                <div class="zone-item zone-yellow">
+                    <span class="zone-indicator"></span>
+                    <span class="zone-text"><strong>Жовта зона (Спальні райони):</strong> до 60 хв.</span>
+                </div>
+            </div>
+
+            <h2 class="section-title"> Вартість</h2>
+            <div class="cost-section">
+                <p class="cost-text">
+                    При замовленні від <strong>500 грн</strong> — доставка <span class="free-delivery">БЕЗКОШТОВНА</span>.<br>
+                    При замовленні до 500 грн — вартість доставки складає <strong>50 грн</strong>.
+                </p>
+            </div>
+
+            <h2 class="section-title"> Способи оплати</h2>
+            <ul class="payment-list">
+                <li class="payment-item">
+                    Готівкою кур'єру
+                </li>
+                <li class="payment-item">
+                    Карткою на сайті (Google/Apple Pay)
+                </li>
+                <li class="payment-item">
+                    Терміналом при отриманні
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</main>
+
+<footer class="site-footer" id="contacts">
+    <div class="footer-content">
+        <div class="footer-col">
+            <div class="logo">
+                <a th:href="@{/}"><img th:src="@{/images/logo-footer.svg}" alt="" /></a>
+            </div>
+            <p class="footer-text">Готуємо з любов'ю, доставляємо зі швидкістю світла!</p>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li class="footer-menu"><a th:href="@{/}">Меню</a></li>
+                <li class="footer-menu"><a th:href="@{/promo}">Акції</a></li>
+                <li class="footer-menu"><a th:href="@{/delivery}">Доставка та оплата</a></li>
+                <li class="footer-menu"><a th:href="@{/about}">Про нас</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li><a href="tel:+380960000007" class="contact-phone">+ 38 (096) 000 00 07</a></li>
+                <li><p>Щодня з 10:00 до 22:00</p></li>
+                <li><p>м. Київ, вул. Тараса Шевченка 5</p></li>
+                <li>
+                    <div class="footer-social-icons">
+                        <a href="#"><svg width="22" height="37"><use th:href="@{/images/icons.svg#facebook}"></use></svg></a>
+                        <a href="#"><svg width="33" height="33"><use th:href="@{/images/icons.svg#instagram}"></use></svg></a>
+                        <a href="#"><svg width="36" height="27"><use th:href="@{/images/icons.svg#twitter}"></use></svg></a>
+                        <a href="#"><svg width="30" height="35"><use th:href="@{/images/icons.svg#phone}"></use></svg></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <ul class="footer-lists">
+                <li><a class="footer-text-politic" th:href="@{/privacy}">Політика конфіденційності</a></li>
+                <li><p class="footer-text-rights">© 2026 PizzaGo. Всі права захищені.</p></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script th:src="@{/js/client.js}"></script>
+</body>
+</html>
