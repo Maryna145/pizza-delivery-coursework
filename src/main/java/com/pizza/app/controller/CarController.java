@@ -63,7 +63,40 @@ public class CarController {
             return ResponseEntity.badRequest().body("Не вдалося видалити: " + e.getMessage());
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCar(@PathVariable Long id, @RequestBody CarRequest request) {
+        try {
+            Car car = carRepository.findById(id).orElseThrow(() -> new RuntimeException("Car not found"));
 
+            car.setModel(request.getModel());
+            car.setLicensePlate(request.getLicensePlate());
+
+            // Оновлюємо водія, якщо передали нового
+            if (request.getDriverLogin() != null && !request.getDriverLogin().isEmpty()) {
+                User driver = userRepository.findByLogin(request.getDriverLogin())
+                        .orElseThrow(() -> new RuntimeException("Водія не знайдено"));
+                car.setDriver(driver);
+            }
+
+            carRepository.save(car);
+            return ResponseEntity.ok("Машину оновлено");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Помилка: " + e.getMessage());
+        }
+    }
+
+    // ЗМІНА СТАТУСУ (Вже має бути, але перевірте)
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> updateCarStatus(@PathVariable Long id, @RequestParam String status) {
+        Car car = carRepository.findById(id).orElseThrow();
+        try {
+            car.setStatus(Car.CarStatus.valueOf(status));
+            carRepository.save(car);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Невірний статус");
+        }
+    }
     @Data
     static class CarRequest {
         private String model;

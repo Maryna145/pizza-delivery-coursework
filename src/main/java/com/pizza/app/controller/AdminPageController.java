@@ -90,7 +90,10 @@ public class AdminPageController {
 
         return "admin-stats";
     }
-
+    @GetMapping("/admin/profile")
+    public String adminProfile() {
+        return "admin-profile";
+    }
     @Data
     @AllArgsConstructor
     static class DishStat {

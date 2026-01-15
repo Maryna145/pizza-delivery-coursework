@@ -172,12 +172,19 @@ function toggleMobileMenu() {
         body.style.overflow = 'auto';
     }
 }
- function handleUserClick(e) {
-                e.preventDefault();
-                const user = JSON.parse(localStorage.getItem('currentUser'));
-                if (user) {
-                    window.location.href = "/profile"; // Якщо увійшов - в кабінет
-                } else {
-                    window.location.href = "/login"; // Якщо ні - на вхід
-                }
-            }
+function handleUserClick(event) {
+    event.preventDefault();
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+
+    if (!user) {
+        window.location.href = "/login";
+        return;
+    }
+
+    if (user.role === 'admin') {
+        // ТЕПЕР ВЕДЕМО НА АДМІНСЬКИЙ ПРОФІЛЬ
+        window.location.href = "/admin/profile";
+    } else {
+        window.location.href = "/profile";
+    }
+}

@@ -6,35 +6,6 @@
     <title>Автопарк - Адмін Панель</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
-    <style>
-        /* Стилі статусів машин */
-        .car-status {
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 12px;
-            text-transform: uppercase;
-        }
-        .status-free { background: #e8f5e9; color: #2e7d32; } /* Зелений */
-        .status-busy { background: #ffebee; color: #c62828; } /* Червоний */
-        .status-broken { background: #eceff1; color: #546e7a; } /* Сірий */
-
-        .add-car-form {
-            background: #FAFAFA;
-            padding: 20px;
-            border-radius: 12px;
-            border: 2px dashed #E0E0E0;
-            display: flex;
-            gap: 15px;
-            align-items: end;
-            margin-bottom: 30px;
-        }
-        .form-col { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-        .form-col label { font-size: 12px; font-weight: bold; color: #555; }
-        .form-col input {
-            padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 100%; box-sizing: border-box;
-        }
-    </style>
 </head>
 <body>
 
@@ -47,24 +18,17 @@
         <a th:href="@{/admin/stats}" style="color: #193948;">Статистика</a>
     </nav>
     <div class="header-user-actions">
-        <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
-            <path
-                    class="line top"
-                    d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
-            <path
-                    class="line middle"
-                    d="m 70,50 h -40" />
-            <path
-                    class="line bottom"
-                    d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
+        <svg class="ham hamRotate ham7" viewBox="0 0 100 100" onclick="toggleMobileMenu()" id="burger-btn">
+            <path class="line top" d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
+            <path class="line middle" d="m 70,50 h -40" />
+            <path class="line bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
         </svg>
-        <span style="font-weight: bold;cursor:auto;">Адмін Панель</span>
-
+        <span style="font-weight: bold;cursor:auto; margin-left:10px;">Адмін Панель</span>
     </div>
     <div id="mobileMenu">
         <div class="mobile-menu-content">
             <nav class="mobile-header-navigation">
-                <a th:href="@{/admin-crud}" style="font-weight: bold;">Товари</a>
+                <a th:href="@{/admin-crud}">Товари</a>
                 <a th:href="@{/admin/orders}">Замовлення</a>
                 <a th:href="@{/admin/cars}" style="color: #6a4821;">Автопарк</a>
                 <a th:href="@{/admin/stats}">Статистика</a>
@@ -74,63 +38,92 @@
     </div>
 </header>
 
-<main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
-    <h2 style="margin-top: 30px;"> Управління Машинами</h2>
+<main class="conteiner " style="display:flex; flex-direction:column;">
+    <h2 class="section-title">🚚 Управління Автопарком</h2>
 
     <form class="add-car-form" onsubmit="addCar(event)">
         <div class="form-col">
             <label>Марка авто</label>
-            <input type="text" id="model" placeholder="Daewoo Lanos" required>
+            <input type="text" id="model" placeholder="Напр: Toyota Prius" required>
         </div>
         <div class="form-col">
             <label>Номерний знак</label>
             <input type="text" id="license" placeholder="AA 1234 BB" required>
         </div>
         <div class="form-col">
-            <label>Ім'я водія (Логін або ID)</label>
-            <input type="text" id="driver" placeholder="driver1" required>
+            <label>Водій (Логін)</label>
+            <input type="text" id="driver" placeholder="Введіть логін водія" required>
         </div>
-        <button type="submit" class="btn-create-new" style="margin: 0; padding: 10px 20px; font-size: 14px;">+ Додати</button>
+        <button type="submit" class="btn-create-new" style="margin: 0; width: 100%;">+ Додати авто</button>
     </form>
 
-    <table class="orders-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Автомобіль</th>
-            <th>Номер</th>
-            <th>Водій</th>
-            <th>Статус</th>
-            <th>Дії</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="car : ${cars}">
-            <td th:text="${car.id}">1</td>
-            <td th:text="${car.model}" style="font-weight: bold;">Toyota Prius</td>
-            <td th:text="${car.licensePlate}">KA 7777 AH</td>
+    <div class="cars-grid">
+        <div class="car-card" th:each="car : ${cars}">
+            <div class="car-header">
+                <div class="car-details">
+                    <span class="car-model" th:text="${car.model}">Toyota Prius</span>
+                    <div class="car-license" th:text="${car.licensePlate}">KA 7777 AH</div>
+                </div>
 
-            <td th:text="${car.driver != null ? car.driver.name : '—'}">Іван</td>
+                <select onchange="updateCarStatusJS(this)"
+                        th:data-id="${car.id}"
+                        class="status-select-car"
+                        th:classappend="${car.status.name() == 'free' ? 'st-free' : (car.status.name() == 'busy' ? 'st-busy' : 'st-broken')}">
 
-            <td>
-                <span class="car-status status-free" th:if="${car.status.name() == 'free'}"> Вільна</span>
-                <span class="car-status status-busy" th:if="${car.status.name() == 'busy'}"> Зайнята</span>
-                <span class="car-status status-broken" th:if="${car.status.name() == 'at_repairs'}"> Ремонт</span>
-            </td>
-            <td>
-                <button class="btn-admin btn-delete"
-                        style="width: auto; padding: 5px 10px;"
-                        th:onclick="'deleteCar(' + ${car.id} + ')'">
-                    🗑
+                    <option value="free" th:selected="${car.status.name() == 'free'}">🟢 Вільна</option>
+                    <option value="busy" th:selected="${car.status.name() == 'busy'}">🟠 Зайнята</option>
+                    <option value="at_repairs" th:selected="${car.status.name() == 'at_repairs'}">⚫ Ремонт</option>
+                </select>
+            </div>
+
+            <div class="car-info">
+                <span class="car-icon">👤</span>
+                <span style="font-weight: 600;">Водій:</span>
+                <span th:text="${car.driver != null ? car.driver.name : '—'}"
+                      th:data-login="${car.driver != null ? car.driver.login : ''}"
+                      id="driver-name-display">
+                      Іван
+                </span>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: auto;">
+                <button type="button" class="btn-admin btn-edit"
+                        th:data-id="${car.id}"
+                        th:data-model="${car.model}"
+                        th:data-license="${car.licensePlate}"
+                        th:data-driver="${car.driver != null ? car.driver.login : ''}"
+                        onclick="openEditCarModal(this)"> ✏️ Ред.
                 </button>
-            </td>
-        </tr>
-        <tr th:if="${#lists.isEmpty(cars)}">
-            <td colspan="6" style="text-align: center; padding: 20px;">Машин ще немає.</td>
-        </tr>
-        </tbody>
-    </table>
+
+                <button type="button" class="btn-admin btn-delete" th:onclick="'deleteCar(' + ${car.id} + ')'">
+                    🗑 Вид.
+                </button>
+            </div>
+        </div>
+    </div>
 </main>
+
+<div id="editCarModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content add-car-form" style="max-width: 400px; display: flex; gap:10px; flex-direction: column; margin: 0;">
+        <h3>Редагувати автомобіль</h3>
+        <input type="hidden" id="edit-car-id">
+
+        <label>Марка</label>
+        <input type="text" id="edit-model">
+
+        <label>Номер</label>
+        <input type="text" id="edit-license">
+
+        <label>Логін водія</label>
+        <input type="text" id="edit-driver">
+
+        <div class="modal-btns">
+            <button type="button" onclick="closeEditCarModal()" class="btn-modal-cancel">Скасувати</button>
+            <button type="button" onclick="submitEditCar()" class="btn-modal-save">Зберегти</button>
+        </div>
+    </div>
+</div>
+
 <script th:src="@{/js/admin.js}"></script>
 <script th:src="@{/js/client.js}"></script>
 </body>
