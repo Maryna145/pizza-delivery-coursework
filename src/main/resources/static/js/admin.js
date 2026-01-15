@@ -299,3 +299,35 @@ async function updateAdminProfile(event) {
     alert("Помилка сервера");
   }
 }
+async function assignCar(selectElement, orderId) {
+    const carId = selectElement.value;
+    const originalColor = selectElement.style.borderColor;
+
+    selectElement.disabled = true; // Блокуємо, поки йде запит
+
+    // Формуємо URL: якщо carId пустий (обрали "Не призначено"), не додаємо параметр
+    let url = `/api/orders/${orderId}/assign-car`;
+    if (carId) {
+        url += `?carId=${carId}`;
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'PATCH'
+        });
+
+        if (response.ok) {
+            // Зелена рамка на секунду, щоб показати успіх
+            selectElement.style.borderColor = "green";
+            setTimeout(() => selectElement.style.borderColor = "#ddd", 1500);
+        } else {
+            alert("Помилка призначення машини");
+            location.reload();
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Помилка з'єднання");
+    } finally {
+        selectElement.disabled = false;
+    }
+}

@@ -49,7 +49,10 @@ public class AdminPageController {
     @GetMapping("/admin/orders")
     public String adminOrders(Model model) {
         var orders = orderRepository.findAll();
+        var cars = carRepository.findAll();
+
         model.addAttribute("orders", orders);
+        model.addAttribute("cars", cars);
         return "admin-orders";
     }
 
