@@ -2,6 +2,7 @@
 <html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Автопарк - Адмін Панель</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
@@ -46,8 +47,30 @@
         <a th:href="@{/admin/stats}" style="color: #193948;">Статистика</a>
     </nav>
     <div class="header-user-actions">
+        <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
+            <path
+                    class="line top"
+                    d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
+            <path
+                    class="line middle"
+                    d="m 70,50 h -40" />
+            <path
+                    class="line bottom"
+                    d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
+        </svg>
         <span style="font-weight: bold;cursor:auto;">Адмін Панель</span>
-        <a href="#" onclick="logout()" style="color: red; margin-left: 20px;">Вихід</a>
+
+    </div>
+    <div id="mobileMenu">
+        <div class="mobile-menu-content">
+            <nav class="mobile-header-navigation">
+                <a th:href="@{/admin-crud}" style="font-weight: bold;">Товари</a>
+                <a th:href="@{/admin/orders}">Замовлення</a>
+                <a th:href="@{/admin/cars}" style="color: #6a4821;">Автопарк</a>
+                <a th:href="@{/admin/stats}">Статистика</a>
+                <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
+            </nav>
+        </div>
     </div>
 </header>
 
@@ -108,7 +131,7 @@
         </tbody>
     </table>
 </main>
-
-<script src="/js/admin.js"></script>
+<script th:src="@{/js/admin.js}"></script>
+<script th:src="@{/js/client.js}"></script>
 </body>
 </html>

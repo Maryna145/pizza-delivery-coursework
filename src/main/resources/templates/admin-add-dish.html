@@ -2,6 +2,7 @@
 <html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Додати нову страву - PizzaGo</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/auth.css}" />
@@ -14,11 +15,12 @@
         <a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a>
     </div>
     <nav class="header-navigation">
-        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Назад до списку</a>
+
     </nav>
     <div class="header-user-actions">
-        <span style="font-weight: bold; cursor:auto;">Адмін Панель</span>
+        <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Назад до списку</a>
     </div>
+
 </header>
 
 <main>
@@ -35,10 +37,10 @@
                 <label>Категорія</label>
                 <select id="category" required>
                     <option value="" disabled selected>Оберіть категорію...</option>
-                    <option value="pizza">🍕 Піца</option>
-                    <option value="salad">🥗 Салати</option>
-                    <option value="drink">🥤 Напої</option>
-                    <option value="dessert">🍰 Десерти</option>
+                    <option value="pizza">Піца</option>
+                    <option value="salad">Салати</option>
+                    <option value="drink">Напої</option>
+                    <option value="dessert">Десерти</option>
                 </select>
             </div>
 
@@ -65,6 +67,6 @@
 
     </div>
 </main>
-<script src="../js/admin.js"></script>
+<script th:src="@{/js/admin.js}"></script>
 </body>
 </html>

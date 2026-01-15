@@ -146,8 +146,7 @@ function logout() {
         window.location.href = '/';
     }
 }
-//Ініціалізація
-//Цей код спрацює автоматично, коли HTML повністю завантажиться
+
 document.addEventListener('DOMContentLoaded', () => {
     //Оновлюємо цифру на кошику раптом там вже є товари з минулого разу
     updateCartCounter();
@@ -155,3 +154,30 @@ document.addEventListener('DOMContentLoaded', () => {
     checkAuthStatus();
 
 });
+function toggleMobileMenu() {
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const body = document.body;
+
+    // 1. Анімація кнопки (твоя логіка)
+    burgerBtn.classList.toggle('active');
+
+    // 2. Відкриття меню
+    mobileMenu.classList.toggle('open');
+
+    // 3. Блокування скролу сторінки
+    if (mobileMenu.classList.contains('open')) {
+        body.style.overflow = 'hidden';
+    } else {
+        body.style.overflow = 'auto';
+    }
+}
+ function handleUserClick(e) {
+                e.preventDefault();
+                const user = JSON.parse(localStorage.getItem('currentUser'));
+                if (user) {
+                    window.location.href = "/profile"; // Якщо увійшов - в кабінет
+                } else {
+                    window.location.href = "/login"; // Якщо ні - на вхід
+                }
+            }

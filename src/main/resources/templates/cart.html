@@ -2,6 +2,7 @@
 <html lang="uk" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Кошик - PizzaGo</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/cart.css}" />
@@ -23,6 +24,35 @@
                     <use th:href="@{/images/icons.svg#user}"></use>
                 </svg>
             </a>
+            <svg class="ham hamRotate ham7" viewBox="0 0 100 100" width="80" onclick="toggleMobileMenu()" id="burger-btn">
+                <path
+                        class="line top"
+                        d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
+                <path
+                        class="line middle"
+                        d="m 70,50 h -40" />
+                <path
+                        class="line bottom"
+                        d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
+            </svg>
+        </div>
+    </div>
+    <div id="mobileMenu">
+        <div class="mobile-menu-content">
+
+            <nav class="mobile-header-navigation">
+                <a th:href="@{/}">Меню</a>
+                <a href="#">Акції</a>
+                <a href="#">Контакти</a>
+            </nav>
+
+            <a href="#" class="mobile-user user-icon" onclick="handleUserClick(event)">
+                <svg class="header-user" width="28" height="28">
+                    <use th:href="@{/images/icons.svg#user}"></use>
+                </svg>
+                Мій кабінет
+            </a>
+
         </div>
     </div>
 </header>
@@ -120,43 +150,8 @@
         </div>
     </div>
 </footer>
+
+<script th:src="@{/js/client.js}"></script>
 <script th:src="@{/js/cart.js}"></script>
-<div id="checkout-modal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
-    <div class="modal-content" style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 400px; border-radius: 10px;">
-        <span class="close" onclick="closeModal()" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-        <h2 style="text-align: center; color: #6a4821;">Оформлення</h2>
-
-        <form id="order-form" onsubmit="submitOrder(event)" style="display: flex; flex-direction: column; gap: 10px;">
-            <label>Ім'я:</label>
-            <input type="text" id="name" required placeholder="Іван Іванов" style="padding: 8px;">
-
-            <label>Телефон:</label>
-            <input type="text" id="phone" required placeholder="099 123 45 67" style="padding: 8px;">
-
-            <label>Місто:</label>
-            <input type="text" id="city" required value="Київ" style="padding: 8px;">
-
-            <div style="display: flex; gap: 5px;">
-                <input type="text" id="street" placeholder="Вулиця" required style="flex: 2; padding: 8px;">
-                <input type="text" id="house" placeholder="Буд." required style="flex: 1; padding: 8px;">
-                <input type="text" id="apartment" placeholder="Кв." style="flex: 1; padding: 8px;">
-            </div>
-
-            <label style="font-weight: bold; color: #d63031;">Час доставки:</label>
-            <input type="datetime-local" id="deliveryTime" required style="padding: 8px; border: 2px solid #ddd;">
-            <small style="color: grey;">Оберіть дату та час</small>
-
-            <label>Оплата:</label>
-            <select id="paymentMethod" style="padding: 8px;">
-                <option value="CASH">Готівка</option>
-                <option value="CARD">Карта</option>
-            </select>
-
-            <button type="submit" class="btn-order" style="margin-top: 10px; background: #ff4757; color: white; padding: 10px; border: none; cursor: pointer; font-size: 16px;">
-                Підтвердити замовлення
-            </button>
-        </form>
-    </div>
-</div>
 </body>
 </html>

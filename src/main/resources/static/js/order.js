@@ -5,9 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  let total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  document.getElementById("total-sum").innerText = total + " ₴";
+
 
   const user = JSON.parse(localStorage.getItem("currentUser"));
   if (user) {
