@@ -4,6 +4,7 @@ import com.pizza.app.entity.*;
 import com.pizza.app.repository.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class OrderController {
-
+    @Autowired // Переконайтесь, що CarRepository підключено
+    private CarRepository carRepository;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final PizzaRepository pizzaRepository;
@@ -90,23 +92,74 @@ public class OrderController {
         return ResponseEntity.ok(savedOrder);
     }
 
+    @GetMapping("/user/{clientId}")
+    public List<Order> getOrdersByUser(@PathVariable Long clientId) {
+        return orderRepository.findByClientIdOrderByDateDesc(clientId);
+    }
+    // 1. ПРИЗНАЧЕННЯ МАШИНИ (З перевірками та авто-статусом)
+    @PatchMapping("/{id}/assign-car")
+    public ResponseEntity<?> assignCar(@PathVariable Long id, @RequestParam(required = false) Long carId) {
+        try {
+            Order order = orderRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Замовлення не знайдено"));
+
+            // А. Якщо у замовлення ВЖЕ була інша машина, звільняємо її
+            if (order.getCar() != null) {
+                Car oldCar = order.getCar();
+                oldCar.setStatus(Car.CarStatus.free);
+                carRepository.save(oldCar);
+            }
+
+            // Б. Якщо ми призначаємо нову машину
+            if (carId != null) {
+                Car newCar = carRepository.findById(carId)
+                        .orElseThrow(() -> new RuntimeException("Машину не знайдено"));
+
+                // ГОЛОВНА ПЕРЕВІРКА: Чи вільна машина?
+                // Дозволяємо призначити, тільки якщо вона free, АБО якщо це та сама машина (випадковий клік)
+                if (newCar.getStatus() != Car.CarStatus.free && !newCar.getId().equals(order.getCar() != null ? order.getCar().getId() : -1)) {
+                    return ResponseEntity.badRequest().body("Ця машина зараз зайнята або в ремонті!");
+                }
+
+                // Ставимо статус ЗАЙНЯТА
+                newCar.setStatus(Car.CarStatus.busy);
+                carRepository.save(newCar);
+
+                order.setCar(newCar);
+            } else {
+                // Якщо вибрали "Не призначено" (зняли машину)
+                order.setCar(null);
+            }
+
+            orderRepository.save(order);
+            return ResponseEntity.ok("Машину призначено, статус оновлено");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Помилка: " + e.getMessage());
+        }
+    }
+
+    // 2. ЗМІНА СТАТУСУ ЗАМОВЛЕННЯ (Авто-звільнення машини)
     @PatchMapping("/{id}/status")
     public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestParam String status) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
         try {
-            order.setStatus(Order.OrderStatus.valueOf(status));
+            Order.OrderStatus newStatus = Order.OrderStatus.valueOf(status);
+            order.setStatus(newStatus);
+
+            // АВТОМАТИКА: Якщо замовлення "Доставлено", звільняємо машину
+            if (newStatus == Order.OrderStatus.delivered && order.getCar() != null) {
+                Car car = order.getCar();
+                car.setStatus(Car.CarStatus.free); // Робимо вільною
+                carRepository.save(car);
+            }
+
             orderRepository.save(order);
             return ResponseEntity.ok("Статус оновлено");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Невірний статус");
         }
     }
-    @GetMapping("/user/{clientId}")
-    public List<Order> getOrdersByUser(@PathVariable Long clientId) {
-        return orderRepository.findByClientIdOrderByDateDesc(clientId);
-    }
-
     @Data
     public static class OrderRequest {
         private Long clientId;

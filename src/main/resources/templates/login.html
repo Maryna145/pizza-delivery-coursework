@@ -15,8 +15,9 @@
     </div>
     <nav class="header-navigation">
         <a th:href="@{/}">Меню</a>
-        <a href="#">Акції</a>
-        <a href="#">Контакти</a>
+        <a th:href="@{/promo}">Акції</a>
+        <a th:href="@{/delivery}">Доставка</a>
+        <a th:href="@{/about}" class="active-link">Про нас</a>
     </nav>
     <div class="header-user-actions">
         <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
@@ -36,8 +37,9 @@
 
             <nav class="mobile-header-navigation">
                 <a th:href="@{/}">Меню</a>
-                <a href="#">Акції</a>
-                <a href="#">Контакти</a>
+                <a th:href="@{/promo}">Акції</a>
+                <a th:href="@{/delivery}">Доставка</a>
+                <a th:href="@{/about}" class="active-link">Про нас</a>
             </nav>
 
             <a href="#" class="mobile-user user-icon" onclick="handleUserClick(event)">
@@ -87,9 +89,9 @@
         <div class="footer-col">
             <ul class="footer-lists">
                 <li class="footer-menu"><a th:href="@{/}">Меню</a></li>
-                <li class="footer-menu"><a href="#">Акції</a></li>
-                <li class="footer-menu"><a href="#">Доставка та оплата</a></li>
-                <li class="footer-menu"><a href="#">Про нас</a></li>
+                <li class="footer-menu"><a th:href="@{/promo}">Акції</a></li>
+                <li class="footer-menu"><a th:href="@{/delivery}">Доставка та оплата</a></li>
+                <li class="footer-menu"><a th:href="@{/about}">Про нас</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -129,11 +131,7 @@
         </div>
         <div class="footer-col">
             <ul class="footer-lists">
-                <li>
-                    <a class="footer-text-politic" href="#"
-                    >Політика конфіденційності</a
-                    >
-                </li>
+                <li><a class="footer-text-politic" th:href="@{/privacy}">Політика конфіденційності</a></li>
                 <li>
                     <p class="footer-text-rights">
                         © 2025 PizzaGo. Всі права захищені.

@@ -4,6 +4,7 @@ import com.pizza.app.entity.User;
 import com.pizza.app.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,10 +30,39 @@ public class UserController {
         }
         return user;
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest request) {
+        try {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Користувача не знайдено"));
 
+            // Оновлюємо основні поля
+            user.setName(request.getName());
+            user.setPhone(request.getPhone());
+            user.setAddress(request.getAddress());
+
+            // Оновлюємо пароль ТІЛЬКИ якщо він прийшов не пустий
+            if (request.getPassword() != null && !request.getPassword().trim().isEmpty()) {
+                user.setPassword(request.getPassword());
+            }
+
+            User updatedUser = userRepository.save(user);
+            return ResponseEntity.ok(updatedUser);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Помилка оновлення: " + e.getMessage());
+        }
+    }
     @Data
     public static class LoginRequest {
         private String login;
+        private String password;
+    }
+    @Data
+    public static class UserUpdateRequest {
+        private String name;
+        private String phone;
+        private String address;
         private String password;
     }
 }

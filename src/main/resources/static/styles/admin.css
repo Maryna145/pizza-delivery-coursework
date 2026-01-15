@@ -303,16 +303,362 @@ select:focus, textarea:focus {
   font-size: 12px;
   margin-right: 10px;
 }
+
+
+
+
+
+
+/* =========================================
+   НОВИЙ ДИЗАЙН АВТОПАРКУ (CAR CARDS)
+   ========================================= */
+
+/* Заголовок секції */
+.section-title {
+    font-size: 28px;
+    font-weight: 900;
+    color: #193948;
+    margin: 30px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.form-col{
+    width:100%;
+}
+/* --- ФОРМА ДОДАВАННЯ --- */
+.add-car-form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Легка тінь */
+    border-left: 5px solid #fbbb54; /* Акцентна смужка зліва */
+    display: flex;
+    width:700px;
+    flex-direction:column;
+    gap: 20px;
+    align-items: end;
+    margin-bottom: 40px;
+}
+
+.add-car-form label {
+    width:100%;
+    font-size: 14px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.add-car-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #eee;
+    background: #f9f9f9;
+    font-size: 16px;
+    font-weight: 500;
+    color: #193948;
+    transition: all 0.3s ease;
+}
+
+.add-car-form input:focus {
+    border-color: #fbbb54;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(251, 187, 84, 0.1);
+}
+
+.add-car-form button {
+    height: 48px; /* Щоб висота збігалася з інпутами */
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.add-car-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(251, 187, 84, 0.4);
+}
+
+/* --- СІТКА КАРТОК --- */
+/* --- СІТКА КАРТОК --- */
+.cars-grid {
+    display: grid;
+    /* Зменшуємо мінімальну ширину до 260px-280px, щоб влізло більше карток в ряд */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+/* --- КАРТКА МАШИНИ --- */
+.car-card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+    border-top: 4px solid #fbbb54; /* Кольорова шапка */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+
+/* Заголовок картки */
+.car-header {
+    display: flex;
+    flex-direction:column;
+    gap:10px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.car-model {
+    font-size: 20px;
+    font-weight: 800;
+    color: #193948;
+    display: block;
+    margin-bottom: 5px;
+}
+.car-details{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    }
+/* Стиль номерного знака (схоже на реальний) */
+.car-license {
+    display: inline-block;
+    font-family: 'Courier New', monospace; /* Моноширинний шрифт */
+    background: #fff;
+    color: #333;
+    padding: 4px 10px;
+    border: 2px solid #333;
+    border-radius: 6px;
+    font-weight: 900;
+    font-size: 16px;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+}
+
+/* Інформаційні рядки */
+.car-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #555;
+    font-size: 15px;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.car-icon {
+    font-size: 18px;
+    filter: grayscale(100%); /* Чорно-білі іконки */
+}
+
+/* Статуси */
+.status-pill {
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    height: fit-content;
+}
+
+.status-free { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+.status-busy { background: #fff3e0; color: #ef6c00; border: 1px solid #ffe0b2; }
+.status-broken { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+
+/* Кнопка видалення */
+.delete-car-btn {
+    margin-top: auto; /* Притискає кнопку до низу */
+    width: 100%;
+    background: transparent;
+    color: #d32f2f;
+    border: 2px solid #ffebee;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.delete-car-btn:hover {
+    background: #d32f2f;
+    color: white;
+    border-color: #d32f2f;
+}
+/* --- СТИЛІ СЕЛЕКТА СТАТУСУ МАШИНИ --- */
+.status-select-car {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    appearance: none; /* Прибираємо стандартну стрілку */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.st-free { background: #e8f5e9; color: #2e7d32; border: 2px solid #c8e6c9; }
+.st-busy { background: #fff3e0; color: #ef6c00; border: 2px solid #ffe0b2; }
+.st-broken { background: #eceff1; color: #546e7a; border: 2px solid #cfd8dc; }
+
+/* --- МОДАЛЬНЕ ВІКНО --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    animation: slideUp 0.3s;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+/* Контейнер для кнопок у модалці */
+.modal-btns {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+/* Спільні базові стилі для кнопок модального вікна */
+.modal-btns button {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Кнопка "Зберегти" (Акцентна) */
+.btn-modal-save {
+    background: linear-gradient(135deg, #fbbb54 0%, #f7a31c 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(251, 187, 84, 0.3);
+}
+
+.btn-modal-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(251, 187, 84, 0.5);
+    filter: brightness(1.05);
+}
+
+.btn-modal-save:active {
+    transform: translateY(0);
+}
+
+/* Кнопка "Скасувати" (Нейтральна) */
+.btn-modal-cancel {
+    background: #f5f5f5;
+    color: #666;
+    border: 2px solid transparent;
+}
+
+.btn-modal-cancel:hover {
+    background: #eeeeee;
+    color: #333;
+    border-color: #ddd;
+}
+
+/* --- АДАПТАЦІЯ АВТОПАРКУ --- */
+
+/* Планшети (768px): Рівно 2 картки в ряд */
+@media (max-width: 992px) {
+    .cars-grid {
+        grid-template-columns: repeat(2, 1fr); /* Жорстко 2 колонки */
+        gap: 20px;
+    }
+
+    .add-car-form {
+        width: 100%; /* Форма розтягується на весь контейнер */
+        box-sizing: border-box;
+    }
+}
+
+/* Смартфони (480px): Одна гарна картка по центру */
+@media (max-width: 580px) {
+    .cars-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Центруємо картку */
+    }
+
+    .car-card {
+        width: 90%; /* Картка не на всю ширину, залишаємо "повітря" */
+        max-width: 350px; /* Обмежуємо ширину, щоб вона не виглядала гігантською */
+        padding: 20px;
+    }
+
+    .add-car-form {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .section-title {
+        justify-content: center; /* Заголовок по центру */
+        font-size: 22px;
+    }
+
+    .car-model {
+        font-size: 18px;
+    }
+
+    .add-car-form button {
+        width: 100%; /* Кнопка на всю ширину форми для зручності */
+    }
+}
 /* =========================================
    АДАПТАЦІЯ КОНТЕНТУ (1200, 768, 480)
    ========================================= */
 
 /* Виправляємо переповнення контейнера */
 .conteiner {
+    display:grid;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 20px 15px;
     box-sizing: border-box;
 }
 
@@ -440,5 +786,89 @@ select:focus, textarea:focus {
     }
     .orders-table td[data-label="ID"]::before {
         color: white;
+    }
+}
+/* Спеціальні стилі для картки профілю */
+.profile-card {
+  background: white;
+  min-width: 600px;
+  width: 100%;
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border-top: 5px solid #fbbb54;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  background: #fff8e1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  font-size: 40px;
+  color: #fbbb54;
+  border: 2px solid #fbbb54;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #193948;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: 2px solid #eee;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #fbbb54;
+}
+
+.btn-save {
+  width: 100%;
+  padding: 15px;
+  background: #193948;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.btn-save:hover {
+  background: #fbbb54;
+  color: #193948;
+}
+@media (max-width: 768px) {
+    .profile-card{
+        min-width: 500px
+    }
+}
+@media (max-width: 480px) {
+    .profile-card{
+        min-width: 300px
     }
 }

@@ -38,8 +38,8 @@
                     class="line bottom"
                     d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
         </svg>
-        <span style="font-weight: bold; cursor:auto;">Адмін Панель</span>
-
+        <a style="font-weight: bold; cursor:auto; margin-right:10px;cursor:pointer;" onclick="handleUserClick(event)">Адмін Панель</a>
+        <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
 
     </div>
     <div id="mobileMenu">
@@ -56,7 +56,7 @@
 </header>
 
 
-<div class="filters conteiner">
+<div class="filters conteiner" style="display:flex; flex-direction:row;">
     <label class="filter-item">
         <input type="checkbox" checked />
         <span>Піца</span>
