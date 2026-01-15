@@ -16,7 +16,6 @@
         <a th:href="@{/admin/orders}" style="color: #193948;">Замовлення</a>
         <a th:href="@{/admin/cars}" style="color: #193948;">Автопарк</a>
         <a th:href="@{/admin/stats}" style="font-weight: bold; color: #6a4821;">Статистика</a>
-        <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
     </nav>
     <div class="header-user-actions">
         <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
@@ -30,7 +29,9 @@
                     class="line bottom"
                     d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
         </svg>
-        <span style="font-weight: bold;">Адмін Панель</span>
+        <span style="font-weight: bold;margin-right:10px;">Адмін Панель</span>
+        <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
+
 
     </div>
     <div id="mobileMenu">
