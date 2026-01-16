@@ -20,7 +20,7 @@
     </div>
 
     <nav class="header-navigation">
-        <a th:href="@{/admin-crud}">Товари</a>
+        <a th:href="@{/admin-crud}"style="font-weight: bold; color: #6a4821;">Товари</a>
         <a th:href="@{/admin/orders}">Замовлення</a>
         <a th:href="@{/admin/cars}">Автопарк</a>
         <a th:href="@{/admin/ingredients}">Склад</a>
@@ -51,6 +51,7 @@
             cursor: auto;
             margin-right: 10px;
             cursor: pointer;
+            text-align:center;
           "
                 onclick="handleUserClick(event)"
         >Адмін Панель</a
@@ -86,28 +87,28 @@
 
 <div class="filters conteiner" style="display: flex; flex-direction: row">
     <label class="filter-item">
-        <input type="checkbox" checked />
+        <input type="checkbox" value="pizza" checked onchange="filterMenu()" />
         <span>Піца</span>
     </label>
 
     <label class="filter-item">
-        <input type="checkbox" />
+        <input type="checkbox" value="salad" checked onchange="filterMenu()" />
         <span>Салати</span>
     </label>
 
     <label class="filter-item">
-        <input type="checkbox" />
+        <input type="checkbox" value="drink" checked onchange="filterMenu()" />
         <span>Напої</span>
     </label>
 
     <label class="filter-item">
-        <input type="checkbox" />
+        <input type="checkbox" value="dessert" checked onchange="filterMenu()" />
         <span>Десерти</span>
     </label>
 </div>
 
 <main class="products-grid conteiner">
-    <article class="card" th:each="pizza : ${pizzaList}">
+    <article class="card" th:each="pizza : ${pizzaList}" th:data-category="${pizza.category}">
         <div class="image-container">
             <img th:src="${pizza.imageUrl}" alt="Піца" class="card-img" />
         </div>

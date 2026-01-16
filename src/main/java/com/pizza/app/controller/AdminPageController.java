@@ -2,10 +2,8 @@ package com.pizza.app.controller;
 
 import com.pizza.app.entity.Order;
 import com.pizza.app.entity.Pizza;
-import com.pizza.app.repository.CarRepository;
-import com.pizza.app.repository.IngredientRepository;
-import com.pizza.app.repository.OrderRepository;
-import com.pizza.app.repository.PizzaRepository;
+import com.pizza.app.entity.User;
+import com.pizza.app.repository.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +26,14 @@ public class AdminPageController {
     private final PizzaRepository pizzaRepository;
     private final OrderRepository orderRepository;
     private final CarRepository carRepository;
-    @Autowired // Не забудьте підключити
+    @Autowired
     private IngredientRepository ingredientRepository;
+    @Autowired
+    private final UserRepository userRepository;
 
     @GetMapping("/admin/ingredients")
     public String adminIngredients(Model model) {
-        var ingredients = ingredientRepository.findAll();
+        var ingredients = ingredientRepository.findAllByOrderByNameAsc();
         model.addAttribute("ingredients", ingredients);
         return "admin-ingredients"; // Зараз ми створимо цей файл
     }
@@ -75,42 +75,32 @@ public class AdminPageController {
         return "admin-orders";
     }
 
-    @GetMapping("/admin/cars")
-    public String adminCars(Model model) {
-        var cars = carRepository.findAll();
-        model.addAttribute("cars", cars);
-        return "admin-cars";
-    }
+
     @GetMapping("/admin/stats")
     public String adminStats(Model model) {
+        // 1. Загальна кількість замовлень і сума (це можна залишити)
         List<Order> allOrders = orderRepository.findAll();
         BigDecimal totalMoney = allOrders.stream()
                 .map(Order::getTotalAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        Map<String, Integer> dishCounts = new HashMap<>();
-        for (Order order : allOrders) {
-            if (order.getItems() != null && !order.getItems().isEmpty()) {
-                String[] items = order.getItems().split(",");
 
-                for (String item : items) {
-                    String cleanName = item.trim();
-                    if (!cleanName.isEmpty()) {
-                        dishCounts.put(cleanName, dishCounts.getOrDefault(cleanName, 0) + 1);
-                    }
-                }
-            }
-        }
+        List<PizzaStatProjection> topDishes = pizzaRepository.findPopularPizzasFromDb();
 
-        List<DishStat> topDishes = dishCounts.entrySet().stream()
-                .map(entry -> new DishStat(entry.getKey(), entry.getValue()))
-                .sorted((a, b) -> b.getCount() - a.getCount())
-                .limit(5)
-                .collect(Collectors.toList());
         model.addAttribute("totalOrders", allOrders.size());
         model.addAttribute("totalMoney", totalMoney);
         model.addAttribute("topDishes", topDishes);
 
         return "admin-stats";
+    }
+    @GetMapping("/admin/cars")
+    public String adminCars(Model model) {
+        var cars = carRepository.findAll();
+
+        var drivers = userRepository.findByRole(User.Role.driver);
+
+        model.addAttribute("cars", cars);
+        model.addAttribute("drivers", drivers); // Передаємо список у HTML
+        return "admin-cars";
     }
     @GetMapping("/admin/profile")
     public String adminProfile() {

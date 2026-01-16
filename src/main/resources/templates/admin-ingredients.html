@@ -38,6 +38,34 @@
             border: none; border-radius: 8px; cursor: pointer; font-size: 16px;
         }
         .save-btn:hover { background: #fbbb54; color: #193948; }
+        /* --- Адаптив для кнопки додавання інгредієнта --- */
+
+@media (max-width: 580px) {
+    /* Зменшуємо контейнер заголовка та кнопки */
+    main.conteiner > div:first-child {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    /* Робимо кнопку компактною плашкою */
+    .card-add-new {
+        min-height: 60px !important;
+        padding: 10px 20px !important;
+        flex-direction: row !important; /* Плюс і текст в один рядок */
+        gap: 10px;
+    }
+
+    .card-add-new .plus-icon {
+        font-size: 24px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .card-add-new .add-text {
+        font-size: 14px !important;
+        margin-bottom: 0 !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -58,7 +86,7 @@
             <path class="line middle" d="m 70,50 h -40" />
             <path class="line bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
         </svg>
-        <a style="font-weight: bold; cursor:auto; margin-right:10px;cursor:pointer;" onclick="handleUserClick(event)">Адмін Панель</a>
+        <a style="font-weight: bold; cursor:auto; margin-right:10px;cursor:pointer;text-align:center;" onclick="handleUserClick(event)">Адмін Панель</a>
         <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
     </div>
 
@@ -78,12 +106,17 @@
 </header>
 
 <main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
+    <div style="display:flex; flex-direction:row; gap:10px; justify-content:space-between; align-items:center;width:100%;padding:0 40px">
     <h2 style="margin-top: 30px;">Склад Інгредієнтів</h2>
-
+    <div class="products-grid" style="margin-top: 30px;">
+        <div class="card card-add-new" onclick="openIngredientModal(null)" style="cursor: pointer; min-height: 150px;">
+            <div class="plus-icon">+</div>
+            <span class="add-text">Додати інгредієнт</span>
+        </div>
+    </div></div>
     <table class="orders-table">
         <thead>
         <tr>
-            <th>ID</th>
             <th>Назва</th>
             <th>Залишок</th>
             <th>Од. вим.</th>
@@ -91,7 +124,6 @@
         </thead>
         <tbody>
         <tr th:each="item : ${ingredients}">
-            <td data-label="ID" th:text="${item.id}">1</td>
             <td data-label="Назва" th:text="${item.name}" style="font-weight: bold;">Борошно</td>
             <td data-label="Залишок">
                 <span th:text="${item.currentStock.stripTrailingZeros().toPlainString()}"
@@ -102,15 +134,16 @@
             <td data-label="Одиниця" th:text="${item.unitOfMeasure}">кг</td>
 
             <td data-label="Дії">
+
                 <button class="btn-edit-ing"
-                        th:data-id="${item.id}"
                         th:data-name="${item.name}"
                         th:data-stock="${item.currentStock}"
                         th:data-unit="${item.unitOfMeasure}"
                         onclick="openIngredientModal(this)">
-                    ✏️ Ред.
+                    Редагувати
                 </button>
             </td>
+
         </tr>
         </tbody>
     </table>
@@ -119,12 +152,7 @@
         <h3>Склад порожній</h3>
     </div>
 
-    <div class="products-grid" style="margin-top: 30px;">
-        <div class="card card-add-new" onclick="openIngredientModal(null)" style="cursor: pointer; min-height: 150px;">
-            <div class="plus-icon">+</div>
-            <span class="add-text">Додати інгредієнт</span>
-        </div>
-    </div>
+
 
 </main>
 
@@ -141,7 +169,7 @@
             </div>
             <div class="form-group">
                 <label>Кількість на складі</label>
-                <input type="number" id="ingStock" step="0.001" required placeholder="10.5">
+                <input type="number" id="ingStock" step="any" required placeholder="10.5">
             </div>
             <div class="form-group">
                 <label>Одиниця виміру</label>

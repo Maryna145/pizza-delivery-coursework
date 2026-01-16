@@ -26,7 +26,7 @@
             <path class="line middle" d="m 70,50 h -40" />
             <path class="line bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
         </svg>
-        <span style="font-weight: bold;cursor:auto; margin-right:10px;">Адмін Панель</span>
+        <span style="font-weight: bold;cursor:auto; margin-right:10px; text-align:center;">Адмін Панель</span>
         <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
     </div>
     <div id="mobileMenu">
@@ -57,8 +57,15 @@
             <input type="text" id="license" placeholder="AA 1234 BB" required>
         </div>
         <div class="form-col">
-            <label>Водій (Логін)</label>
-            <input type="text" id="driver" placeholder="Введіть логін водія" required>
+            <label>Водій</label>
+            <select id="driver" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                <option value="">-- Оберіть водія --</option>
+                <option th:each="d : ${drivers}"
+                        th:value="${d.login}"
+                        th:text="${d.name} + ' (' + ${d.login} + ')'">
+                    Іван (ivan_driver)
+                </option>
+            </select>
         </div>
         <button type="submit" class="btn-create-new" style="margin: 0; width: 100%;">+ Додати авто</button>
     </form>

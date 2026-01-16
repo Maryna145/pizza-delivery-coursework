@@ -455,7 +455,6 @@ async function saveRecipeChanges() {
         body: JSON.stringify(recipeData),
       });
 
-      // 👇 ОСЬ ЦЬОГО НЕ ВИСТАЧАЛО:
       if (!response.ok) {
         const errText = await response.text();
         throw new Error("Сервер повернув помилку: " + errText);
