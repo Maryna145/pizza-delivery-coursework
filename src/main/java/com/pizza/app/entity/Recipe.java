@@ -1,5 +1,7 @@
 package com.pizza.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ public class Recipe {
 
     @ManyToOne // Багато рецептів можуть посилатися на одну піцу
     @MapsId("pizzaId") //Зв'язуємо поле pizzaId з цим об'єктом
+    @JsonIgnoreProperties("recipes")
     @JoinColumn(name = "pizza_id")
     private Pizza pizza;
 

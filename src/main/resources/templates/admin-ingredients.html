@@ -4,84 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Склад - Адмін Панель</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
-            rel="stylesheet"
-    />
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
     <style>
-        /* Стилі для модального вікна (якщо їх ще немає в admin.css) */
+        /* Стилі для модального вікна */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 10000;
         }
         .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 400px;
-            position: relative;
+            background: white; padding: 30px; border-radius: 15px; width: 400px; position: relative;
         }
-        .close-btn {
-            position: absolute; top: 10px; right: 15px;
-            font-size: 24px; cursor: pointer;
-        }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
-        }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+
         .save-btn {
             width: 100%; padding: 12px; background: #193948; color: white;
             border: none; border-radius: 8px; cursor: pointer; font-size: 16px;
         }
         .save-btn:hover { background: #fbbb54; color: #193948; }
+
+        /* Стиль для кнопки редагування в таблиці */
+        .btn-edit-ing {
+            background: #fbbb54; color: #193948; border: none;
+            padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold;
+        }
+        .btn-edit-ing:hover { background: #e0a800; }
     </style>
 </head>
 <body>
 
 <header class="header">
-    <div class="logo">
-        <a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a>
-    </div>
-
+    <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
     <nav class="header-navigation">
         <a th:href="@{/admin-crud}">Товари</a>
         <a th:href="@{/admin/orders}">Замовлення</a>
         <a th:href="@{/admin/cars}">Автопарк</a>
         <a th:href="@{/admin/ingredients}" style="font-weight: bold; color: #6a4821;">Склад</a>
+        <a th:href="@{/admin/recipes}">Рецепти</a>
         <a th:href="@{/admin/stats}">Статистика</a>
     </nav>
-
     <div class="header-user-actions">
-        <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
-            <path class="line top" d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
-            <path class="line middle" d="m 70,50 h -40" />
-            <path class="line bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
-        </svg>
-        <a style="font-weight: bold; cursor:auto; margin-right:10px;cursor:pointer;" onclick="handleUserClick(event)">Адмін Панель</a>
-        <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
-    </div>
-
-    <div id="mobileMenu">
-        <div class="mobile-menu-content">
-            <nav class="mobile-header-navigation">
-                <a th:href="@{/admin-crud}">Товари</a>
-                <a th:href="@{/admin/orders}">Замовлення</a>
-                <a th:href="@{/admin/cars}">Автопарк</a>
-                <a th:href="@{/admin/ingredients}" style="font-weight: bold; color: #6a4821;">Склад</a>
-                <a th:href="@{/admin/stats}">Статистика</a>
-                <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
-            </nav>
-        </div>
+        <a style="font-weight: bold; cursor:pointer;" onclick="handleUserClick(event)">Адмін</a>
+        <a href="#" onclick="logout()" style="color: red; margin-left: 15px;">Вихід</a>
     </div>
 </header>
 
@@ -95,21 +62,30 @@
             <th>Назва</th>
             <th>Залишок</th>
             <th>Од. вим.</th>
-        </tr>
+            <th>Дії</th> </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${ingredients}">
             <td data-label="ID" th:text="${item.id}">1</td>
             <td data-label="Назва" th:text="${item.name}" style="font-weight: bold;">Борошно</td>
-
             <td data-label="Залишок">
-                <span th:text="${item.currentStock}"
+                <span th:text="${item.currentStock.stripTrailingZeros().toPlainString()}"
                       th:style="${item.currentStock < 10} ? 'color: red; font-weight: bold;' : ''">
-                    50.000
-                </span>
+    50
+</span>
             </td>
-
             <td data-label="Одиниця" th:text="${item.unitOfMeasure}">кг</td>
+
+            <td data-label="Дії">
+                <button class="btn-edit-ing"
+                        th:data-id="${item.id}"
+                        th:data-name="${item.name}"
+                        th:data-stock="${item.currentStock}"
+                        th:data-unit="${item.unitOfMeasure}"
+                        onclick="openIngredientModal(this)">
+                    ✏️ Ред.
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -119,7 +95,7 @@
     </div>
 
     <div class="products-grid" style="margin-top: 30px;">
-        <div class="card card-add-new" onclick="openIngredientModal()" style="cursor: pointer; min-height: 150px;">
+        <div class="card card-add-new" onclick="openIngredientModal(null)" style="cursor: pointer; min-height: 150px;">
             <div class="plus-icon">+</div>
             <span class="add-text">Додати інгредієнт</span>
         </div>
@@ -130,8 +106,10 @@
 <div id="ingredientModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeIngredientModal()">&times;</span>
-        <h3>Новий інгредієнт</h3>
+        <h3 id="modalTitle">Інгредієнт</h3>
         <form onsubmit="saveIngredient(event)">
+            <input type="hidden" id="ingId">
+
             <div class="form-group">
                 <label>Назва</label>
                 <input type="text" id="ingName" required placeholder="Наприклад: Сир Чедер">
@@ -158,7 +136,23 @@
 <script th:src="@{/js/admin.js}"></script>
 
 <script>
-    function openIngredientModal() {
+    // ✅ Функція відкриття тепер універсальна (і для створення, і для редагування)
+    function openIngredientModal(btn) {
+        if (btn) {
+            // Режим РЕДАГУВАННЯ (заповнюємо поля даними з кнопки)
+            document.getElementById('modalTitle').innerText = 'Редагувати інгредієнт';
+            document.getElementById('ingId').value = btn.getAttribute('data-id');
+            document.getElementById('ingName').value = btn.getAttribute('data-name');
+            document.getElementById('ingStock').value = btn.getAttribute('data-stock');
+            document.getElementById('ingUnit').value = btn.getAttribute('data-unit');
+        } else {
+            // Режим СТВОРЕННЯ (очищаємо поля)
+            document.getElementById('modalTitle').innerText = 'Новий інгредієнт';
+            document.getElementById('ingId').value = '';
+            document.getElementById('ingName').value = '';
+            document.getElementById('ingStock').value = '';
+            document.getElementById('ingUnit').value = 'кг';
+        }
         document.getElementById('ingredientModal').style.display = 'flex';
     }
 
@@ -169,24 +163,29 @@
     async function saveIngredient(event) {
         event.preventDefault();
 
+        const id = document.getElementById('ingId').value;
         const data = {
             name: document.getElementById('ingName').value,
             currentStock: parseFloat(document.getElementById('ingStock').value),
             unitOfMeasure: document.getElementById('ingUnit').value
         };
 
+        // ✅ Визначаємо метод: Якщо є ID -> PUT (оновлення), якщо немає -> POST (створення)
+        const method = id ? 'PUT' : 'POST';
+        const url = id ? ('/api/ingredients/' + id) : '/api/ingredients';
+
         try {
-            const response = await fetch('/api/ingredients', {
-                method: 'POST',
+            const response = await fetch(url, {
+                method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
 
             if (response.ok) {
-                alert('Інгредієнт додано!');
+                alert('Збережено успішно!');
                 location.reload();
             } else {
-                alert('Помилка! Можливо, така назва вже є.');
+                alert('Помилка при збереженні!');
             }
         } catch (e) {
             console.error(e);
