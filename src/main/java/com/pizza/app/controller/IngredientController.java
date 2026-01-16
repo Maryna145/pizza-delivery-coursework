@@ -24,4 +24,16 @@ public class IngredientController {
     public Ingredient addIngredient(@RequestBody Ingredient ingredient) {
         return ingredientRepository.save(ingredient);
     }
+    @PutMapping("/{id}")
+    public Ingredient updateIngredient(@PathVariable Long id, @RequestBody Ingredient ingredient) {
+        // логіка оновлення
+        return ingredientRepository.findById(id)
+                .map(existing -> {
+                    existing.setName(ingredient.getName());
+                    existing.setCurrentStock(ingredient.getCurrentStock());
+                    existing.setUnitOfMeasure(ingredient.getUnitOfMeasure());
+                    return ingredientRepository.save(existing);
+                })
+                .orElseThrow(() -> new RuntimeException("Ingredient not found"));
+    }
 }

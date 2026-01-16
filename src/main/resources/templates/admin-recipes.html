@@ -52,10 +52,10 @@
     <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
     <nav class="header-navigation">
         <a th:href="@{/admin-crud}">Товари</a>
-        <a th:href="@{/admin/recipes}" style="font-weight: bold; color: #6a4821;">Рецепти</a>
         <a th:href="@{/admin/orders}">Замовлення</a>
         <a th:href="@{/admin/cars}">Автопарк</a>
         <a th:href="@{/admin/ingredients}">Склад</a>
+        <a th:href="@{/admin/recipes}" style="font-weight: bold; color: #6a4821;">Рецепти</a>
         <a th:href="@{/admin/stats}">Статистика</a>
     </nav>
     <div class="header-user-actions">
@@ -79,7 +79,7 @@
 
                 <span class="ing-tag" th:each="rec : ${product.recipes}"
                       th:if="${rec.ingredient != null}"
-                      th:text="${rec.ingredient.name} + ': ' + ${rec.amount} + ' ' + (${rec.ingredient.unitOfMeasure} ?: '')">
+                      th:text="${rec.ingredient.name} + ': ' + ${rec.amount.stripTrailingZeros().toPlainString()} + ' ' + (${rec.ingredient.unitOfMeasure} ?: '')"
                 </span>
             </div>
         </div>
@@ -221,7 +221,7 @@
             container.innerHTML += `
                 <div class="recipe-editor-row">
                     <span style="flex: 2; font-weight: bold;">${item.name}</span>
-                    <span style="flex: 1; text-align: center;">${item.amount} ${item.unit || ''}</span>
+                    <span style="flex: 1; text-align: center;">${parseFloat(item.amount)} ${item.unit || ''}</span>
                     <button onclick="removeFromRecipe(${index})" style="background: #ffdddd; color: #d9534f; border: 1px solid #d9534f; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🗑️</button>
                 </div>
             `;
@@ -233,28 +233,34 @@
         renderEditorList();
     }
 
-    // 4. ЗБЕРЕЖЕННЯ
     async function saveRecipeChanges() {
         const productId = document.getElementById('currentProductId').value;
         try {
             for (const item of currentRecipe) {
                 const recipeData = {
-                    id: { pizzaId: productId, ingredientId: item.ingredientId },
+                    // Важливо: ми передаємо тільки IDs для зв'язку
                     pizza: { id: productId },
                     ingredient: { id: item.ingredientId },
                     amount: item.amount
                 };
-                await fetch('/api/recipes', {
+
+                const response = await fetch('/api/recipes', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(recipeData)
                 });
+
+                // 👇 ОСЬ ЦЬОГО НЕ ВИСТАЧАЛО:
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error('Сервер повернув помилку: ' + errText);
+                }
             }
-            alert('Рецепт збережено!');
+            alert('Рецепт успішно збережено в базі!');
             location.reload();
         } catch (e) {
             console.error(e);
-            alert('Помилка збереження');
+            alert('Помилка збереження: ' + e.message);
         }
     }
 
