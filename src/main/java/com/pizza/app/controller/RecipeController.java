@@ -1,6 +1,7 @@
 package com.pizza.app.controller;
 
 import com.pizza.app.entity.Recipe;
+import com.pizza.app.entity.RecipeId;
 import com.pizza.app.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,13 @@ public class RecipeController {
 
     @PostMapping
     public Recipe addIngredientToPizza(@RequestBody Recipe recipe) {
+        // ЯВНО встановлюємо ID, щоб уникнути помилок "Identifier must not be null"
+        if (recipe.getId() == null) {
+            recipe.setId(new RecipeId());
+        }
+        recipe.getId().setPizzaId(recipe.getPizza().getId());
+        recipe.getId().setIngredientId(recipe.getIngredient().getId());
+
         return recipeRepository.save(recipe);
     }
 }

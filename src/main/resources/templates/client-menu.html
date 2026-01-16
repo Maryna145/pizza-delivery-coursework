@@ -116,11 +116,18 @@
             <h3 class="card-title" th:text="${pizza.name}">Назва піци</h3>
 
             <div class="tags">
-            <span class="tag"
-                  th:each="ing : ${#strings.arraySplit(pizza.description, ',')}"
-                  th:text="${ing.trim()}">
-               Інгредієнт
-            </span>
+                <span class="tag"
+                      th:each="ingName : ${pizza.ingredientNames}"
+                      th:text="${ingName}">
+                   Сир Моцарела
+                </span>
+
+                <span class="tag"
+                      th:if="${#lists.isEmpty(pizza.ingredientNames) && pizza.description != null}"
+                      th:each="descTag : ${#strings.arraySplit(pizza.description, ',')}"
+                      th:text="${descTag.trim()}">
+                   Старий опис
+                </span>
             </div>
 
             <div class="card-footer">

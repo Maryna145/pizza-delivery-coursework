@@ -7,6 +7,46 @@
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/auth.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+    <style>
+        /* Стилі для списку інгредієнтів */
+        .ingredient-selector {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .ing-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .added-list {
+            list-style: none;
+            padding: 0;
+        }
+        .added-item {
+            background: white;
+            border: 1px solid #eee;
+            padding: 8px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+        }
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .btn-add-ing {
+            background: #28a745; color: white; border: none; border-radius: 5px;
+        }
+        .btn-remove {
+            background: #dc3545; color: white; border: none; border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
 
@@ -14,17 +54,14 @@
     <div class="logo">
         <a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a>
     </div>
-    <nav class="header-navigation">
-
-    </nav>
     <div class="header-user-actions">
         <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Назад до списку</a>
     </div>
-
 </header>
 
 <main>
-    <div class="auth-container" style="max-width: 600px;"> <h2 style="margin-bottom: 30px;">Додати нову страву</h2>
+    <div class="auth-container" style="max-width: 700px;">
+        <h2 style="margin-bottom: 30px;">Додати нову страву</h2>
 
         <form onsubmit="handleCreateProduct(event)">
 
@@ -35,31 +72,49 @@
 
             <div class="form-group">
                 <label>Категорія</label>
-                <select id="category" required>
+                <select id="category" required onchange="toggleIngredients(this.value)">
                     <option value="" disabled selected>Оберіть категорію...</option>
-                    <option value="pizza">Піца</option>
-                    <option value="salad">Салати</option>
-                    <option value="drink">Напої</option>
-                    <option value="dessert">Десерти</option>
+                    <option value="Піца">Піца</option> <option value="Салати">Салати</option>
+                    <option value="Напої">Напої</option>
+                    <option value="Десерти">Десерти</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Ціна (грн)</label>
-                <input type="number" id="price" required placeholder="0" min="1">
+                <input type="number" id="price" required placeholder="0" min="1" step="0.01">
             </div>
 
             <div class="form-group">
-                <label>Опис (інгредієнти через кому)</label>
-                <textarea id="description" rows="4" required placeholder="Листя салату, курка, пармезан..."></textarea>
+                <label>Опис (або історія страви)</label>
+                <textarea id="description" rows="3" placeholder="Класична/гостра..."></textarea>
+            </div>
+
+            <div id="recipe-block" class="ingredient-selector" style="display:none;">
+                <label style="font-weight: bold; display:block; margin-bottom:10px;">Склад (Рецепт)</label>
+
+                <div class="ing-row">
+                    <select id="ing-select" style="flex: 2;">
+                        <option value="">-- Оберіть продукт --</option>
+                        <option th:each="ing : ${ingredients}"
+                                th:value="${ing.id}"
+                                th:data-name="${ing.name}"
+                                th:data-unit="${ing.unitOfMeasure}"
+                                th:text="${ing.name} + ' (' + ${ing.unitOfMeasure} + ')'">
+                            Сир (кг)
+                        </option>
+                    </select>
+
+                    <input type="number" id="ing-amount" placeholder="К-сть" step="0.001" style="flex: 1;">
+                    <button type="button" class="btn-small btn-add-ing" onclick="addIngredient()">+</button>
+                </div>
+
+                <ul id="added-ingredients" class="added-list"></ul>
             </div>
 
             <div class="form-group">
                 <label>Посилання на фото (URL)</label>
-                <input type="url" id="imageUrl" required placeholder="https://...">
-                <small style="color: #888; display: block; margin-top: 5px;">
-                    Скопіюйте посилання на картинку з інтернету
-                </small>
+                <input type="url" id="imageUrl" placeholder="https://...">
             </div>
 
             <button type="submit" class="btn-auth">Зберегти страву</button>
@@ -67,6 +122,126 @@
 
     </div>
 </main>
+
+<script th:src="@{/js/client.js}"></script>
 <script th:src="@{/js/admin.js}"></script>
+
+<script>
+    // Масив для зберігання обраних інгредієнтів перед відправкою
+    let recipeList = [];
+
+    // Показуємо блок рецепту тільки якщо обрана "Піца"
+    function toggleIngredients(category) {
+        const block = document.getElementById('recipe-block');
+        if (category === 'Піца') {
+            block.style.display = 'block';
+        } else {
+            block.style.display = 'none';
+            recipeList = []; // Очищаємо, якщо передумали
+            renderIngredients();
+        }
+    }
+
+    // Додавання у візуальний список
+    function addIngredient() {
+        const select = document.getElementById('ing-select');
+        const amountInput = document.getElementById('ing-amount');
+
+        const id = select.value;
+        const amount = parseFloat(amountInput.value);
+
+        if (!id || !amount) {
+            alert("Оберіть продукт і вкажіть кількість!");
+            return;
+        }
+
+        const option = select.options[select.selectedIndex];
+        const name = option.getAttribute('data-name');
+        const unit = option.getAttribute('data-unit');
+
+        // Додаємо в масив
+        recipeList.push({ ingredientId: id, amount: amount, name: name, unit: unit });
+
+        // Очищаємо поля
+        select.value = "";
+        amountInput.value = "";
+
+        renderIngredients();
+    }
+
+    // Видалення зі списку
+    function removeIngredient(index) {
+        recipeList.splice(index, 1);
+        renderIngredients();
+    }
+
+    // Малювання списку
+    function renderIngredients() {
+        const ul = document.getElementById('added-ingredients');
+        ul.innerHTML = '';
+
+        recipeList.forEach((item, index) => {
+            ul.innerHTML += `
+                <li class="added-item">
+                    <span>${item.name}: <b>${item.amount} ${item.unit}</b></span>
+                    <button type="button" class="btn-small btn-remove" onclick="removeIngredient(${index})">✕</button>
+                </li>
+            `;
+        });
+    }
+
+    // ГОЛОВНА ФУНКЦІЯ ЗБЕРЕЖЕННЯ
+    async function handleCreateProduct(event) {
+        event.preventDefault();
+
+        // 1. Створюємо об'єкт Піци
+        const pizzaData = {
+            name: document.getElementById('name').value,
+            category: document.getElementById('category').value,
+            price: parseFloat(document.getElementById('price').value),
+            description: document.getElementById('description').value,
+            imageUrl: document.getElementById('imageUrl').value
+        };
+
+        try {
+            // А. Відправляємо запит на створення ПІЦИ
+            const pizzaResponse = await fetch('/api/pizzas', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(pizzaData)
+            });
+
+            if (!pizzaResponse.ok) throw new Error('Помилка створення страви');
+
+            const createdPizza = await pizzaResponse.json();
+            const pizzaId = createdPizza.id;
+
+            // Б. Якщо це піца і є інгредієнти -> створюємо РЕЦЕПТИ
+            if (recipeList.length > 0) {
+                for (const item of recipeList) {
+                    const recipeData = {
+                        pizza: { id: pizzaId },       // Прив'язка до нової піци
+                        ingredient: { id: item.ingredientId }, // Прив'язка до інгредієнта
+                        amount: item.amount
+                    };
+
+                    await fetch('/api/recipes', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(recipeData)
+                    });
+                }
+            }
+
+            alert('Страву успішно створено!');
+            window.location.href = '/admin-crud';
+
+        } catch (e) {
+            console.error(e);
+            alert('Сталася помилка: ' + e.message);
+        }
+    }
+</script>
+
 </body>
 </html>

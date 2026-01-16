@@ -148,10 +148,10 @@ public class OrderController {
             order.setStatus(newStatus);
 
             // АВТОМАТИКА: Якщо замовлення "Доставлено", звільняємо машину
-            if (newStatus == Order.OrderStatus.delivered && order.getCar() != null) {
-                Car car = order.getCar();
-                car.setStatus(Car.CarStatus.free); // Робимо вільною
-                carRepository.save(car);
+            if (Order.OrderStatus.valueOf(status) == Order.OrderStatus.delivered) {
+                // Замість простого save, викликаємо процедуру бази даних!
+                orderRepository.callFinishOrder(id);
+                return ResponseEntity.ok("Замовлення завершено процедурою БД!");
             }
 
             orderRepository.save(order);

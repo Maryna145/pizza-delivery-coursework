@@ -3,6 +3,9 @@ package com.pizza.app.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "pizzas")
@@ -29,5 +32,13 @@ public class Pizza {
 
     @Column(name = "pizza_availability")
     private Boolean availability = true;
+    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Recipe> recipes;
+    public List<String> getIngredientNames() {
+        if (recipes == null) return new ArrayList<>();
 
+        return recipes.stream()
+                .map(recipe -> recipe.getIngredient().getName()) // Беремо ім'я інгредієнта
+                .collect(Collectors.toList());
+    }
 }
