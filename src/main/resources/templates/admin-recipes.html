@@ -17,7 +17,6 @@
         .ingredients-preview { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
         .ing-tag { background: #fff3cd; padding: 4px 10px; border-radius: 20px; font-size: 12px; color: #856404; }
 
-        /* Кнопка редагування */
         .btn-recipe {
             background: #fbbb54; color: #193948; padding: 10px 20px;
             border-radius: 8px; text-decoration: none; font-weight: bold;
@@ -25,14 +24,26 @@
         }
         .btn-recipe:hover { background: #e0a800; transform: scale(1.05); }
 
-        /* Модальне вікно */
+        /* МОДАЛЬНЕ ВІКНО */
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 25px; border-radius: 15px; width: 600px; position: relative; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 0; border-radius: 15px; width: 600px; position: relative; overflow: hidden;}
+        .close { color: white; position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10;}
 
-        /* Список в модалці */
+        /* Шапка модалки (Інформація про страву) */
+        .modal-header {
+            background: #193948; color: white; padding: 20px; display: flex; gap: 20px; align-items: center;
+        }
+        .modal-dish-img {
+            width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid white; background: white;
+        }
+        .modal-dish-info h2 { margin: 0; font-size: 22px; }
+        .modal-dish-info p { margin: 5px 0 0; opacity: 0.8; font-size: 14px; }
+
+        /* Тіло модалки */
+        .modal-body { padding: 20px; }
+
         .recipe-editor-row { display: flex; gap: 10px; margin-bottom: 8px; padding: 10px; background: #f8f9fa; border-radius: 8px; align-items: center; }
-        .ing-list { max-height: 300px; overflow-y: auto; margin-top: 20px; border: 1px solid #eee; padding: 10px; border-radius: 8px;}
+        .ing-list { max-height: 250px; overflow-y: auto; margin-top: 15px; border: 1px solid #eee; padding: 10px; border-radius: 8px;}
     </style>
 </head>
 <body>
@@ -54,8 +65,7 @@
 </header>
 
 <main class="conteiner" style="display: block;">
-    <h2 style="margin: 30px 0;">📚 Книга Рецептів (Технологічні карти)</h2>
-    <p style="color: #666; margin-bottom: 20px;">Тут ви можете призначити інгредієнти для вже створених страв.</p>
+    <h2 style="margin: 30px 0;">📚 Книга Рецептів</h2>
 
     <div th:each="product : ${products}" class="recipe-card">
         <div class="recipe-info">
@@ -77,8 +87,11 @@
         <button class="btn-recipe"
                 th:data-id="${product.id}"
                 th:data-name="${product.name}"
-                onclick="openRecipeEditor(this.getAttribute('data-id'), this.getAttribute('data-name'))">
-            📝 Редагувати склад
+                th:data-price="${product.price}"
+                th:data-img="${product.imageUrl}"
+                th:data-cat="${product.category}"
+                onclick="openRecipeEditor(this)">
+            📝 Редагувати
         </button>
     </div>
 </main>
@@ -87,32 +100,38 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
 
-        <h3>Технологічна карта: <span id="modalDishName" style="color: #193948;">Назва</span></h3>
-        <input type="hidden" id="currentProductId">
-
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
-
-        <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 10px;">
-            <label style="font-weight: bold; font-size: 14px;">Додати зі складу:</label>
-            <div style="display: flex; gap: 10px; margin-top: 5px;">
-                <select id="newIngSelect" style="flex: 2; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-                    <option value="">-- Оберіть інгредієнт --</option>
-                    <option th:each="ing : ${ingredients}"
-                            th:value="${ing.id}"
-                            th:data-unit="${ing.unitOfMeasure}"
-                            th:text="${ing.name} + ' (' + ${ing.unitOfMeasure} + ')'">
-                    </option>
-                </select>
-                <input type="number" id="newIngAmount" step="0.001" placeholder="Кількість" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-                <button onclick="addIngredientToRecipe()" style="background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 50px;">+</button>
-            </div>
+        <div class="modal-header">
+            <img id="modalImg" src="" alt="Страва" class="modal-dish-img" onerror="this.src='/images/Logo.svg'"> <div class="modal-dish-info">
+            <h2 id="modalDishName">Назва страви</h2>
+            <p>Категорія: <span id="modalCat">Піца</span> | Ціна: <span id="modalPrice">0</span> грн</p>
+        </div>
         </div>
 
-        <h4 style="margin-top: 20px;">Склад страви:</h4>
-        <div id="modalIngredientsList" class="ing-list"></div>
+        <div class="modal-body">
+            <input type="hidden" id="currentProductId">
 
-        <div style="margin-top: 20px; text-align: right;">
-            <button onclick="saveRecipeChanges()" class="btn-recipe" style="width: 100%;">💾 Зберегти рецепт</button>
+            <div style="background: #e3f2fd; padding: 15px; border-radius: 10px;">
+                <label style="font-weight: bold; font-size: 14px; margin-bottom: 5px; display:block;">Додати інгредієнт:</label>
+                <div style="display: flex; gap: 10px;">
+                    <select id="newIngSelect" style="flex: 2; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+                        <option value="">-- Оберіть зі складу --</option>
+                        <option th:each="ing : ${ingredients}"
+                                th:value="${ing.id}"
+                                th:data-unit="${ing.unitOfMeasure}"
+                                th:text="${ing.name} + ' (' + ${ing.unitOfMeasure} + ')'">
+                        </option>
+                    </select>
+                    <input type="number" id="newIngAmount" step="0.001" placeholder="К-сть" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+                    <button onclick="addIngredientToRecipe()" style="background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 50px; font-size: 20px;">+</button>
+                </div>
+            </div>
+
+            <h4 style="margin-top: 20px; color: #193948;">Поточний склад:</h4>
+            <div id="modalIngredientsList" class="ing-list"></div>
+
+            <div style="margin-top: 20px; text-align: right;">
+                <button onclick="saveRecipeChanges()" class="btn-recipe" style="width: 100%;">💾 Зберегти зміни</button>
+            </div>
         </div>
     </div>
 </div>
@@ -123,15 +142,27 @@
 <script>
     let currentRecipe = [];
 
-    // 1. ВІДКРИТТЯ МОДАЛКИ
-    async function openRecipeEditor(productId, productName) {
-        document.getElementById('modalDishName').innerText = productName;
-        document.getElementById('currentProductId').value = productId;
+    // 1. ВІДКРИТТЯ (Отримуємо кнопку як аргумент)
+    async function openRecipeEditor(btn) {
+        // Читаємо дані з атрибутів кнопки
+        const id = btn.getAttribute('data-id');
+        const name = btn.getAttribute('data-name');
+        const price = btn.getAttribute('data-price');
+        const cat = btn.getAttribute('data-cat');
+        const img = btn.getAttribute('data-img');
+
+        // Заповнюємо шапку модалки
+        document.getElementById('currentProductId').value = id;
+        document.getElementById('modalDishName').innerText = name;
+        document.getElementById('modalPrice').innerText = price;
+        document.getElementById('modalCat').innerText = cat;
+        document.getElementById('modalImg').src = img || '/images/Logo.svg'; // Якщо картинки нема
+
         document.getElementById('recipeModal').style.display = 'block';
 
-        // Завантажуємо існуючий рецепт
+        // Завантажуємо рецепт
         try {
-            const response = await fetch('/api/recipes/pizza/' + productId);
+            const response = await fetch('/api/recipes/pizza/' + id);
             if (response.ok) {
                 const data = await response.json();
                 currentRecipe = data.map(item => ({
@@ -151,20 +182,20 @@
         }
     }
 
-    // 2. ДОДАВАННЯ В СПИСОК (Локально)
+    // 2. ДОДАВАННЯ (Локально)
     function addIngredientToRecipe() {
         const select = document.getElementById('newIngSelect');
         const amountInput = document.getElementById('newIngAmount');
         const id = select.value;
         const amount = parseFloat(amountInput.value);
 
-        if(!id || !amount) { alert("Оберіть інгредієнт і вкажіть кількість!"); return; }
+        if(!id || !amount) { alert("Оберіть інгредієнт і кількість!"); return; }
 
         const option = select.options[select.selectedIndex];
         const name = option.text.split(' (')[0];
         const unit = option.getAttribute('data-unit');
 
-        // Оновлюємо кількість, якщо інгредієнт вже є
+        // Оновлення існуючого
         const existing = currentRecipe.find(r => r.ingredientId == id);
         if(existing) {
             existing.amount = amount;
@@ -176,13 +207,13 @@
         select.value = ""; amountInput.value = "";
     }
 
-    // 3. МАЛЮВАННЯ СПИСКУ
+    // 3. РЕНДЕР
     function renderEditorList() {
         const container = document.getElementById('modalIngredientsList');
         container.innerHTML = '';
 
         if(currentRecipe.length === 0) {
-            container.innerHTML = '<p style="color:gray; text-align:center;">Ця страва поки що не має інгредієнтів.</p>';
+            container.innerHTML = '<p style="color:gray; text-align:center; padding: 20px;">Список пустий. Додайте щось зверху ☝️</p>';
             return;
         }
 
@@ -191,7 +222,7 @@
                 <div class="recipe-editor-row">
                     <span style="flex: 2; font-weight: bold;">${item.name}</span>
                     <span style="flex: 1; text-align: center;">${item.amount} ${item.unit || ''}</span>
-                    <button onclick="removeFromRecipe(${index})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">✕</button>
+                    <button onclick="removeFromRecipe(${index})" style="background: #ffdddd; color: #d9534f; border: 1px solid #d9534f; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🗑️</button>
                 </div>
             `;
         });
@@ -202,12 +233,10 @@
         renderEditorList();
     }
 
-    // 4. ЗБЕРЕЖЕННЯ (Тільки рецепти)
+    // 4. ЗБЕРЕЖЕННЯ
     async function saveRecipeChanges() {
         const productId = document.getElementById('currentProductId').value;
         try {
-            // Тут ми зберігаємо тільки зв'язки Піца-Інгредієнт.
-            // Саму піцу (ціну, назву) ми не чіпаємо.
             for (const item of currentRecipe) {
                 const recipeData = {
                     id: { pizzaId: productId, ingredientId: item.ingredientId },
