@@ -73,22 +73,22 @@
 
 <div class="filters conteiner">
     <label class="filter-item">
-        <input type="checkbox" checked />
+        <input type="checkbox" value="pizza" checked onchange="filterMenu()" />
         <span>Піца</span>
     </label>
 
     <label class="filter-item">
-        <input type="checkbox" />
+        <input type="checkbox" value="salad" onchange="filterMenu()" />
         <span>Салати</span>
     </label>
 
     <label class="filter-item">
-        <input type="checkbox" />
+        <input type="checkbox" value="drink" onchange="filterMenu()" />
         <span>Напої</span>
     </label>
 
     <label class="filter-item">
-        <input type="checkbox" />
+        <input type="checkbox" value="dessert" onchange="filterMenu()" />
         <span>Десерти</span>
     </label>
 </div>
@@ -96,7 +96,8 @@
 
 <main class="products-grid conteiner">
 
-    <article class="card" th:each="pizza : ${pizzaList}">
+    <article class="card" th:each="pizza : ${pizzaList}"
+             th:data-category="${pizza.category}">
         <div class="image-container">
             <img
                     th:src="${pizza.imageUrl}"
@@ -108,8 +109,8 @@
                     th:data-id="${pizza.id}"
                     th:data-name="${pizza.name}"
                     th:data-price="${pizza.price}"
-                    th:data-img="${pizza.imageUrl}">
-                +
+                    th:data-img="${pizza.imageUrl}"
+                    th:data-category="${pizza.category}"> +
             </button>
         </div>
         <div class="card-body">
@@ -131,7 +132,16 @@
             </div>
 
             <div class="card-footer">
-                <span class="weight">30см / 400 г</span>
+                 <span class="weight"
+                       th:if="${pizza.category == 'pizza' or pizza.category == 'Піца' or pizza.category == null}">
+                  30см / 400 г
+                  </span>
+                <span class="weight"
+                      th:if="${pizza.category == 'salad' or pizza.category == 'Салати'}">300 г </span>
+                <span class="weight"
+                      th:if="${pizza.category == 'drink' or pizza.category == 'Напої'}">0.5 л </span>
+                <span class="weight"
+                      th:if="${pizza.category == 'dessert' or pizza.category == 'Десерти'}">150 г </span>
                 <span class="price" th:text="${pizza.price} + ' ₴'">0 ₴</span>
             </div>
         </div>
