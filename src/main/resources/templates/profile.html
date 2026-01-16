@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/auth.css}" />
     <link rel="stylesheet" th:href="@{/styles/profile.css}" />
+
 </head>
 <body>
 
@@ -14,10 +15,17 @@
     <div class="logo"><a th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a></div>
     <nav class="header-navigation">
         <a th:href="@{/}">Меню</a>
-        <a th:href="@{/cart}">Кошик</a>
+        <a th:href="@{/promo}">Акції</a>
+        <a th:href="@{/delivery}">Доставка</a>
+        <a th:href="@{/about}">Про нас</a>
 
     </nav>
     <div class="header-user-actions">
+        <a href="/cart" id="cart-wrapper" style="position: relative; cursor: pointer; text-decoration: none; color: inherit; display: flex; align-items: center; margin-right:10px;">
+            <svg class="header-cart" width="36" height="36">
+                <use th:href="@{/images/icons.svg#cart}"></use>
+            </svg>
+        </a>
         <span style="font-weight: bold;">Особистий кабінет</span>
         <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
             <path
@@ -37,7 +45,9 @@
 
             <nav class="mobile-header-navigation">
                 <a th:href="@{/}">Меню</a>
-                <a th:href="@{/cart}">Кошик</a>
+                <a th:href="@{/promo}">Акції</a>
+                <a th:href="@{/delivery}">Доставка</a>
+                <a th:href="@{/about}">Про нас</a>
             </nav>
 
             <a href="#" class="mobile-user user-icon" onclick="handleUserClick(event)">

@@ -6,6 +6,7 @@
     <title>Профіль Адміністратора</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin-profile.css}" />
 </head>
 <body>
 
@@ -25,7 +26,7 @@
             <path class="line middle" d="m 70,50 h -40" />
             <path class="line bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
         </svg>
-        <span style="font-weight: bold; margin-right: 10px;text-align:center;">Адмін Панель</span>
+        <span style="font-weight: bold; margin-right: 10px;text-align:center;"onclick="handleUserClick(event)">Адмін Панель</span>
         <a href="#" onclick="logout()" style="color: red; ">Вихід</a>
     </div>
 
