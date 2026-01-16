@@ -20,52 +20,28 @@
         <a th:href="@{/admin/stats}" style="font-weight: bold; color: #6a4821;">Статистика</a>
     </nav>
     <div class="header-user-actions">
-        <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
-            <path
-                    class="line top"
-                    d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
-            <path
-                    class="line middle"
-                    d="m 70,50 h -40" />
-            <path
-                    class="line bottom"
-                    d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
-        </svg>
-        <span style="font-weight: bold;margin-right:10px;">Адмін Панель</span>
+        <a style="font-weight: bold; cursor:auto; margin-right:10px;">Адмін Панель</a>
         <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
-
-
-    </div>
-    <div id="mobileMenu">
-        <div class="mobile-menu-content">
-            <nav class="mobile-header-navigation">
-             <a th:href="@{/admin-crud}" style="color: #193948;">Товари</a>
-             <a th:href="@{/admin/orders}" style="color: #193948;">Замовлення</a>
-              <a th:href="@{/admin/cars}" style="color: #193948;">Автопарк</a>
-             <a th:href="@{/admin/stats}" style="font-weight: bold; color: #6a4821;">Статистика</a>
-                <a th:href="@{/admin/ingredients}">Склад</a>
-                <a th:href="@{/admin/recipes}">Рецепти</a>
-                <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
-            </nav>
-        </div>
     </div>
 </header>
 
 <main class="conteiner" style="display:flex; flex-direction:column; justify-content:start;">
-    <h2> Звіти піцерії</h2>
+    <h2>📊 Звіти піцерії</h2>
 
     <div class="stats-grid">
 
         <div class="stat-card">
-            <h3 style="margin-bottom: 20px;">Топ популярних страв</h3>
+            <h3 style="margin-bottom: 20px;">🔥 Топ популярних страв</h3>
 
             <ul class="top-list">
                 <li class="top-item" th:each="dish, iterStat : ${topDishes}">
                     <div style="display: flex; align-items: center;">
                         <span class="top-rank" th:text="${iterStat.count}">1</span>
-                        <span th:text="${dish.name}">Піца Пепероні</span>
+
+                        <span th:text="${dish.pizzaName}">Піца Пепероні</span>
                     </div>
-                    <strong th:text="${dish.count} + ' шт.'">150 шт.</strong>
+
+                    <strong th:text="${dish.totalSold} + ' шт.'">150 шт.</strong>
                 </li>
 
                 <li th:if="${#lists.isEmpty(topDishes)}" style="text-align: center; color: #888; padding: 20px;">
@@ -75,7 +51,7 @@
         </div>
 
         <div class="stat-card">
-            <h3 style="margin-bottom: 20px;">Загальні Фінанси</h3>
+            <h3 style="margin-bottom: 20px;">💰 Загальні Фінанси</h3>
 
             <div style="margin-bottom: 30px;">
                 <div class="stat-number" th:text="${totalMoney} + ' ₴'">0 ₴</div>

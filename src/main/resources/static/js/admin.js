@@ -331,3 +331,143 @@ async function assignCar(selectElement, orderId) {
         selectElement.disabled = false;
     }
 }
+let currentRecipe = [];
+
+// 1. ВІДКРИТТЯ (Отримуємо кнопку як аргумент)
+async function openRecipeEditor(btn) {
+  // Читаємо дані з атрибутів кнопки
+  const id = btn.getAttribute("data-id");
+  const name = btn.getAttribute("data-name");
+  const price = btn.getAttribute("data-price");
+  const cat = btn.getAttribute("data-cat");
+  const img = btn.getAttribute("data-img");
+
+  // Заповнюємо шапку модалки
+  document.getElementById("currentProductId").value = id;
+  document.getElementById("modalDishName").innerText = name;
+  document.getElementById("modalPrice").innerText = price;
+  document.getElementById("modalCat").innerText = cat;
+  document.getElementById("modalImg").src = img || "/images/Logo.svg"; // Якщо картинки нема
+
+  document.getElementById("recipeModal").style.display = "block";
+
+  // Завантажуємо рецепт
+  try {
+    const response = await fetch("/api/recipes/pizza/" + id);
+    if (response.ok) {
+      const data = await response.json();
+      currentRecipe = data.map((item) => ({
+        ingredientId: item.ingredient.id,
+        name: item.ingredient.name,
+        unit: item.ingredient.unitOfMeasure,
+        amount: item.amount,
+      }));
+    } else {
+      currentRecipe = [];
+    }
+    renderEditorList();
+  } catch (e) {
+    console.error(e);
+    currentRecipe = [];
+    renderEditorList();
+  }
+}
+
+// 2. ДОДАВАННЯ (Локально)
+function addIngredientToRecipe() {
+  const select = document.getElementById("newIngSelect");
+  const amountInput = document.getElementById("newIngAmount");
+  const id = select.value;
+  const amount = parseFloat(amountInput.value);
+
+  if (!id || !amount) {
+    alert("Оберіть інгредієнт і кількість!");
+    return;
+  }
+
+  const option = select.options[select.selectedIndex];
+  const name = option.text.split(" (")[0];
+  const unit = option.getAttribute("data-unit");
+
+  // Оновлення існуючого
+  const existing = currentRecipe.find((r) => r.ingredientId == id);
+  if (existing) {
+    existing.amount = amount;
+  } else {
+    currentRecipe.push({
+      ingredientId: id,
+      name: name,
+      unit: unit,
+      amount: amount,
+    });
+  }
+
+  renderEditorList();
+  select.value = "";
+  amountInput.value = "";
+}
+
+// 3. РЕНДЕР
+function renderEditorList() {
+  const container = document.getElementById("modalIngredientsList");
+  container.innerHTML = "";
+
+  if (currentRecipe.length === 0) {
+    container.innerHTML =
+      '<p style="color:gray; text-align:center; padding: 20px;">Список пустий. Додайте щось зверху ☝️</p>';
+    return;
+  }
+
+  currentRecipe.forEach((item, index) => {
+    container.innerHTML += `
+                <div class="recipe-editor-row">
+                    <span style="flex: 2; font-weight: bold;">${
+                      item.name
+                    }</span>
+                    <span style="flex: 1; text-align: center;">${parseFloat(
+                      item.amount
+                    )} ${item.unit || ""}</span>
+                    <button onclick="removeFromRecipe(${index})" style="background: #ffdddd; color: #d9534f; border: 1px solid #d9534f; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🗑️</button>
+                </div>
+            `;
+  });
+}
+
+function removeFromRecipe(index) {
+  currentRecipe.splice(index, 1);
+  renderEditorList();
+}
+
+async function saveRecipeChanges() {
+  const productId = document.getElementById("currentProductId").value;
+  try {
+    for (const item of currentRecipe) {
+      const recipeData = {
+        // Важливо: ми передаємо тільки IDs для зв'язку
+        pizza: { id: productId },
+        ingredient: { id: item.ingredientId },
+        amount: item.amount,
+      };
+
+      const response = await fetch("/api/recipes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(recipeData),
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error("Сервер повернув помилку: " + errText);
+      }
+    }
+    alert("Рецепт успішно збережено в базі!");
+    location.reload();
+  } catch (e) {
+    console.error(e);
+    alert("Помилка збереження: " + e.message);
+  }
+}
+
+function closeModal() {
+  document.getElementById("recipeModal").style.display = "none";
+}

@@ -45,7 +45,7 @@ public class Order {
     private BigDecimal totalAmount = BigDecimal.ZERO;
 
     // Тут автоматично працює OrderStatusConverter
-    @Column(name = "order_status", nullable = false)
+    @Column(name = "order_status", nullable = true)
     private OrderStatus status;
     @Column(name = "order_items", length = 2000)
     private String items;

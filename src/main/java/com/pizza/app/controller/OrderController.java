@@ -48,17 +48,14 @@ public class OrderController {
             order.setDeliveryTime(time);
         }
 
-        if (request.getClientId() != null) {
-            User client = userRepository.findById(request.getClientId()).orElse(null);
-            order.setClient(client);
-            if (client != null) {
-                order.setGuestName(request.getFullName());
-                order.setGuestPhone(request.getPhone());
-            }
-        } else {
-            order.setGuestName(request.getFullName());
-            order.setGuestPhone(request.getPhone());
+        if (request.getClientId() != null && request.getClientId() > 0) {
+            userRepository.findById(request.getClientId()).ifPresent(order::setClient);
         }
+
+// Ім'я та телефон встановлюємо завжди (або з профілю, або з форми гостя)
+        order.setGuestName(request.getFullName());
+        order.setGuestPhone(request.getPhone());
+
 
         String fullAddress = String.format("м. %s, вул. %s, буд. %s, кв. %s",
                 request.getCity(), request.getStreet(), request.getHouse(), request.getApartment());

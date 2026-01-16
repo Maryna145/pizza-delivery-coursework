@@ -14,10 +14,9 @@ import java.util.List;
 public class IngredientController {
 
     private final IngredientRepository ingredientRepository;
-
     @GetMapping
     public List<Ingredient> getAllIngredients() {
-        return ingredientRepository.findAll();
+        return ingredientRepository.findAllByOrderByNameAsc();
     }
 
     @PostMapping
@@ -36,4 +35,5 @@ public class IngredientController {
                 })
                 .orElseThrow(() -> new RuntimeException("Ingredient not found"));
     }
+
 }

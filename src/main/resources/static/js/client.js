@@ -117,32 +117,42 @@ function toggleMobileMenu() {
         body.style.overflow = 'auto';
     }
 }
-
 function filterMenu() {
     const checkboxes = document.querySelectorAll('.filter-item input:checked');
     const selectedValues = Array.from(checkboxes).map(cb => cb.value.toLowerCase());
-    const cards = document.querySelectorAll('.card');
+    const cards = document.querySelectorAll('.card:not(.card-add-new)'); // Не ховаємо кнопку "Додати"
+
+    const noFiltersSelected = selectedValues.length === 0;
+
     cards.forEach(card => {
         const rawCategory = card.getAttribute('data-category');
         const category = rawCategory ? rawCategory.toLowerCase() : '';
-        let isMatch = false;
 
-        if (selectedValues.includes(category)) {
-            isMatch = true;
-        }
-        else if (category === 'піца' && selectedValues.includes('pizza')) isMatch = true;
-        else if (category === 'салати' && selectedValues.includes('salad')) isMatch = true;
-        else if (category === 'напої' && selectedValues.includes('drink')) isMatch = true;
-        else if (category === 'десерти' && selectedValues.includes('dessert')) isMatch = true;
-        if (isMatch) {
-            card.style.display = "flex";
-        } else {
-            card.style.display = "none";
-        }
+        // Показуємо все, якщо нічого не вибрано, або якщо категорія збігається
+        const isMatch = noFiltersSelected || selectedValues.includes(category) ||
+                       (category === 'піца' && selectedValues.includes('pizza')) ||
+                       (category === 'напої' && selectedValues.includes('drink'));
+
+        card.style.display = isMatch ? "flex" : "none";
     });
 }
+
+// Оновлений DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCounter();
     checkAuthStatus();
+
+    // Викликаємо фільтрацію, щоб врахувати атрибути 'checked' в HTML
     filterMenu();
+
+    // Закриття мобільного меню при кліку на посилання
+    const mobileLinks = document.querySelectorAll('.mobile-header-navigation a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu && mobileMenu.classList.contains('open')) {
+                toggleMobileMenu();
+            }
+        });
+    });
 });
