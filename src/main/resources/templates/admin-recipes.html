@@ -6,44 +6,7 @@
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
     <style>
-        /* Стилі карток */
-        .recipe-card {
-            background: white; border-radius: 15px; padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 20px; border-left: 5px solid #193948;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .recipe-info h3 { margin: 0 0 5px 0; color: #193948; }
-        .ingredients-preview { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
-        .ing-tag { background: #fff3cd; padding: 4px 10px; border-radius: 20px; font-size: 12px; color: #856404; }
 
-        .btn-recipe {
-            background: #fbbb54; color: #193948; padding: 10px 20px;
-            border-radius: 8px; text-decoration: none; font-weight: bold;
-            border: none; cursor: pointer; transition: 0.3s;
-        }
-        .btn-recipe:hover { background: #e0a800; transform: scale(1.05); }
-
-        /* МОДАЛЬНЕ ВІКНО */
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 0; border-radius: 15px; width: 600px; position: relative; overflow: hidden;}
-        .close { color: white; position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; z-index: 10;}
-
-        /* Шапка модалки (Інформація про страву) */
-        .modal-header {
-            background: #193948; color: white; padding: 20px; display: flex; gap: 20px; align-items: center;
-        }
-        .modal-dish-img {
-            width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid white; background: white;
-        }
-        .modal-dish-info h2 { margin: 0; font-size: 22px; }
-        .modal-dish-info p { margin: 5px 0 0; opacity: 0.8; font-size: 14px; }
-
-        /* Тіло модалки */
-        .modal-body { padding: 20px; }
-
-        .recipe-editor-row { display: flex; gap: 10px; margin-bottom: 8px; padding: 10px; background: #f8f9fa; border-radius: 8px; align-items: center; }
-        .ing-list { max-height: 250px; overflow-y: auto; margin-top: 15px; border: 1px solid #eee; padding: 10px; border-radius: 8px;}
     </style>
 </head>
 <body>
@@ -59,8 +22,27 @@
         <a th:href="@{/admin/stats}">Статистика</a>
     </nav>
     <div class="header-user-actions">
-        <a style="font-weight: bold; cursor:pointer;" onclick="handleUserClick(event)">Адмін</a>
-        <a href="#" onclick="logout()" style="color: red; margin-left: 15px;">Вихід</a>
+        <svg class="ham hamRotate ham7" viewBox="0 0 100 100"  onclick="toggleMobileMenu()" id="burger-btn">
+            <path class="line top" d="m 70,33 h -40 c 0,0 -6,1.368796 -6,8.5 0,7.131204 6,8.5013 6,8.5013 l 20,-0.0013" />
+            <path class="line middle" d="m 70,50 h -40" />
+            <path class="line bottom" d="m 69.575405,67.073826 h -40 c -5.592752,0 -6.873604,-9.348582 1.371031,-9.348582 8.244634,0 19.053564,21.797129 19.053564,12.274756 l 0,-40" />
+        </svg>
+        <a style="font-weight: bold; cursor:auto; margin-right:10px;cursor:pointer;" onclick="handleUserClick(event)">Адмін Панель</a>
+        <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
+    </div>
+
+    <div id="mobileMenu">
+        <div class="mobile-menu-content">
+            <nav class="mobile-header-navigation">
+                <a th:href="@{/admin-crud}" style="font-weight: bold; color: #6a4821;">Товари</a>
+                <a th:href="@{/admin/orders}">Замовлення</a>
+                <a th:href="@{/admin/cars}">Автопарк</a>
+                <a th:href="@{/admin/ingredients}">Склад</a>
+                <a th:href="@{/admin/recipes}">Рецепти</a>
+                <a th:href="@{/admin/stats}">Статистика</a>
+                <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
+            </nav>
+        </div>
     </div>
 </header>
 
@@ -139,135 +121,7 @@
 <script th:src="@{/js/client.js}"></script>
 <script th:src="@{/js/admin.js}"></script>
 
-<script>
-    let currentRecipe = [];
 
-    // 1. ВІДКРИТТЯ (Отримуємо кнопку як аргумент)
-    async function openRecipeEditor(btn) {
-        // Читаємо дані з атрибутів кнопки
-        const id = btn.getAttribute('data-id');
-        const name = btn.getAttribute('data-name');
-        const price = btn.getAttribute('data-price');
-        const cat = btn.getAttribute('data-cat');
-        const img = btn.getAttribute('data-img');
-
-        // Заповнюємо шапку модалки
-        document.getElementById('currentProductId').value = id;
-        document.getElementById('modalDishName').innerText = name;
-        document.getElementById('modalPrice').innerText = price;
-        document.getElementById('modalCat').innerText = cat;
-        document.getElementById('modalImg').src = img || '/images/Logo.svg'; // Якщо картинки нема
-
-        document.getElementById('recipeModal').style.display = 'block';
-
-        // Завантажуємо рецепт
-        try {
-            const response = await fetch('/api/recipes/pizza/' + id);
-            if (response.ok) {
-                const data = await response.json();
-                currentRecipe = data.map(item => ({
-                    ingredientId: item.ingredient.id,
-                    name: item.ingredient.name,
-                    unit: item.ingredient.unitOfMeasure,
-                    amount: item.amount
-                }));
-            } else {
-                currentRecipe = [];
-            }
-            renderEditorList();
-        } catch (e) {
-            console.error(e);
-            currentRecipe = [];
-            renderEditorList();
-        }
-    }
-
-    // 2. ДОДАВАННЯ (Локально)
-    function addIngredientToRecipe() {
-        const select = document.getElementById('newIngSelect');
-        const amountInput = document.getElementById('newIngAmount');
-        const id = select.value;
-        const amount = parseFloat(amountInput.value);
-
-        if(!id || !amount) { alert("Оберіть інгредієнт і кількість!"); return; }
-
-        const option = select.options[select.selectedIndex];
-        const name = option.text.split(' (')[0];
-        const unit = option.getAttribute('data-unit');
-
-        // Оновлення існуючого
-        const existing = currentRecipe.find(r => r.ingredientId == id);
-        if(existing) {
-            existing.amount = amount;
-        } else {
-            currentRecipe.push({ ingredientId: id, name: name, unit: unit, amount: amount });
-        }
-
-        renderEditorList();
-        select.value = ""; amountInput.value = "";
-    }
-
-    // 3. РЕНДЕР
-    function renderEditorList() {
-        const container = document.getElementById('modalIngredientsList');
-        container.innerHTML = '';
-
-        if(currentRecipe.length === 0) {
-            container.innerHTML = '<p style="color:gray; text-align:center; padding: 20px;">Список пустий. Додайте щось зверху ☝️</p>';
-            return;
-        }
-
-        currentRecipe.forEach((item, index) => {
-            container.innerHTML += `
-                <div class="recipe-editor-row">
-                    <span style="flex: 2; font-weight: bold;">${item.name}</span>
-                    <span style="flex: 1; text-align: center;">${parseFloat(item.amount)} ${item.unit || ''}</span>
-                    <button onclick="removeFromRecipe(${index})" style="background: #ffdddd; color: #d9534f; border: 1px solid #d9534f; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🗑️</button>
-                </div>
-            `;
-        });
-    }
-
-    function removeFromRecipe(index) {
-        currentRecipe.splice(index, 1);
-        renderEditorList();
-    }
-
-    async function saveRecipeChanges() {
-        const productId = document.getElementById('currentProductId').value;
-        try {
-            for (const item of currentRecipe) {
-                const recipeData = {
-                    // Важливо: ми передаємо тільки IDs для зв'язку
-                    pizza: { id: productId },
-                    ingredient: { id: item.ingredientId },
-                    amount: item.amount
-                };
-
-                const response = await fetch('/api/recipes', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(recipeData)
-                });
-
-                // 👇 ОСЬ ЦЬОГО НЕ ВИСТАЧАЛО:
-                if (!response.ok) {
-                    const errText = await response.text();
-                    throw new Error('Сервер повернув помилку: ' + errText);
-                }
-            }
-            alert('Рецепт успішно збережено в базі!');
-            location.reload();
-        } catch (e) {
-            console.error(e);
-            alert('Помилка збереження: ' + e.message);
-        }
-    }
-
-    function closeModal() {
-        document.getElementById('recipeModal').style.display = 'none';
-    }
-</script>
 
 </body>
 </html>
