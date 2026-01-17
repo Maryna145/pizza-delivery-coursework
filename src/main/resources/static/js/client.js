@@ -97,19 +97,14 @@ function handleUserClick(event) {
         window.location.href = "/profile";
     }
 }
-// 1. Правильне мобільне меню (через класи, а не display)
 function toggleMobileMenu() {
     const burgerBtn = document.getElementById('burger-btn');
     const mobileMenu = document.getElementById('mobileMenu');
     const body = document.body;
 
     if (burgerBtn) burgerBtn.classList.toggle('active');
-
-    // Використовуємо toggle('open'), бо у CSS прописано #mobileMenu.open { opacity: 1 }
     if (mobileMenu) {
         mobileMenu.classList.toggle('open');
-
-        // Блокуємо прокрутку фону, коли меню відкрито
         if (mobileMenu.classList.contains('open')) {
             body.style.overflow = 'hidden';
         } else {
@@ -117,29 +112,22 @@ function toggleMobileMenu() {
         }
     }
 }
-// ✅ Оновлена функція виходу
 async function logout(event) {
     if (event) event.preventDefault();
-
     try {
         const response = await fetch('/logout', { method: 'POST' });
-
-        // Очищаємо дані про користувача
         localStorage.removeItem('currentUser');
-
-        // ✅ ПРАВИЛЬНО: Перекидаємо на головну сторінку (Меню)
         window.location.href = '/';
-
     } catch (err) {
         console.error("Помилка при виході:", err);
         localStorage.removeItem('currentUser');
-        window.location.href = '/'; // Навіть при помилці — додому
+        window.location.href = '/';
     }
 }
 function filterMenu() {
     const checkboxes = document.querySelectorAll('.filter-item input:checked');
     const selectedValues = Array.from(checkboxes).map(cb => cb.value.toLowerCase());
-    const cards = document.querySelectorAll('.card:not(.card-add-new)'); // Не ховаємо кнопку "Додати"
+    const cards = document.querySelectorAll('.card:not(.card-add-new)');
 
     const noFiltersSelected = selectedValues.length === 0;
 

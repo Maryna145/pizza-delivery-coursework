@@ -28,7 +28,6 @@ public class RecipeController {
 
     @PostMapping
     public Recipe addIngredientToPizza(@RequestBody Recipe recipe) {
-        // ЯВНО встановлюємо ID, щоб уникнути помилок "Identifier must not be null"
         if (recipe.getId() == null) {
             recipe.setId(new RecipeId());
         }

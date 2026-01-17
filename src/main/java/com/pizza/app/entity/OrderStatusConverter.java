@@ -5,7 +5,7 @@ import jakarta.persistence.Converter;
 
 import java.util.stream.Stream;
 
-@Converter(autoApply = true) // застосовуємо до всіх полів типу Order.OrderStatus
+@Converter(autoApply = true)
 public class OrderStatusConverter implements AttributeConverter<Order.OrderStatus, String> {
 
     @Override
