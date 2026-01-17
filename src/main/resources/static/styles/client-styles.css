@@ -36,7 +36,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../images/pizza-pattern.png');
+  background-image: linear-gradient(rgb(255 255 255 / 0%), rgb(255 255 255 / 85%)), url('../images/pizza-pattern.png');
   background-repeat: repeat;
   background-size: 400px;
 }
@@ -51,16 +51,44 @@ main {
 }
 
 .header {
-  background-color: var(--bg-header);
+  max-width: 1200px;
+  margin: 10px auto;
+  width: 100%;
   padding: 10px 160px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   position: sticky;
-  top: 0;
+  top: 10px;
   z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+
+  /* Glass effect */
+  background: rgba(254, 234, 184, 0.65); /* твій bg-header, але прозорий */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+
+  box-shadow:
+    0 8px 32px rgba(78, 52, 46, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
+.header.scrolled {
+  background: rgba(254, 234, 184, 0.85);
+  box-shadow: 0 10px 40px rgba(78, 52, 46, 0.25);
+}
+@media (max-width: 1200px) {
+  .header {
+    padding: 10px 20px;
+    margin: 8px;
+  }
+}
+
 
 .logo {
   height: 43px;

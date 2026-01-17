@@ -6,67 +6,7 @@
     <title>Склад - Адмін Панель</title>
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
-    <style>
-        /* Стилі для модального вікна (якщо їх ще немає в admin.css) */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 400px;
-            position: relative;
-        }
-        .close-btn {
-            position: absolute; top: 10px; right: 15px;
-            font-size: 24px; cursor: pointer;
-        }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group select {
-            width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
-        }
-        .save-btn {
-            width: 100%; padding: 12px; background: #193948; color: white;
-            border: none; border-radius: 8px; cursor: pointer; font-size: 16px;
-        }
-        .save-btn:hover { background: #fbbb54; color: #193948; }
-        /* --- Адаптив для кнопки додавання інгредієнта --- */
-
-@media (max-width: 580px) {
-    /* Зменшуємо контейнер заголовка та кнопки */
-    main.conteiner > div:first-child {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 10px !important;
-    }
-
-    /* Робимо кнопку компактною плашкою */
-    .card-add-new {
-        min-height: 60px !important;
-        padding: 10px 20px !important;
-        flex-direction: row !important; /* Плюс і текст в один рядок */
-        gap: 10px;
-    }
-
-    .card-add-new .plus-icon {
-        font-size: 24px !important;
-        margin-bottom: 0 !important;
-    }
-
-    .card-add-new .add-text {
-        font-size: 14px !important;
-        margin-bottom: 0 !important;
-    }
-}
-    </style>
+    <link rel="stylesheet" th:href="@{/styles/admin-ingredients.css}" />
 </head>
 <body>
 
@@ -188,64 +128,6 @@
 <script th:src="@{/js/client.js}"></script>
 <script th:src="@{/js/admin.js}"></script>
 
-<script>
-    // ✅ Функція відкриття тепер універсальна (і для створення, і для редагування)
-    function openIngredientModal(btn) {
-        if (btn) {
-            // Режим РЕДАГУВАННЯ (заповнюємо поля даними з кнопки)
-            document.getElementById('modalTitle').innerText = 'Редагувати інгредієнт';
-            document.getElementById('ingId').value = btn.getAttribute('data-id');
-            document.getElementById('ingName').value = btn.getAttribute('data-name');
-            document.getElementById('ingStock').value = btn.getAttribute('data-stock');
-            document.getElementById('ingUnit').value = btn.getAttribute('data-unit');
-        } else {
-            // Режим СТВОРЕННЯ (очищаємо поля)
-            document.getElementById('modalTitle').innerText = 'Новий інгредієнт';
-            document.getElementById('ingId').value = '';
-            document.getElementById('ingName').value = '';
-            document.getElementById('ingStock').value = '';
-            document.getElementById('ingUnit').value = 'кг';
-        }
-        document.getElementById('ingredientModal').style.display = 'flex';
-    }
-
-    function closeIngredientModal() {
-        document.getElementById('ingredientModal').style.display = 'none';
-    }
-
-    async function saveIngredient(event) {
-        event.preventDefault();
-
-        const id = document.getElementById('ingId').value;
-        const data = {
-            name: document.getElementById('ingName').value,
-            currentStock: parseFloat(document.getElementById('ingStock').value),
-            unitOfMeasure: document.getElementById('ingUnit').value
-        };
-
-        // ✅ Визначаємо метод: Якщо є ID -> PUT (оновлення), якщо немає -> POST (створення)
-        const method = id ? 'PUT' : 'POST';
-        const url = id ? ('/api/ingredients/' + id) : '/api/ingredients';
-
-        try {
-            const response = await fetch(url, {
-                method: method,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            if (response.ok) {
-                alert('Збережено успішно!');
-                location.reload();
-            } else {
-                alert('Помилка при збереженні!');
-            }
-        } catch (e) {
-            console.error(e);
-            alert('Помилка з\'єднання');
-        }
-    }
-</script>
 
 </body>
 </html>

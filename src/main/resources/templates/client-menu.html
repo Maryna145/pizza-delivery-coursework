@@ -11,6 +11,7 @@
             rel="stylesheet"
     />
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles/utils.css}" />
 </head>
 <body>
 <header class="header">
@@ -18,7 +19,7 @@
         <a  th:href="@{/}"><img th:src="@{/images/Logo.svg}" alt="" /></a>
     </div>
     <nav class="header-navigation">
-        <a th:href="@{/}">Меню</a>
+        <a th:href="@{/}"class="active-link">Меню</a>
         <a th:href="@{/promo}">Акції</a>
         <a th:href="@{/delivery}">Доставка</a>
         <a th:href="@{/about}">Про нас</a>
@@ -53,7 +54,7 @@
         <div class="mobile-menu-content">
 
             <nav class="mobile-header-navigation">
-                <a th:href="@{/}">Меню</a>
+                <a th:href="@{/}"class="active-link">Меню</a>
                 <a th:href="@{/promo}">Акції</a>
                 <a th:href="@{/delivery}">Доставка</a>
                 <a th:href="@{/about}">Про нас</a>

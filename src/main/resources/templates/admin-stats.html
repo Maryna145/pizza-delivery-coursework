@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" th:href="@{/styles/client-styles.css}" />
     <link rel="stylesheet" th:href="@{/styles/admin.css}" />
+    <link rel="stylesheet" th:href="@{/styles/admin-stats.css}" />
 </head>
 <body>
 
@@ -20,7 +21,7 @@
         <a th:href="@{/admin/stats}" style="font-weight: bold; color: #6a4821;">Статистика</a>
     </nav>
     <div class="header-user-actions">
-        <a style="font-weight: bold; cursor:auto; margin-right:10px;">Адмін Панель</a>
+        <a style="font-weight: bold; cursor:auto; margin-right:10px;"onclick="handleUserClick(event)">Адмін Панель</a>
         <a href="#" onclick="logout()" style="color: red; text-decoration: none;">Вихід</a>
     </div>
 </header>

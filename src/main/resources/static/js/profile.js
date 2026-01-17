@@ -33,6 +33,7 @@ async function loadUserOrders(userId) {
       if (orders.length === 0) {
         container.innerHTML =
           "<p>Ви ще нічого не замовляли. Саме час спробувати піцу! </p>";
+
         return;
       }
 

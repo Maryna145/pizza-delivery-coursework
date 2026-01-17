@@ -1,0 +1,45 @@
+/* Стилі для списку інгредієнтів */
+.ingredient-selector {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+.ing-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.added-list {
+  list-style: none;
+  padding: 0;
+}
+.added-item {
+  background: white;
+  border: 1px solid #eee;
+  padding: 8px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+}
+.btn-small {
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.btn-add-ing {
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+.btn-remove {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+

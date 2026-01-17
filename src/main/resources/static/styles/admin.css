@@ -1,186 +1,162 @@
-/* =========================================
-   КНОПКИ ТА ДІЇ (РЕДАГУВАТИ/ВИДАЛИТИ)
-   ========================================= */
-.admin-actions {
+.section-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #193948;
+  margin: 30px 0 20px;
   display: flex;
+  align-items: center;
   gap: 10px;
-  margin-top: 15px;
 }
+.conteiner {
+  display: grid;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 15px;
+  box-sizing: border-box;
+}
+.card-add-new {
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 3px dashed #fbbb54;
+  border-radius: 24px;
+  height: 100%;
 
-.btn-admin {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: bold;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  transition: transform 0.2s;
+
   text-decoration: none;
-  font-size: 14px;
-}
-
-.btn-edit {
-  background-color: #e3f2fd;
-  color: #1976d2;
-}
-
-.btn-delete {
-  background-color: #ffebee;
-  color: #d32f2f;
-}
-
-.btn-admin:hover {
-  transform: translateY(-2px);
-  filter: brightness(0.95);
-}
-
-.btn-create-new {
-  background: linear-gradient(135deg, #fbbb54 0%, #fbbb54 100%);
-  color: white;
-  padding: 15px 30px;
-  border-radius: 50px;
-  border:none;
-  text-decoration: none;
-  font-weight: bold;
-  box-shadow: 0 10px 20px rgba(251, 187, 84, 0.3);
-  display: inline-block;
-  margin-bottom: 20px;
-}
-
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 40px;
-  margin-top: 20px;
-}
-
-/* =========================================
-   АНІМОВАНА КАРТКА "ДОДАТИ"
-   ========================================= */
-.card-add-new {
-    background-color: rgba(255, 255, 255, 0.4);
-    border: 3px dashed #fbbb54;
-    border-radius: 24px;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-decoration: none;
-    cursor: pointer;
-    backdrop-filter: blur(5px);
-    animation: beckon 2.5s infinite ease-in-out;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  animation: beckon 2.5s infinite ease-in-out;
 }
 
 @keyframes beckon {
-    0% {
-        transform: scale(1);
-        border-color: #fbbb54;
-        box-shadow: 0 0 0 rgba(251, 187, 84, 0);
-    }
-    50% {
-        transform: scale(1.03);
-        border-color: #dc7002;
-        background-color: rgba(255, 255, 255, 0.6);
-        box-shadow: 0 10px 25px rgba(251, 187, 84, 0.4);
-    }
-    100% {
-        transform: scale(1);
-        border-color: #fbbb54;
-        box-shadow: 0 0 0 rgba(251, 187, 84, 0);
-    }
+  0% {
+    transform: scale(1);
+    border-color: #fbbb54;
+    box-shadow: 0 0 0 rgba(251, 187, 84, 0);
+  }
+  50% {
+    transform: scale(1.03);
+    border-color: #dc7002;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 25px rgba(251, 187, 84, 0.4);
+  }
+  100% {
+    transform: scale(1);
+    border-color: #fbbb54;
+    box-shadow: 0 0 0 rgba(251, 187, 84, 0);
+  }
 }
 
 .plus-icon {
-    font-size: 80px;
-    color: #fbbb54;
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
+  font-size: 80px;
+  color: #fbbb54;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
 }
 
 .add-text {
-    font-size: 20px;
-    font-weight: 700;
-    color: #193948;
-    opacity: 0.8;
-    margin-bottom:10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #193948;
+  opacity: 0.8;
+  margin-bottom: 10px;
 }
 
 .card-add-new:hover {
-    animation-play-state: paused;
-    transform: scale(1.05);
-    background-color: #fff;
-    border-style: solid;
-    border-color: #dc7002;
-    box-shadow: 0 15px 35px rgba(251, 187, 84, 0.5);
+  animation-play-state: paused;
+  transform: scale(1.05);
+  background-color: #fff;
+  border-style: solid;
+  border-color: #dc7002;
+  box-shadow: 0 15px 35px rgba(251, 187, 84, 0.5);
 }
 
 .card-add-new:hover .plus-icon {
-    transform: rotate(90deg);
-    color: #dc7002;
+  transform: rotate(90deg);
+  color: #dc7002;
 }
-
-/* =========================================
-   ЕЛЕМЕНТИ ФОРМИ (SELECT, TEXTAREA)
-   ========================================= */
-select, textarea {
-    width: 100%;
-    padding: 18px 25px;
-    background-color: #FAFAFA;
-    border: 2px solid #EFEFEF;
-    border-radius: 30px;
-    font-size: 16px;
-    color: #193948;
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    font-family: inherit;
+select,
+textarea {
+  width: 100%;
+  padding: 18px 25px;
+  background-color: #fafafa;
+  border: 2px solid #efefef;
+  border-radius: 30px;
+  font-size: 16px;
+  color: #193948;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  font-family: inherit;
 }
 
 /* Стилізація випадаючого списку */
 select {
-    border-radius: 50px;
-    appearance: none;
-    /* Стрілочка */
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23193948%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 20px center;
-    background-size: 15px;
+  border-radius: 50px;
+  appearance: none;
+  /* Стрілочка */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23193948%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 15px;
 }
 
 /* Велике поле тексту */
 textarea {
-    resize: vertical;
-    min-height: 100px;
-    border-radius:8px;
+  resize: vertical;
+  min-height: 100px;
+  border-radius: 8px;
 }
 
-select:focus, textarea:focus {
-    background-color: #fff;
-    border-color: #fbbb54;
-    outline: none;
-    box-shadow: 0 8px 25px rgba(251, 187, 84, 0.18);
+select:focus,
+textarea:focus {
+  background-color: #fff;
+  border-color: #fbbb54;
+  outline: none;
+  box-shadow: 0 8px 25px rgba(251, 187, 84, 0.18);
+}
+.form-group {
+  margin-bottom: 20px;
 }
 
-/* Кнопка "Назад" */
-.btn-back {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: #888;
-    text-decoration: none;
-    font-weight: 600;
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: #193948;
 }
 
-.btn-back:hover {
-    color: #fbbb54;
+.form-group input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: 2px solid #eee;
+  font-size: 16px;
+  transition: border-color 0.3s;
 }
 
+.form-group input:focus {
+  outline: none;
+  border-color: #fbbb54;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
 .orders-table {
   width: 110%;
   border-collapse: collapse;
@@ -217,855 +193,211 @@ select:focus, textarea:focus {
   color: #555;
 }
 .status-select {
-    /* 1. Вимикаємо стандартний вигляд браузера (це прибере глюки з текстом) */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  /* 1. Вимикаємо стандартний вигляд браузера (це прибере глюки з текстом) */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 
-    /* 2. Налаштовуємо розмір та форму */
-    padding: 8px 35px 8px 15px; /* Більше відступу справа для стрілочки */
-    border-radius: 50px; /* Робимо овальним */
-    border: 2px solid #EFEFEF;
-    background-color: #fff;
+  /* 2. Налаштовуємо розмір та форму */
+  padding: 8px 35px 8px 15px; /* Більше відступу справа для стрілочки */
+  border-radius: 50px; /* Робимо овальним */
+  border: 2px solid #efefef;
+  background-color: #fff;
 
-    /* 3. Шрифт */
-    font-weight: bold;
-    color: #193948;
-    font-size: 14px;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.3s ease;
+  /* 3. Шрифт */
+  font-weight: bold;
+  color: #193948;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
 
-    /* 4. Малюємо власну красиву стрілочку (SVG) */
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23193948%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 10px;
+  /* 4. Малюємо власну красиву стрілочку (SVG) */
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23193948%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px;
 }
 
 /* Ефект при наведенні */
 .status-select:hover {
-    border-color: #fbbb54;
+  border-color: #fbbb54;
 }
 
 /* Ефект при фокусі (коли натиснули) */
 .status-select:focus {
-    border-color: #fbbb54;
-    box-shadow: 0 0 0 3px rgba(251, 187, 84, 0.2);
+  border-color: #fbbb54;
+  box-shadow: 0 0 0 3px rgba(251, 187, 84, 0.2);
 }
-.stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  margin-top: 30px;
-}
-.stat-card {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-}
-.stat-number {
-  font-size: 40px;
-  font-weight: 900;
-  color: #dc7002;
-  margin-bottom: 5px;
-}
-.stat-label {
-  color: #666;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.btn-back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #888;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.top-list {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
+.btn-back:hover {
+  color: #fbbb54;
 }
-.top-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid #eee;
-}
-.top-rank {
-  background: #fbbb54;
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 12px;
-  margin-right: 10px;
-}
-
-
-
-
-
-
-/* =========================================
-   НОВИЙ ДИЗАЙН АВТОПАРКУ (CAR CARDS)
-   ========================================= */
-
-/* Заголовок секції */
-.section-title {
-    font-size: 28px;
-    font-weight: 900;
-    color: #193948;
-    margin: 30px 0 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.form-col{
-    width:100%;
-}
-/* --- ФОРМА ДОДАВАННЯ --- */
-.add-car-form {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Легка тінь */
-    border-left: 5px solid #fbbb54; /* Акцентна смужка зліва */
-    display: flex;
-    width:700px;
-    flex-direction:column;
-    gap: 20px;
-    align-items: end;
-    margin-bottom: 40px;
-}
-
-.add-car-form label {
-    width:100%;
-    font-size: 14px;
-    font-weight: 700;
-    color: #555;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.add-car-form input {
-    width: 100%;
-    padding: 12px 15px;
-    border-radius: 12px;
-    border: 2px solid #eee;
-    background: #f9f9f9;
-    font-size: 16px;
-    font-weight: 500;
-    color: #193948;
-    transition: all 0.3s ease;
-}
-
-.add-car-form input:focus {
-    border-color: #fbbb54;
-    background: #fff;
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(251, 187, 84, 0.1);
-}
-
-.add-car-form button {
-    height: 48px; /* Щоб висота збігалася з інпутами */
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: none;
-    transition: all 0.3s ease;
-}
-
-.add-car-form button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(251, 187, 84, 0.4);
-}
-
-/* --- СІТКА КАРТОК --- */
-/* --- СІТКА КАРТОК --- */
-.cars-grid {
-    display: grid;
-    /* Зменшуємо мінімальну ширину до 260px-280px, щоб влізло більше карток в ряд */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    margin-bottom: 50px;
-    width: 100%;
-}
-
-/* --- КАРТКА МАШИНИ --- */
-.car-card {
-    background: white;
-    border-radius: 20px;
-    padding: 25px;
-    position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-    border: 1px solid #f0f0f0;
-    border-top: 4px solid #fbbb54; /* Кольорова шапка */
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.car-card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-}
-
-/* Заголовок картки */
-.car-header {
-    display: flex;
-    flex-direction:column;
-    gap:10px;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.car-model {
-    font-size: 20px;
-    font-weight: 800;
-    color: #193948;
-    display: block;
-    margin-bottom: 5px;
-}
-.car-details{
-    display:flex;
-    flex-direction:row;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    }
-/* Стиль номерного знака (схоже на реальний) */
-.car-license {
-    display: inline-block;
-    font-family: 'Courier New', monospace; /* Моноширинний шрифт */
-    background: #fff;
-    color: #333;
-    padding: 4px 10px;
-    border: 2px solid #333;
-    border-radius: 6px;
-    font-weight: 900;
-    font-size: 16px;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
-}
-
-/* Інформаційні рядки */
-.car-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #555;
-    font-size: 15px;
-    background: #f8f9fa;
-    padding: 10px;
-    border-radius: 12px;
-}
-
-.car-icon {
-    font-size: 18px;
-    filter: grayscale(100%); /* Чорно-білі іконки */
-}
-
-/* Статуси */
-.status-pill {
-    padding: 6px 14px;
-    border-radius: 50px;
-    font-size: 11px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: inline-block;
-    height: fit-content;
-}
-
-.status-free { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
-.status-busy { background: #fff3e0; color: #ef6c00; border: 1px solid #ffe0b2; }
-.status-broken { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
-
-/* Кнопка видалення */
-.delete-car-btn {
-    margin-top: auto; /* Притискає кнопку до низу */
-    width: 100%;
-    background: transparent;
-    color: #d32f2f;
-    border: 2px solid #ffebee;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.delete-car-btn:hover {
-    background: #d32f2f;
-    color: white;
-    border-color: #d32f2f;
-}
-/* --- СТИЛІ СЕЛЕКТА СТАТУСУ МАШИНИ --- */
-.status-select-car {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    appearance: none; /* Прибираємо стандартну стрілку */
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.st-free { background: #e8f5e9; color: #2e7d32; border: 2px solid #c8e6c9; }
-.st-busy { background: #fff3e0; color: #ef6c00; border: 2px solid #ffe0b2; }
-.st-broken { background: #eceff1; color: #546e7a; border: 2px solid #cfd8dc; }
-
-/* --- МОДАЛЬНЕ ВІКНО --- */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    animation: fadeIn 0.3s;
-}
-
-.modal-content {
-    animation: slideUp 0.3s;
-}
-
-@keyframes slideUp {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-/* Контейнер для кнопок у модалці */
-.modal-btns {
-    display: flex;
-    gap: 15px;
-    width: 100%;
-    margin-top: 25px;
-}
-
-/* Спільні базові стилі для кнопок модального вікна */
-.modal-btns button {
-    flex: 1;
-    padding: 14px 20px;
-    border-radius: 15px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Кнопка "Зберегти" (Акцентна) */
-.btn-modal-save {
-    background: linear-gradient(135deg, #fbbb54 0%, #f7a31c 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(251, 187, 84, 0.3);
-}
-
-.btn-modal-save:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(251, 187, 84, 0.5);
-    filter: brightness(1.05);
-}
-
-.btn-modal-save:active {
-    transform: translateY(0);
-}
-
-/* Кнопка "Скасувати" (Нейтральна) */
-.btn-modal-cancel {
-    background: #f5f5f5;
-    color: #666;
-    border: 2px solid transparent;
-}
-
-.btn-modal-cancel:hover {
-    background: #eeeeee;
-    color: #333;
-    border-color: #ddd;
-}
-
-/* --- АДАПТАЦІЯ АВТОПАРКУ --- */
-
-/* Планшети (768px): Рівно 2 картки в ряд */
-@media (max-width: 992px) {
-    .cars-grid {
-        grid-template-columns: repeat(2, 1fr); /* Жорстко 2 колонки */
-        gap: 20px;
-    }
-
-    .add-car-form {
-        width: 100%; /* Форма розтягується на весь контейнер */
-        box-sizing: border-box;
-    }
-}
-
-/* Смартфони (480px): Одна гарна картка по центру */
-@media (max-width: 580px) {
-    .cars-grid {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Центруємо картку */
-    }
-
-    .car-card {
-        width: 90%; /* Картка не на всю ширину, залишаємо "повітря" */
-        max-width: 350px; /* Обмежуємо ширину, щоб вона не виглядала гігантською */
-        padding: 20px;
-    }
-
-    .add-car-form {
-        width: 100%;
-        padding: 20px;
-    }
-
-    .section-title {
-        justify-content: center; /* Заголовок по центру */
-        font-size: 22px;
-    }
-
-    .car-model {
-        font-size: 18px;
-    }
-
-    .add-car-form button {
-        width: 100%; /* Кнопка на всю ширину форми для зручності */
-    }
-}
-/* =========================================
-   АДАПТАЦІЯ КОНТЕНТУ (1200, 768, 480)
-   ========================================= */
-
-/* Виправляємо переповнення контейнера */
-.conteiner {
-    display:grid;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px 15px;
-    box-sizing: border-box;
-}
-
-/* 1. Десктопи та ноутбуки (1200px) */
 @media (max-width: 1200px) {
-    .orders-table {
-        width: 100% !important; /* Скасовуємо 110% */
-        font-size: 14px;
-    }
+  .orders-table {
+    width: 100% !important; /* Скасовуємо 110% */
+    font-size: 14px;
+  }
 
-    .status-select {
-        padding: 6px 30px 6px 10px;
-        font-size: 13px;
-    }
+  .status-select {
+    padding: 6px 30px 6px 10px;
+    font-size: 13px;
+  }
 }
 
 /* 2. Планшети (768px) */
 @media (max-width: 768px) {
-    h2 {
-        text-align: center;
-        margin-top: 20px !important;
-    }
+  h2 {
+    text-align: center;
+    margin-top: 20px !important;
+  }
 
-    /* Ховаємо шапку таблиці */
-    .orders-table thead {
-        display: none;
-    }
+  /* Ховаємо шапку таблиці */
+  .orders-table thead {
+    display: none;
+  }
 
-    /* Перетворюємо таблицю та її елементи на блочні */
-    .orders-table,
-    .orders-table tbody,
-    .orders-table tr,
-    .orders-table td {
-        display: block;
-        width: 100%;
-    }
+  /* Перетворюємо таблицю та її елементи на блочні */
+  .orders-table,
+  .orders-table tbody,
+  .orders-table tr,
+  .orders-table td {
+    display: block;
+    width: 100%;
+  }
 
-    .orders-table tr {
-        margin-bottom: 25px;
-        border-radius: 20px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        border: 1px solid #eee;
-        overflow: hidden;
-    }
+  .orders-table tr {
+    margin-bottom: 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+    overflow: hidden;
+  }
 
-    .orders-table td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        text-align: right;
-        padding: 12px 20px;
-        border-bottom: 1px solid #f5f5f5;
-        min-height: 50px;
-        box-sizing: border-box;
-    }
+  .orders-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    padding: 12px 20px;
+    border-bottom: 1px solid #f5f5f5;
+    min-height: 50px;
+    box-sizing: border-box;
+  }
 
-    /* Використовуємо data-label для підписів зліва */
-    .orders-table td::before {
-        content: attr(data-label);
-        font-weight: bold;
-        color: #193948;
-        text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 0.5px;
-        flex-shrink: 0;
-        margin-right: 10px;
-        text-align: left;
-    }
+  /* Використовуємо data-label для підписів зліва */
+  .orders-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #193948;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    margin-right: 10px;
+    text-align: left;
+  }
 
-    /* Спеціальні налаштування для окремих колонок */
-    .orders-table td[data-label="Клієнт"] {
-        height: auto;
-        flex-direction: row; /* Залишаємо в ряд, якщо вміщується */
-    }
+  /* Спеціальні налаштування для окремих колонок */
+  .orders-table td[data-label="Клієнт"] {
+    height: auto;
+    flex-direction: row; /* Залишаємо в ряд, якщо вміщується */
+  }
 
-    .orders-table td[data-label="Склад"] {
-        flex-direction: row;
-        align-items: flex-start;
-        text-align: left;
-    }
+  .orders-table td[data-label="Склад"] {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
 
-    .orders-table td[data-label="Склад"]::before {
-        margin-bottom: 8px;
-    }
+  .orders-table td[data-label="Склад"]::before {
+    margin-bottom: 8px;
+  }
 
-    .status-select {
-        width: 160px; /* Фіксована ширина для селекта в мобільній версії */
-    }
-    .orders-table td[data-label="ID"] {
-            background-color: #fbbb54;
-            color: white;
-            justify-content: center;
-        }
-        .orders-table td[data-label="ID"]::before {
-            color: white;
-        }
+  .status-select {
+    width: 160px; /* Фіксована ширина для селекта в мобільній версії */
+  }
+  .orders-table td[data-label="ID"] {
+    background-color: #fbbb54;
+    color: white;
+    justify-content: center;
+  }
+  .orders-table td[data-label="ID"]::before {
+    color: white;
+  }
 }
 
 /* 3. Смартфони (480px) */
 @media (max-width: 480px) {
-    .conteiner {
-        padding: 0 10px;
-    }
+  .conteiner {
+    padding: 0 10px;
+  }
 
-    .orders-table td {
-        padding: 10px 15px;
-        font-size: 13px;
-    }
+  .orders-table td {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
 
-    .orders-table td::before {
-        font-size: 10px;
-    }
+  .orders-table td::before {
+    font-size: 10px;
+  }
 
-    .status-select {
-        width: 140px;
-        font-size: 12px;
-        padding: 5px 25px 5px 10px;
-    }
+  .status-select {
+    width: 140px;
+    font-size: 12px;
+    padding: 5px 25px 5px 10px;
+  }
 
-    /* Робимо ID замовлення яскравішим акцентом */
-    .orders-table td[data-label="ID"] {
-        background-color: #fbbb54;
-        color: white;
-        justify-content: center;
-    }
-    .orders-table td[data-label="ID"]::before {
-        color: white;
-    }
+  /* Робимо ID замовлення яскравішим акцентом */
+  .orders-table td[data-label="ID"] {
+    background-color: #fbbb54;
+    color: white;
+    justify-content: center;
+  }
+  .orders-table td[data-label="ID"]::before {
+    color: white;
+  }
 }
-/* Спеціальні стилі для картки профілю */
-.profile-card {
-  background: white;
-  min-width: 600px;
-  width: 100%;
-  margin: 40px auto;
-  padding: 40px;
-  border-radius: 24px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-  border-top: 5px solid #fbbb54;
-}
-
-.profile-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.profile-avatar {
-  width: 100px;
-  height: 100px;
-  background: #fff8e1;
-  border-radius: 50%;
+.admin-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 15px;
-  font-size: 40px;
-  color: #fbbb54;
-  border: 2px solid #fbbb54;
+  gap: 10px;
+  margin-top: 15px;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 700;
-  color: #193948;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 15px;
-  border-radius: 12px;
-  border: 2px solid #eee;
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #fbbb54;
-}
-
-.btn-save {
-  width: 100%;
-  padding: 15px;
-  background: #193948;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s;
-  margin-top: 10px;
-}
-
-.btn-save:hover {
-  background: #fbbb54;
-  color: #193948;
-}
-@media (max-width: 768px) {
-    .profile-card{
-        min-width: 500px
-    }
-}
-@media (max-width: 480px) {
-    .profile-card{
-        min-width: 300px
-    }
-}
-/* Стилі для модального вікна */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-}
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 400px;
-  position: relative;
-}
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  cursor: pointer;
-}
-.form-group {
-  margin-bottom: 15px;
-}
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-.form-group input,
-.form-group select {
-  width: 100%;
+.btn-admin {
+  flex: 1;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.save-btn {
-  width: 100%;
-  padding: 12px;
-  background: #193948;
-  color: white;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
-.save-btn:hover {
-  background: #fbbb54;
-  color: #193948;
-}
-
-/* Стиль для кнопки редагування в таблиці */
-.btn-edit-ing {
-  background: #fbbb54;
-  color: #193948;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: bold;
-}
-.btn-edit-ing:hover {
-  background: #e0a800;
-}
-/* Стилі карток */
-.recipe-card {
-  background: white;
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
-  border-left: 5px solid #193948;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-.recipe-info h3 {
-  margin: 0 0 5px 0;
-  color: #193948;
-}
-.ingredients-preview {
-  display: flex;
+  justify-content: center;
   gap: 5px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-.ing-tag {
-  background: #fff3cd;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  color: #856404;
-}
-
-.btn-recipe {
-  background: #fbbb54;
-  color: #193948;
-  padding: 10px 20px;
-  border-radius: 8px;
+  transition: transform 0.2s;
   text-decoration: none;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.btn-recipe:hover {
-  background: #e0a800;
-  transform: scale(1.05);
-}
-
-/* МОДАЛЬНЕ ВІКНО */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 0;
-  border-radius: 15px;
-  width: 600px;
-  position: relative;
-  overflow: hidden;
-}
-.close {
-  color: white;
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10;
-}
-
-/* Шапка модалки (Інформація про страву) */
-.modal-header {
-  background: #193948;
-  color: white;
-  padding: 20px;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-.modal-dish-img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid white;
-  background: white;
-}
-.modal-dish-info h2 {
-  margin: 0;
-  font-size: 22px;
-}
-.modal-dish-info p {
-  margin: 5px 0 0;
-  opacity: 0.8;
   font-size: 14px;
 }
 
-/* Тіло модалки */
-.modal-body {
-  padding: 20px;
+.btn-edit {
+  background-color: #e3f2fd;
+  color: #1976d2;
 }
 
-.recipe-editor-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 8px;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  align-items: center;
+.btn-delete {
+  background-color: #ffebee;
+  color: #d32f2f;
 }
-.ing-list {
-  max-height: 250px;
-  overflow-y: auto;
-  margin-top: 15px;
-  border: 1px solid #eee;
-  padding: 10px;
-  border-radius: 8px;
+
+.btn-admin:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.95);
 }
