@@ -62,7 +62,7 @@ function checkAuthStatus() {
     if (user) {
         wrapper.innerHTML = `
             <div style="display: flex; flex-direction: row; align-items: center; line-height: 1.2;">
-                <span style="font-weight: bold; color: #193948; margin-right:10px;">${user.name}</span>
+                <span style="font-weight: bold; color: #193948; margin:0 10px;">${user.name}</span>
                 <a href="#" id="logout-btn" style="color: red;text-decoration: none;">Вийти</a>
             </div>
         `;
@@ -81,12 +81,6 @@ function checkAuthStatus() {
     }
 }
 
-function logout() {
-    if(confirm("Вийти з акаунту?")) {
-        localStorage.removeItem('currentUser');
-        window.location.href = '/';
-    }
-}
 
 function handleUserClick(event) {
     if(event) event.preventDefault();
@@ -103,18 +97,43 @@ function handleUserClick(event) {
         window.location.href = "/profile";
     }
 }
+// 1. Правильне мобільне меню (через класи, а не display)
 function toggleMobileMenu() {
     const burgerBtn = document.getElementById('burger-btn');
     const mobileMenu = document.getElementById('mobileMenu');
     const body = document.body;
 
-    if(burgerBtn) burgerBtn.classList.toggle('active');
-    if(mobileMenu) mobileMenu.classList.toggle('open');
+    if (burgerBtn) burgerBtn.classList.toggle('active');
 
-    if (mobileMenu && mobileMenu.classList.contains('open')) {
-        body.style.overflow = 'hidden';
-    } else {
-        body.style.overflow = 'auto';
+    // Використовуємо toggle('open'), бо у CSS прописано #mobileMenu.open { opacity: 1 }
+    if (mobileMenu) {
+        mobileMenu.classList.toggle('open');
+
+        // Блокуємо прокрутку фону, коли меню відкрито
+        if (mobileMenu.classList.contains('open')) {
+            body.style.overflow = 'hidden';
+        } else {
+            body.style.overflow = 'auto';
+        }
+    }
+}
+// ✅ Оновлена функція виходу
+async function logout(event) {
+    if (event) event.preventDefault();
+
+    try {
+        const response = await fetch('/logout', { method: 'POST' });
+
+        // Очищаємо дані про користувача
+        localStorage.removeItem('currentUser');
+
+        // ✅ ПРАВИЛЬНО: Перекидаємо на головну сторінку (Меню)
+        window.location.href = '/';
+
+    } catch (err) {
+        console.error("Помилка при виході:", err);
+        localStorage.removeItem('currentUser');
+        window.location.href = '/'; // Навіть при помилці — додому
     }
 }
 function filterMenu() {
@@ -156,9 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-<script>
-  window.addEventListener('scroll', () => {
-    const header = document.querySelector('.header');
-    header.classList.toggle('scrolled', window.scrollY > 10);
-  });
-</script>
+window.addEventListener('scroll', () => {
+      const header = document.querySelector('.header');
+      header.classList.toggle('scrolled', window.scrollY > 10);
+    });

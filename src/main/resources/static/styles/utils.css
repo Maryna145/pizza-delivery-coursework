@@ -281,7 +281,14 @@
         grid-template-columns: 1fr;
     }
 }
-
+.about-wrapper{
+    padding:20px 20px;
+    text-align:center;
+    width:100%;
+    max-width:900px;
+    background-color: #fff7e3;
+    border-radius:20px;
+}
 .about-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -313,11 +320,12 @@
 }
 
 .about-text {
+width:100%;
     font-size: 18px;
     line-height: 1.8;
     color: #444;
     text-align: center;
-    max-width: 800px;
+    max-width: 900px;
 }
 
 .highlight {
@@ -358,7 +366,7 @@
 }
 
 .value-card {
-    background: #fff7e3;
+    background: #fbbb54;
     padding: 30px;
     border-radius: 20px;
     text-align: center;
@@ -366,20 +374,16 @@
     transition: transform 0.3s;
 }
 
-.value-card:hover {
-    transform: translateY(-5px);
-    background: #fff;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-}
+
 .value-card h3 {
-    color: #6a4821;
+    color:white;
     margin-bottom: 10px;
     font-size: 20px;
 }
 
 .value-card p {
     font-size: 15px;
-    color: #666;
+    color:white;
     line-height: 1.5;
 }
 

@@ -54,7 +54,7 @@ main {
   max-width: 1200px;
   margin: 10px auto;
   width: 100%;
-  padding: 10px 160px;
+  padding: 10px 80px;
 
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@ main {
 
   position: sticky;
   top: 10px;
-  z-index: 1000;
+  z-index: 5;
 
   /* Glass effect */
   background: rgba(254, 234, 184, 0.65); /* твій bg-header, але прозорий */
@@ -160,6 +160,7 @@ main {
 }
 
 #cart-wrapper {
+position:relative;
   display: inline-block;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -301,7 +302,7 @@ main {
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+  z-index: 4;
   transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
@@ -496,6 +497,7 @@ main {
 }
 
 .ham {
+    z-index:6;
   display:none;
   width:50px;
   cursor: pointer;
@@ -570,7 +572,7 @@ main {
   inset: 0;
   background: var(--bg-header);
   backdrop-filter: blur(8px);
-  z-index: 2000;
+  z-index: 6;
   background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('../images/pizza-pattern.png');
   background-repeat: repeat;
   opacity: 0;
@@ -585,7 +587,7 @@ main {
 
 #burger-btn {
   position: relative;
-  z-index: 3001;
+  z-index: 7;
 }
 #burger-btn .line {
   stroke: #193948; /* темно-зелений */
@@ -604,11 +606,57 @@ main {
   justify-content: center;
   align-items: center;
   gap: 40px;
-
+  z-index:7;
   transform: translateY(30px);
   transition: transform 0.4s ease;
 }
+/* Кнопка закриття меню */
+.close-menu-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+    transition: transform 0.3s ease;
+}
 
+/* Малюємо дві лінії хрестика */
+.close-menu-btn::before,
+.close-menu-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 32px; /* Довжина ліній */
+    height: 4px; /* Товщина ліній */
+    background-color: #193948; /* Ваш темно-синій колір */
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Повертаємо лінії, щоб утворити Х */
+.close-menu-btn::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-menu-btn::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Ефект при наведенні: зміна кольору і оберт */
+.close-menu-btn:hover {
+    transform: scale(1.1);
+}
+
+.close-menu-btn:hover::before,
+.close-menu-btn:hover::after {
+    background-color: #d32f2f; /* Червоний (або #fbbb54 для жовтого) */
+    transform: translate(-50%, -50%) rotate(135deg); /* Анімація обертання */
+}
 #mobileMenu.open .mobile-menu-content {
   transform: translateY(0);
 }

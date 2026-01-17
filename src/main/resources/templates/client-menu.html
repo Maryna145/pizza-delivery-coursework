@@ -50,25 +50,7 @@
         </svg>
 
     </div>
-    <div id="mobileMenu">
-        <div class="mobile-menu-content">
 
-            <nav class="mobile-header-navigation">
-                <a th:href="@{/}"class="active-link">Меню</a>
-                <a th:href="@{/promo}">Акції</a>
-                <a th:href="@{/delivery}">Доставка</a>
-                <a th:href="@{/about}">Про нас</a>
-            </nav>
-
-            <a href="#" class="mobile-user user-icon" onclick="handleUserClick(event)">
-                <svg class="header-user" width="28" height="28">
-                    <use th:href="@{/images/icons.svg#user}"></use>
-                </svg>
-                Мій кабінет
-            </a>
-
-        </div>
-    </div>
 
 </header>
 
@@ -219,6 +201,25 @@
         </div>
     </div>
 </footer>
+<div id="mobileMenu">
+    <div class="mobile-menu-content">
+        <button class="close-menu-btn" onclick="toggleMobileMenu()"></button>
+        <nav class="mobile-header-navigation">
+            <a th:href="@{/}"class="active-link">Меню</a>
+            <a th:href="@{/promo}">Акції</a>
+            <a th:href="@{/delivery}">Доставка</a>
+            <a th:href="@{/about}">Про нас</a>
+        </nav>
+
+        <a href="#" class="mobile-user user-icon" onclick="handleUserClick(event)">
+            <svg class="header-user" width="28" height="28">
+                <use th:href="@{/images/icons.svg#user}"></use>
+            </svg>
+            Мій кабінет
+        </a>
+
+    </div>
+</div>
 <script th:src="@{/js/client.js}"></script>
 
 </body>
